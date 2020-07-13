@@ -1,22 +1,16 @@
 <template>
   <div>
     <div class="profile_wrapper">
-      <div class="profile_name_photo">
-        <img
-          v-if="profile.avatar"
-          :src="'http://localhost:1337' + profile.avatar.formats.thumbnail.url"
-          class="profile_pic"
-        />
-        <img
-          v-else
-          :src="'http://localhost:1337/uploads/thumbnail_profile_default_985f0608e3.jpeg'"
-          class="profile_pic"
-        />
+      <div class="profile_photo">
+        <img :src="avatar"  />
+        <div>{{profile.country}}</div>
+        <div>{{profile.city}}</div>
+        <div>{{profile.age}}</div>
+      </div>
+      <div>
         <h5>
           <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
         </h5>
-      </div>
-      <div>
         <div class="profile_about_wrapper">
           <p>
             <span class="profile_bold">Опыт:</span>
@@ -28,17 +22,14 @@
           </p>
           <p>
             <button
-          type="button"
-          class="btn btn-primary"
-          v-if="!inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
-          @click="addToContacts(profile)"
-        >В контакты</button>
+              type="button"
+              class="btn btn-primary"
+              v-if="!inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
+              @click="addToContacts(profile)"
+            >В контакты</button>
           </p>
-          
         </div>
-        
       </div>
-      
     </div>
   </div>
 </template>
@@ -48,13 +39,26 @@ import axios from "axios";
 
 export default {
   props: {
-    profile: Object
+    profile: Object,
+    default: {}
+  },
+  computed:{
+    avatar(){
+      let url = "";
+      if (this.profile.avatar){
+         url = "http://localhost:1337" + this.profile.avatar.formats.thumbnail.url
+      }else{
+        url = "http://localhost:1337/uploads/thumbnail_profile_default_985f0608e3.jpeg"
+      }
+      return url
+    }
   },
   methods: {
-   async addToContacts(profile){ // we add user to contacts, contacts recives only users
+    async addToContacts(profile) {
+      // we add user to contacts, contacts recives only users
       let contacts = this.$store.state.userProfile.contacts;
-      const my_profile = this.$store.state.userProfile.id;// my profile id
-      const new_contacts = [... contacts, profile.id ];// we get new array here because we cann't modify store
+      const my_profile = this.$store.state.userProfile.id; // my profile id
+      const new_contacts = [...contacts, profile.id]; // we get new array here because we cann't modify store
       const options = {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
@@ -63,21 +67,20 @@ export default {
         { contacts: new_contacts },
         options
       );
-      console.log(resp)
-     // req_await = false; // ublock button
+      console.log(resp);
+      // req_await = false; // ublock button
       this.$store.dispatch("getProfile");
-      this.$nuxt.$router.replace({ path: '/profiles/' + profile.id})
+      this.$nuxt.$router.replace({ path: "/profiles/" + profile.id });
     },
-    inContacts(profile){
-      let mycontacts = this.$store.state.userProfile.contacts
+    inContacts(profile) {
+      let mycontacts = this.$store.state.userProfile.contacts;
       let contact_exist = false;
-      if (mycontacts.some(ct => ct.id === profile.id )){
+      if (mycontacts.some(ct => ct.id === profile.id)) {
         contact_exist = true;
       }
-      return contact_exist
+      return contact_exist;
     }
-  },
-  
+  }
 };
 </script>
 
@@ -93,7 +96,10 @@ export default {
 .profile_wrapper {
   display: flex;
 }
-.profile_name_photo{
-  margin-right: 30px;
+.profile_photo div{
+  font-weight: bold;
+}
+.profile_photo{
+  margin-right: 10px;
 }
 </style>
