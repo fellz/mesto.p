@@ -201,10 +201,7 @@ export default {
 .profile_edit_photo {
   margin-top: 10px;
 }
-.profile_edit_main {
-  width: 30%;
-  margin-right: 20px;
-}
+
 .profile_edit_skills{
   width: 30%
 }

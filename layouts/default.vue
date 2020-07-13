@@ -59,8 +59,9 @@ html {
   background-color: #35495e;
 }
 .nuxt{
-  margin: auto;
+  margin: 50px auto 50px auto;
   width: 60%;
+
 }
 </style>
 

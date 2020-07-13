@@ -2,38 +2,45 @@
   <div>
     <h4>Профиль</h4>
     <hr />
-    <div class="profile_my">
-      <div class="profile_my_photo">
-        <img :src="'http://localhost:1337' + profile.avatar" />
-        <div><span class="myprofile_city">Страна:</span> {{ profile.country }}</div>
-        <div><span class="myprofile_city">Город:</span> {{ profile.city }}</div>
-        <div><span class="myprofile_city">Возраст:</span> {{ profile.age }}</div>
-        <hr>
-      </div>
-      <div>
-        <p v-if="userError" class="error">{{ userError }}</p>
-        <div v-if="profile">
-          <p>
-            <span class="profile_my_name">{{ profile.name }}</span>
-            <nuxt-link to="/my/edit">Edit</nuxt-link>
-          </p>
-          
-          <div class="profile_my_wrapper">
-            <p>
-              <span>
-                <b>Опыт:</b>
-              </span>
-              {{ profile.experience}}
-            </p>
-            <p>
-              <span>
-                <b>О себе:</b>
-              </span>
-              {{ profile.about }}
-            </p>
-          </div>
+    <div class="myprofile">
+      <div class="myprofile_photo">
+        <div><nuxt-link to="/my/edit_photo">изменить фото</nuxt-link></div>
+        <div>
+          <img :src="'http://localhost:1337' + profile.avatar" />
         </div>
-        <div v-else>Пока ничего нет</div>
+        <div>
+          <span>Страна:</span>
+          {{ profile.country }}
+        </div>
+        <div>
+          <span>Город:</span>
+          {{ profile.city }}
+        </div>
+        <div>
+          <span>Возраст:</span>
+          {{ profile.age }}
+        </div>
+        <hr />
+      </div>
+      <div class="myprofile_main">
+        <p>
+          <span class="myprofile_main-name">{{ profile.name }}</span>
+          <nuxt-link to="/my/edit_main">изменить описание</nuxt-link>
+        </p>
+        <div class="myprofile_main-background">
+          <p>
+            <span>
+              <b>Опыт:</b>
+            </span>
+            {{ profile.experience}}
+          </p>
+          <p>
+            <span>
+              <b>О себе:</b>
+            </span>
+            {{ profile.about }}
+          </p>
+        </div>
       </div>
     </div>
     <h5>Мои проекты</h5>
@@ -44,7 +51,7 @@
       </div>
     </div>
     <div v-else>Пока ничего нет</div>
-    <br>
+    <br />
     <h5>Проекты, в которых я участвую</h5>
     <hr />
     <div v-if="projects.length > 0">
@@ -53,18 +60,19 @@
       </div>
     </div>
     <div v-else>Пока ничего нет</div>
-    <br>
+    <br />
     <div>
-      <h5> Навыки</h5>
+      <span class="myprofile_skills-font">Навыки</span>
+      <nuxt-link to="/my/edit_skills">изменить</nuxt-link>
       <hr />
       <div v-for="skill of skills" :key="skill.id">
-        <span class="my_profile_skill">{{skill.skill}}</span>
+        <span class="myprofile_skill">{{skill.skill}}</span>
       </div>
     </div>
-    <br>
+    <br />
     <div>
       <h5>Контакты</h5>
-      <hr>
+      <hr />
       <div v-for="contact of contacts" :key="contact.id">
         <nuxt-link :to="'/profiles/' + contact.id">{{contact.fullname}}</nuxt-link>
       </div>
@@ -98,7 +106,9 @@ export default {
       country: data.country,
       city: data.city,
       age: data.age,
-      avatar: data.avatar ? data.avatar.formats.thumbnail.url : "/uploads/thumbnail_profile_default_985f0608e3.jpeg"
+      avatar: data.avatar
+        ? data.avatar.formats.thumbnail.url
+        : "/uploads/thumbnail_profile_default_985f0608e3.jpeg"
     };
     this.$store.dispatch("getProfile");
   },
@@ -114,26 +124,34 @@ export default {
 </script>
 
 <style>
-.profile_my_wrapper {
+.myprofile {
+  display: flex;
+}
+.myprofile_main{
+  width: 80%
+}
+.myprofile_main-background {
   background-color: #f5f3f38f;
   padding: 10px;
 }
-.profile_my_name {
+.myprofile_main-name {
   margin-right: 10px;
   font-size: 2rem;
 }
-.profile_my {
-  display: flex;
-}
-.profile_my_photo {
+.myprofile_photo {
   margin-right: 20px;
 }
-.my_profile_skill {
+.myprofile_photo span {
+  font-weight: bold;
+}
+.myprofile_skill {
   margin-right: 10px;
   color: blue;
   background-color: rgb(210, 210, 210);
 }
-.myprofile_city {
+.myprofile_skills-font{
+  font-size: 20px;
   font-weight: bold;
 }
+
 </style>
