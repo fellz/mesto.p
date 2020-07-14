@@ -20,7 +20,8 @@ module.exports = {
     ]
   },
   env: {
-    baseUrl: process.env.API_HOST || 'http://localhost:3000'
+    baseUrl: process.env.API_HOST,
+    defAvatar: process.env.AVATAR 
   },
   /*
   ** Customize the progress bar color

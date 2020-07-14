@@ -108,7 +108,7 @@ export default {
       age: data.age,
       avatar: data.avatar
         ? data.avatar.formats.thumbnail.url
-        : "/uploads/thumbnail_profile_default_985f0608e3.jpeg"
+        : `${process.env.defAvatar}`
     };
     this.$store.dispatch("getProfile");
   },
