@@ -6,7 +6,7 @@
       <div class="myprofile_photo">
         <div><nuxt-link to="/my/edit_photo">изменить фото</nuxt-link></div>
         <div>
-          <img :src="`${process.env.baseUrl}` + profile.avatar" />
+          <img :src="`${base_url}` + profile.avatar" />
         </div>
         <div>
           <span>Страна:</span>
@@ -92,6 +92,7 @@ export default {
       myprojects: [],
       skills: [],
       contacts: [],
+      base_url: process.env.baseUrl
     };
   },
   middleware: "auth",

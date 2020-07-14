@@ -28,15 +28,16 @@
 export default {
   data() {
     return {
-      full_name: "пусто"
+      full_name: "Профиль"
     };
   },
   watch: {
     "$store.state.userProfile": function() {
-      this.full_name =
-        this.$store.state.userProfile.fullname === null
-          ? this.$store.state.authUser.user.username
-          : this.$store.state.userProfile.fullname;
+      if(this.$store.state.userProfile.fullname != null){
+        this.fullname = this.$store.state.userProfile.fullname
+      }else{
+        this.fullname = "Профиль"
+      }
     }
   },
   methods: {

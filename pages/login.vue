@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section>
+    <section class="login">
       <h4>Login</h4>
       <hr />
       <form v-if="!$store.state.authUser" @submit.prevent="login">
@@ -61,3 +61,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.login{
+  width:50%;
+}
+</style>
