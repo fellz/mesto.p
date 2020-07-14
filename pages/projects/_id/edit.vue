@@ -57,7 +57,7 @@ export default {
         headers: {'Authorization': `Bearer ${this.$store.state.authUser.jwt}`}
       } 
       const resp = await this.$http.put(
-        `http://localhost:1337/projects/${this.$route.params.id}`,
+        `${process.env.baseUrl}/projects/${this.$route.params.id}`,
         proj,
         options
       );
@@ -66,7 +66,7 @@ export default {
     }
   },
   async fetch(){
-    const { data } = await axios.get(`http://localhost:1337/projects/${this.$route.params.id}`)
+    const { data } = await axios.get(`${process.env.baseUrl}/projects/${this.$route.params.id}`)
       console.log('Data', data)
       this.project_name = data.name
       this.project_description = data.description

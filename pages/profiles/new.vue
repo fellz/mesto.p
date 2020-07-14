@@ -59,7 +59,7 @@ export default {
         headers: {'Authorization': `Bearer ${this.$store.state.authUser.jwt}`}
       } 
       const {data} = await axios.post(
-        "http://localhost:1337/profiles",
+        `${process.env.baseUrl}/profiles`,
         profile,
         options
       );

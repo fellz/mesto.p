@@ -19,6 +19,9 @@ module.exports = {
       { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' }
     ]
   },
+  env: {
+    baseUrl: process.env.API_HOST || 'http://localhost:3000'
+  },
   /*
   ** Customize the progress bar color
   */

@@ -42,7 +42,7 @@ export default {
       formData.append("refId", prof_id);
       formData.append("field", "avatar");
       const resp = await axios.post(
-        `http://localhost:1337/upload`,
+        `${process.env.baseUrl}/upload`,
         formData,
         options
       );

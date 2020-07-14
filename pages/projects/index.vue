@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div></div>
     <div v-for="project of projects" :key="project.id" class="projects_main">
       <short-project :project="project" />
     </div>
@@ -17,7 +18,7 @@ export default {
     return {
       projects: [],
       all_projects: 0,
-      start: 0
+      start: 0,
     };
   },
   components: {
@@ -27,7 +28,7 @@ export default {
   created() {
     this.$store.dispatch("getItems", {resource: 'projects', start: this.start} );
     // Get number of all projects - for pagination
-    axios.get("http://localhost:1337/projects").then(resp => {
+    axios.get(`${process.env.baseUrl}/projects`).then(resp => {
       this.all_projects = resp.data.length;
     });
   },

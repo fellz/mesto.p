@@ -21,7 +21,7 @@ export default {
   async fetch() {
     //console.log(this.$route.params.id)
     const { data } = await axios.get(
-      `http://localhost:1337/profiles/${this.$route.params.id}`
+      `${process.env.baseUrl}/profiles/${this.$route.params.id}`
     );
     this.profile = data;
   }

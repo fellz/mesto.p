@@ -59,7 +59,7 @@ export default {
         headers: {'Authorization': `Bearer ${this.$store.state.authUser.jwt}`}
       } 
       const { data:project } = await axios.post(
-        "http://localhost:1337/projects",
+        `${process.env.baseUrl}/projects`,
         proj,
         options
       );
@@ -67,7 +67,7 @@ export default {
       const prof_id = this.$store.state.userProfile.id
       const new_myprojs = [...myprojs, project.id]
       const {data: profile} = await axios.put(
-        `http://localhost:1337/profiles/${prof_id}`,
+        `${process.env.baseUrl}/profiles/${prof_id}`,
         {myprojects: new_myprojs },
         options
       )

@@ -30,7 +30,7 @@ export default {
     };
   },
   async fetch() {
-    const { data } = await axios.get("http://localhost:1337/skills");
+    const { data } = await axios.get(`${process.env.baseUrl}/skills`);
     this.skills = data;
   },
   methods: {
@@ -40,7 +40,7 @@ export default {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
       const resp = await axios.put(
-        `http://localhost:1337/profiles/${this.$store.state.userProfile.id}`,
+        `${process.env.baseUrl}/profiles/${this.$store.state.userProfile.id}`,
         { skills },
         options
       );

@@ -49,7 +49,7 @@ export default {
       };
       
       const { data } = await axios.post(
-        "http://localhost:1337/users",
+        `${process.env.baseUrl}/users`,
         user
       );
       const profile = {
@@ -58,7 +58,7 @@ export default {
         user: data.id
        }
       const { data: profile_resp} = await axios.post(
-        "http://localhost:1337/profiles",
+        `${process.env.baseUrl}/profiles`,
         profile
       );
       this.$store.dispatch("setProfile", {profile: profile_resp});

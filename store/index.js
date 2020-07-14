@@ -31,7 +31,7 @@ export const actions = {
   },
   async login ({ commit }, { identifier, password }) {
     try {
-      const { data } = await axios.post('http://localhost:1337/auth/local', { identifier, password })
+      const { data } = await axios.post(`${process.env.baseUrl}/auth/local`, { identifier, password })
       commit('SET_USER', data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -47,8 +47,8 @@ export const actions = {
     const options ={
       headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}
     } 
-    const { data } = await axios.get("http://localhost:1337/users/me",options);
-    const { data: profile } = await axios.get(`http://localhost:1337/profiles/${data.profile}`,options); // data.profile -> profile id
+    const { data } = await axios.get(`${process.env.baseUrl}/users/me`,options);
+    const { data: profile } = await axios.get(`${process.env.baseUrl}/profiles/${data.profile}`,options); // data.profile -> profile id
     commit('SET_USER_PROFILE', profile)
   },
   setProfile({commit}, { profile }){
@@ -56,7 +56,7 @@ export const actions = {
   },
   async getItems ({ commit}, {resource, start }) {
     
-    const { data } = await axios.get(`http://localhost:1337/${resource}?_start=${start}&_limit=5`);
+    const { data } = await axios.get(`${process.env.baseUrl}/${resource}?_start=${start}&_limit=5`);
     if(resource === "projects"){
       commit('SET_PROJECTS', data)
     }else{

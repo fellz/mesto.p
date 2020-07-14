@@ -16,8 +16,7 @@
     "@nuxt/http": "^0.5.3",
     "axios": "^0.19.2",
     "nuxt": "^2.0.0",
-    "vue-clamp": "^0.3.0",
-    "vuejs-paginator": "^2.0.2"
+    "vue-clamp": "^0.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

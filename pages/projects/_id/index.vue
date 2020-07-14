@@ -19,9 +19,8 @@ export default {
   },
   async fetch(){
     //console.log(this.$route.params.id)
-    const { data } =  await axios.get(`http://localhost:1337/projects/${this.$route.params.id}`)
+    const { data } =  await axios.get(`${process.env.baseUrl}/projects/${this.$route.params.id}`)
       this.project = data;
-      console.log(data)
   }
 
 }

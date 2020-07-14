@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     async searchProfiles(){
-      const { data } = await axios.get(`http://localhost:1337/profiles?skills.skill=${this.search}`)  
+      const { data } = await axios.get(`${process.env.baseUrl}/profiles?skills.skill=${this.search}`)  
       this.profiles = data
       this.all_items = data.length
       if ( this.search === ''){
@@ -41,7 +41,7 @@ export default {
   created() {
     this.$store.dispatch("getItems", {resource: this.resource, start: this.start} );
     // Get number of all projects - for pagination
-    axios.get("http://localhost:1337/profiles").then(resp => {
+    axios.get(`${process.env.baseUrl}/profiles`).then(resp => {
       this.all_items = resp.data.length;
     });
   },

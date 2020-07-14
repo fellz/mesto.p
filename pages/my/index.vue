@@ -6,7 +6,7 @@
       <div class="myprofile_photo">
         <div><nuxt-link to="/my/edit_photo">изменить фото</nuxt-link></div>
         <div>
-          <img :src="'http://localhost:1337' + profile.avatar" />
+          <img :src="`${process.env.baseUrl}` + profile.avatar" />
         </div>
         <div>
           <span>Страна:</span>
@@ -97,7 +97,7 @@ export default {
   middleware: "auth",
   async created() {
     const { data } = await axios.get(
-      `http://localhost:1337/profiles/${this.$store.state.userProfile.id}`
+      `${process.env.baseUrl}/profiles/${this.$store.state.userProfile.id}`
     );
     this.profile = {
       name: data.fullname,

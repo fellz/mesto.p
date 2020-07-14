@@ -57,7 +57,7 @@ export default {
   middleware: "auth",
   async created() {
     const { data } = await axios.get(
-      `http://localhost:1337/profiles/${this.$store.state.userProfile.id}`
+      `${process.env.baseUrl}/profiles/${this.$store.state.userProfile.id}`
     );
     this.profile = {
       fullname: data.fullname,
@@ -82,7 +82,7 @@ export default {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
       const resp = await axios.put(
-        `http://localhost:1337/profiles/${this.$store.state.authUser.user.profile.id}`,
+        `${process.env.baseUrl}/profiles/${this.$store.state.authUser.user.profile.id}`,
         profile,
         options
       );
