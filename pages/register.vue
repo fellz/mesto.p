@@ -40,6 +40,10 @@ export default {
       reg_success: false
     }
   },
+  created(){
+    console.log(process.env.baseUrl);
+  }
+  ,
   methods: {
     async register () {
       let user = {
