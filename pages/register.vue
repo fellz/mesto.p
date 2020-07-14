@@ -41,7 +41,7 @@ export default {
     }
   },
   created(){
-    console.log(process.env.baseUrl);
+    console.log('Env: ',process.env.baseUrl);
   }
   ,
   methods: {
