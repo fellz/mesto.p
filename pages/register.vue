@@ -40,10 +40,6 @@ export default {
       reg_success: false
     }
   },
-  created(){
-    console.log('Env: ',process.env.baseUrl);
-  }
-  ,
   methods: {
     async register () {
       let user = {
