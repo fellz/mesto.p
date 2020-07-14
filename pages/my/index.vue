@@ -6,7 +6,7 @@
       <div class="myprofile_photo">
         <div><nuxt-link to="/my/edit_photo">изменить фото</nuxt-link></div>
         <div>
-          <img :src="profile.avatar" />
+          <img :src="`${process.env.baseUrl}` + profile.avatar" />
         </div>
         <div>
           <span>Страна:</span>
