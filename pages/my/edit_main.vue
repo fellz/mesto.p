@@ -51,7 +51,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      profile: {}
+      profile: {},
+      edit_ok: false
     };
   },
   middleware: "auth",
