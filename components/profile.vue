@@ -46,9 +46,9 @@ export default {
     avatar(){
       let url = "";
       if (this.profile.avatar){
-         url = "http://localhost:1337" + this.profile.avatar.formats.thumbnail.url
+         url = process.env.baseUrl + this.profile.avatar.formats.thumbnail.url
       }else{
-        url = "http://localhost:1337/uploads/thumbnail_profile_default_985f0608e3.jpeg"
+        url = process.env.baseUrl + process.env.defAvatar
       }
       return url
     }

@@ -37,10 +37,10 @@ export default {
   data() {
     return {
       backimg: {
-        "background-image": `url(http://localhost:1337${
+        "background-image": `url(${process.env.baseUrl}${
           this.profile.avatar
             ? this.profile.avatar.formats.thumbnail.url
-            : "/uploads/thumbnail_profile_default_985f0608e3.jpeg"
+            : `${process.env.defAvatar}`
         })`
       },
     };
