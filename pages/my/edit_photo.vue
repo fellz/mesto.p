@@ -24,7 +24,7 @@ export default {
   created() {
     this.avatar = this.$store.state.userProfile.avatar
       ? this.$store.state.userProfile.avatar.formats.thumbnail.url
-      : "/uploads/thumbnail_profile_default_985f0608e3.jpeg";
+      : process.env.defAvatar
   },
   methods: {
     async imageSelected() {

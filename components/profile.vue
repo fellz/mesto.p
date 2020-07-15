@@ -63,7 +63,7 @@ export default {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
       const resp = await axios.put(
-        `http://localhost:1337/profiles/${my_profile}`,
+        `${process.env.baseUrl}/profiles/${my_profile}`,
         { contacts: new_contacts },
         options
       );
