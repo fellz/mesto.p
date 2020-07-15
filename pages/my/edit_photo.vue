@@ -1,7 +1,7 @@
 <template>
   <section class="profile_edit_photo">
     <p>
-      <img :src="'http://localhost:1337' + avatar" />
+      <img :src="base_url + avatar" />
     </p>
     <p>
       <label>Изменить фото</label>
@@ -17,7 +17,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      avatar: ""
+      avatar: "",
+      base_url: process.env.baseUrl
     };
   },
   created() {
