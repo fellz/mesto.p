@@ -34,7 +34,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              v-if="!inContacts(mutable_profile) && !(mutable_profile.id === this.$store.state.authUser.user.profile.id)"
+              v-if="this.$store.state.authUser && !inContacts(mutable_profile) && !(mutable_profile.id === this.$store.state.authUser.user.profile.id)"
               @click="addToContacts(mutable_profile)"
             >В контакты</button>
           </p>

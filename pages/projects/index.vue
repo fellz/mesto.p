@@ -37,7 +37,6 @@ export default {
       this.projects = this.$store.state.projects;
     }
   },
-  middleware: ["auth" ],
   methods: {
   }
 };

@@ -3,7 +3,7 @@
     <div class="card card_margin">
       <div class="card-header">
         <nuxt-link :to="'/projects/' + project.id" class="project_name">{{ project.name }}</nuxt-link>
-        <nuxt-link v-if="project.owner && is_owner(project)" :to="'/projects/' + project.id+'/edit'" >Edit</nuxt-link>
+        <nuxt-link v-if="this.$store.state.authUser && project.owner && is_owner(project)" :to="'/projects/' + project.id+'/edit'" >Edit</nuxt-link>
         <span class="float-right">{{ project.stage}}</span>
       </div>
       <div class="card-body">

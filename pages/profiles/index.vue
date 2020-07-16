@@ -37,7 +37,6 @@ export default {
       
     }
   },
-  middleware: ["auth"],
   created() {
     this.$store.dispatch("getItems", {resource: this.resource, start: this.start} );
     // Get number of all projects - for pagination

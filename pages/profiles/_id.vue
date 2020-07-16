@@ -17,9 +17,7 @@ export default {
       profile: {}
     };
   },
-  middleware: ["auth"],
   async fetch() {
-    //console.log(this.$route.params.id)
     const { data } = await axios.get(
       `${process.env.baseUrl}/profiles/${this.$route.params.id}`
     );

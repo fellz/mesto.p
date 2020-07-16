@@ -13,7 +13,7 @@
           <nuxt-link to="/projects" class="nav-link">Проекты</nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link to="/projects/new" class="nav-link">Создать проект</nuxt-link>
+          <nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link>
         </li>
       </ul>
       <nuxt-link to="/register" v-if="!$store.state.authUser" class="nav-link">Регистрация</nuxt-link>
