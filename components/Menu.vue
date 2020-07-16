@@ -34,7 +34,6 @@ export default {
   watch: {
     "$store.state.userProfile": function() {
       if(this.$store.state.userProfile.fullname != null){
-        console.log(this.$store.state.userProfile.fullname)
         this.full_name = this.$store.state.userProfile.fullname
       }else{
         this.full_name = "Профиль"

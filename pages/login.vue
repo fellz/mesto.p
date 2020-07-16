@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="wait"  class="wait">Загружаемся...</div>
     <section class="login">
       <h4>Login</h4>
       <hr />
@@ -13,7 +14,7 @@
           Password:
           <input v-model="password" type="password" name="password" class="form-control" placeholder="password" />
         </p>
-        <button type="submit"  class="btn btn-primary">Login</button>
+        <button type="submit"  class="btn btn-primary" :disabled="wait">Login</button>
       </form>
     </section>
   </div>
@@ -27,11 +28,13 @@ export default {
     return {
       formError: null,
       email: '',
-      password: ''
+      password: '',
+      wait: false
     }
   },
   methods: {
     async login () {
+      this.wait = true;
       try {
         await this.$store.dispatch('login', {
           identifier: this.email,
@@ -40,13 +43,9 @@ export default {
         this.email = ''
         this.password = ''
         this.formError = null
-        if(!this.$store.state.authUser.user.profile){
-          this.$nuxt.$router.replace({ path: '/my/edit'})
-        }else{
-          this.$store.dispatch('getProfile')
-          this.$nuxt.$router.replace({ path: '/projects'})
-        }
-        
+        this.wait = false
+        this.$store.dispatch("getProfile")
+        this.$nuxt.$router.replace({ path: '/projects'})
       } catch (e) {
         this.formError = e.message
       }
@@ -62,8 +61,11 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .login{
   width:50%;
+}
+.wait{
+  color: red;
 }
 </style>

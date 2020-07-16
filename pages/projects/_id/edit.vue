@@ -67,7 +67,6 @@ export default {
   },
   async fetch(){
     const { data } = await axios.get(`${process.env.baseUrl}/projects/${this.$route.params.id}`)
-      console.log('Data', data)
       this.project_name = data.name
       this.project_description = data.description
       this.selected = data.stage

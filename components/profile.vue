@@ -3,29 +3,39 @@
     <div class="profile_wrapper">
       <div class="profile_photo">
         <img :src="avatar"  />
-        <div>{{profile.country}}</div>
-        <div>{{profile.city}}</div>
-        <div>{{profile.age}}</div>
+        <div>{{mutable_profile.country}}</div>
+        <div>{{mutable_profile.city}}</div>
+        <div>{{mutable_profile.age}}</div>
       </div>
       <div>
         <h5>
-          <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
+          <nuxt-link :to="'/profiles/'+ mutable_profile.id" class="profile_name">{{ mutable_profile.fullname }}</nuxt-link>
         </h5>
         <div class="profile_about_wrapper">
           <p>
             <span class="profile_bold">Опыт:</span>
-            {{ profile.experience}}
+            {{ mutable_profile.experience}}
           </p>
           <p>
             <span class="profile_bold">О себе:</span>
-            {{ profile.about }}
+            {{ mutable_profile.about }}
           </p>
+          <div v-if="mutable_profile.myprojects">
+            <div v-if="mutable_profile.myprojects.length > 0">
+              <span class="profile_bold">Мои проекты:</span>
+              <hr>
+              <div v-for="project of mutable_profile.myprojects" :key="project.id">
+                <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
+              </div>
+            </div>
+          </div>
+          
           <p>
             <button
               type="button"
               class="btn btn-primary"
-              v-if="!inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
-              @click="addToContacts(profile)"
+              v-if="!inContacts(mutable_profile) && !(mutable_profile.id === this.$store.state.authUser.user.profile.id)"
+              @click="addToContacts(mutable_profile)"
             >В контакты</button>
           </p>
         </div>
@@ -42,15 +52,26 @@ export default {
     profile: Object,
     default: {}
   },
+  // created(){
+  //   console.log('Mutable profile',this.mutable_profile)
+  // },
   computed:{
     avatar(){
       let url = "";
-      if (this.profile.avatar){
-         url = process.env.baseUrl + this.profile.avatar.formats.thumbnail.url
+      if (this.mutable_profile.avatar){
+         url = process.env.baseUrl + this.mutable_profile.avatar.formats.thumbnail.url
       }else{
         url = process.env.baseUrl + process.env.defAvatar
       }
       return url
+     },
+    mutable_profile:{
+      get(){
+        return this.profile
+      },
+      set(new_profile){
+        return new_profile
+      }
     }
   },
   methods: {
@@ -67,10 +88,9 @@ export default {
         { contacts: new_contacts },
         options
       );
-      console.log(resp);
       // req_await = false; // ublock button
       this.$store.dispatch("getProfile");
-      this.$nuxt.$router.replace({ path: "/profiles/" + profile.id });
+      
     },
     inContacts(profile) {
       let mycontacts = this.$store.state.userProfile.contacts;
@@ -80,7 +100,13 @@ export default {
       }
       return contact_exist;
     }
-  }
+  },
+   watch: {
+      "$store.state.userProfile": function() {
+        this.mutable_profile = this.$store.state.userProfile;
+      }
+    },
+
 };
 </script>
 
