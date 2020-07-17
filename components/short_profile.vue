@@ -8,9 +8,9 @@
         <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
       </h5>
       <div class="short_profile_wrapper">
-        <p class="text-truncate">
+        <p>
           <span class="profile_bold">О себе:</span>
-          {{ profile.about }}
+          <v-clamp autoresize :max-lines="3">{{ profile.about }}</v-clamp>
         </p>
         <p>
           <span class="profile_bold">Опыт:</span>
@@ -58,7 +58,7 @@ export default {
 
 <style>
 .short_profile {
-  margin: 30px 100px 0px 100px;
+  margin-top: 30px;
   display: flex;
   width: 90%;
 }
