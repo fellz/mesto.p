@@ -55,6 +55,7 @@ export default {
       const profile = {
         about: "Расскажите о себе",
         experience: "Расскажите о своем опыте в профессии и создании проектов",
+        fullname: "Иван Иванович",
         user: data.id
        }
       const { data: profile_resp} = await axios.post(

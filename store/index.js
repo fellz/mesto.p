@@ -56,7 +56,7 @@ export const actions = {
   },
   async getItems ({ commit}, {resource, start }) {
     
-    const { data } = await axios.get(`${process.env.baseUrl}/${resource}?_start=${start}&_limit=5`);
+    const { data } = await axios.get(`${process.env.baseUrl}/${resource}?_start=${start}&_limit=5&_sort=created_at:DESC`);
     if(resource === "projects"){
       commit('SET_PROJECTS', data)
     }else{

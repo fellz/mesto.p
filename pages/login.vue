@@ -48,6 +48,7 @@ export default {
         this.$nuxt.$router.replace({ path: '/projects'})
       } catch (e) {
         this.formError = e.message
+          this.wait = false
       }
     },
     async logout () {
@@ -66,6 +67,9 @@ export default {
   width:50%;
 }
 .wait{
+  color: red;
+}
+.error{
   color: red;
 }
 </style>
