@@ -4,7 +4,8 @@ export const state = () => ({
   authUser: null,
   projects: [],
   profiles: [],
-  userProfile: null
+  userProfile: null,
+  project: {}
 })
 
 export const mutations = {
@@ -19,6 +20,9 @@ export const mutations = {
   },
   SET_PROFILES(state, profiles){
     state.profiles = profiles
+  },
+  SET_PROJECT(state, project){
+    state.project = project
   }
 }
 
@@ -43,6 +47,16 @@ export const actions = {
   async logout ({ commit }) {
     commit('SET_USER', null)
   },
+  async setProject({ commit }, {id}){
+    const options ={
+      headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}
+    } 
+    console.log('Setting project')
+    const { data } = await axios.get(`${process.env.baseUrl}/projects/${id}`,
+    options);
+    commit('SET_PROJECT', data)
+  }
+  ,
   async getProfile({commit}){
     const options ={
       headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}

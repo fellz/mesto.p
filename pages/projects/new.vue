@@ -25,7 +25,7 @@
           <option>mvp</option>
           <option>product</option>
         </select>
-      </p>
+      </p> 
       <input type="submit" class="btn btn-primary" value="Отправить" />
     </form>
     <div v-if="progress">Создаем</div>
@@ -42,10 +42,16 @@ export default {
       project_description: "",
       users: [],
       selected: "",
+      skills: [],
+      skills_selected: [],
       progress: false
     };
   },
   middleware: ["auth"],
+  async fetch(){
+      const {data: skills } = await axios.get(`${process.env.baseUrl}/skills`)
+      this.skills = skills
+  },
   methods: {
     async checkForm() {
       let progress = true
@@ -54,6 +60,7 @@ export default {
         description: this.project_description,
         owner: { id: this.$store.state.authUser.user.profile.id },
         stage: this.selected,
+        skills: this.skills_selected
       };
       const options ={
         headers: {'Authorization': `Bearer ${this.$store.state.authUser.jwt}`}
@@ -74,7 +81,8 @@ export default {
       progress = false
       this.$nuxt.$router.replace({ path: '/projects'})
     }
-  }
+  },
+
 };
 </script>
 

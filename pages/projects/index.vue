@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div></div>
-    <div v-for="project of projects" :key="project.id" class="projects_main">
+    <div v-for="project of projects" :key="project.id"  >
       <short-project :project="project" />
     </div>
     <pagination :all_items="all_projects" :resource="'projects'"></pagination>

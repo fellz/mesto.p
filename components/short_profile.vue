@@ -60,7 +60,6 @@ export default {
 .short_profile {
   margin-top: 30px;
   display: flex;
-  width: 90%;
 }
 .short_profile_main {
   overflow: hidden;

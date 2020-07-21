@@ -16,6 +16,9 @@
           <nuxt-link to="/projects" class="nav-link">Проекты</nuxt-link>
         </li>
         <li class="nav-item">
+          <nuxt-link to="/teams" class="nav-link">Команды</nuxt-link>
+        </li>
+        <li class="nav-item">
           <nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link>
         </li>
       </ul>

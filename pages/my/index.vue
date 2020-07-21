@@ -45,21 +45,30 @@
     </div>
     <h5>Мои проекты</h5>
     <hr />
-    <div v-if="myprojects.length > 0">
+    <div v-if="myprojects && myprojects.length > 0">
       <div v-for="project of myprojects" :key="project.id">
         <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
       </div>
     </div>
     <div v-else>Пока ничего нет</div>
     <br />
-    <h5>Проекты, в которых я участвую</h5>
-    <hr />
-    <div v-if="projects.length > 0">
-      <div v-for="project of projects" :key="project.id">
-        <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
+    
+    <div >
+      <h5>Мои заявки</h5>
+      <hr />
+      <div v-for="req of profile.project_requests" :key="req.id">
+        <span>{{req.name}}</span>
+        <nuxt-link :to="'/projects/' + req.project">{{ req.project }}</nuxt-link>
       </div>
     </div>
-    <div v-else>Пока ничего нет</div>
+    <br/>
+    <div >
+      <h5>Участвую в проектах</h5>
+      <hr />
+      <div v-for="p of profile.projects" :key="p.id">
+        <nuxt-link :to="'/projects/' + p.id">{{ p.name }}</nuxt-link>
+      </div>
+    </div>
     <br />
     <div>
       <span class="myprofile_skills-font">Навыки</span>
@@ -107,6 +116,7 @@ export default {
       country: data.country,
       city: data.city,
       age: data.age,
+      project_requests : data.project_requests,
       avatar: data.avatar
         ? data.avatar.formats.thumbnail.url
         : `${process.env.defAvatar}`
@@ -115,7 +125,7 @@ export default {
   },
   watch: {
     "$store.state.userProfile": function() {
-      this.projects = this.$store.state.userProfile.projects;
+      this.profile.projects = this.$store.state.userProfile.projects;
       this.skills = this.$store.state.userProfile.skills;
       this.contacts = this.$store.state.userProfile.contacts;
       this.myprojects = this.$store.state.userProfile.myprojects;
