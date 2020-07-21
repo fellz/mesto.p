@@ -93,31 +93,9 @@ export default {
         { requests: new_reqs },
         options
       );
-      console.log(project)
+      this.$store.dispatch("getProfile")
     },
-    // async joinProject(id, participants) {
-    //   // Update ids of participants field -> project.project-skills.requests
-    //   const skill_id = this.$store.state.authUser.user.profile.id;
-    //   let new_ps = [...participants, profile_id];
-      
-    //   const options = {
-    //     headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-    //   };
-    //   const { data: project } = await axios.put(
-    //     `${process.env.baseUrl}/projects/${id}`,
-    //     { participants: new_ps },
-    //     options
-    //   );
-    //   const myprojs = this.$store.state.userProfile.projects;
-    //   const new_projs = [...myprojs, id];
-    //   const resp = await axios.put(
-    //     `${process.env.baseUrl}/profiles/${profile_id}`,
-    //     { projects: new_projs },
-    //     options
-    //   );
-      // req_await = false; // ublock button
-    //   this.$store.dispatch("getItems", { resource: "projects", start: 0 });
-    // },
+    
     formatDate(date) {
       let dayOfMonth = date.getDate();
       let month = date.getMonth() + 1;
