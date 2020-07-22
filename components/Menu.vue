@@ -21,6 +21,9 @@
         <li class="nav-item">
           <nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link>
         </li>
+        <li class="nav-item">
+          <nuxt-link v-if="$store.state.authUser" to="/teams/new" class="nav-link">Создать команду</nuxt-link>
+        </li>
       </ul>
       <nuxt-link to="/register" v-if="!$store.state.authUser" class="nav-link">Регистрация</nuxt-link>
       <nuxt-link to="/login" v-if="!$store.state.authUser" class="nav-link">Войти</nuxt-link>

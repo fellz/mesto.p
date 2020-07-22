@@ -18,6 +18,11 @@
           v-if="this.$store.state.authUser && project.owner && is_owner(project)"
           :to="'/projects/' + project.id+'/edit'"
         >Edit</nuxt-link>
+        <nuxt-link
+          class="project_edit"
+          v-if="this.$store.state.authUser && project.owner && is_owner(project)"
+          :to="'/projects/' + project.id+'/team_reqs'"
+        >Команды</nuxt-link>
         <span class="project_edit_stage">{{ project.stage}}</span>
       </div>
       <div class="card-body">

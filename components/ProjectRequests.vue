@@ -1,21 +1,22 @@
 <template>
 <div>
-  <div>Заявки</div>
-  <hr/>
-  <div v-for="req of proj_skill.requests" :key="req.id">
-    <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
-    <button class="btn btn-primary" @click="joinProject(req.id)">Принять</button>
+  <div class="project_edit_skills-flex">
+    <div class="project_edit_skills_requests">
+      <div>Заявки</div>
+      <hr/>
+      <section v-for="req of proj_skill.requests" :key="req.id">
+        <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
+        <button class="btn btn-primary" @click="joinProject(req.id)">Принять</button>
+      </section>
+    </div>
+    <div class="project_edit_skills_filled">
+      <div>Принятые</div>
+      <hr/>
+      <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
+        <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
+      </div>
+    </div>
   </div>
-  <div>Принятые</div>
-  <hr/>
-  <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
-    <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
-  </div>
-  <hr/>
-  <button v-if="proj_skill.filled != true" class="btn btn-primary" @click="foundSkillClose">Закрыть </button>
-  <button v-else class="btn btn-primary" @click="foundSkillOpen">
-    Открыть
-  </button>
 </div>
 </template>
 
@@ -69,26 +70,18 @@ export default {
       this.$store.dispatch("setProject",{id:this.$route.params.id})
       this.getSkill();
     },
-    async foundSkillClose(){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const { data } = await axios.put(`${process.env.baseUrl}/project-skills/${this.skill.id}`,
-        {filled: true},
-        options)
-      const { data:req } = await axios.put(`${process.env.baseUrl}/project-skills/${this.skill.id}`,
-        {requests: []},
-        options)
-      this.getSkill();
-    },
-    async foundSkillOpen(){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const { data } = await axios.put(`${process.env.baseUrl}/project-skills/${this.skill.id}`,
-        { filled: false },
-        options)
-    }
   }
 }
 </script>
+
+<style>
+.project_edit_skills-flex{
+  display: flex;
+}
+.project_edit_skills_requests{
+  margin-right: 20px;
+}
+..project_edit_skills_requests section{
+  margin-bottom:10px;
+}
+</style>

@@ -24,20 +24,18 @@ export default {
     ShortProject,
     Pagination
   },
-  created() {
+  async fetch () {
     this.$store.dispatch("getItems", {resource: 'projects', start: this.start} );
     // Get number of all projects - for pagination
-    axios.get(`${process.env.baseUrl}/projects`).then(resp => {
-      this.all_projects = resp.data.length;
-    });
+    const {data:proj} = await axios.get(`${process.env.baseUrl}/projects`)
+    this.all_projects = proj.length;
   },
   watch: {
     "$store.state.projects": function() {
+      console.log('Re-render projects')
       this.projects = this.$store.state.projects;
     }
   },
-  methods: {
-  }
 };
 </script>
 
