@@ -62,9 +62,10 @@ html {
   background-color: #35495e;
 }
 .nuxt{
-  margin: 0px auto 50px auto;
+  margin: 0 auto 0;
   width: 60%;
   padding-top:50px;
+  padding-bottom: 50px;
 
 }
 .nuxt-wrapper{
