@@ -113,10 +113,11 @@ export default {
 
 <style >
 .short_team_card {
-  border-radius: 8px;
-  border: 1px solid black;
-  padding: 5px;
-  margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #d4cfcf;
+    padding: 14px;
+    margin-bottom: 10px;
+    background-color: white;
 }
 .short_team_card_head {
   display: flex;

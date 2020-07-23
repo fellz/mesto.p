@@ -203,7 +203,7 @@ export default {
 <style>
 .short_project_card-aside_status{
   text-align: center;
-  background-color: #e4e2e2;
+  background-color: #f1eded;
 }
 .short_project_card{
   display: flex;
@@ -219,5 +219,6 @@ export default {
 }
 .short_project_card-aside{
   width: 48%;
+  
 }
 </style>

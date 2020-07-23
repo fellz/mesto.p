@@ -68,7 +68,7 @@ html {
 
 }
 .nuxt-wrapper{
-  background-color: #f3f3f3;
+  background-color: #f7f7f7;
 }
 </style>
 
