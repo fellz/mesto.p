@@ -18,7 +18,7 @@
           <div class="short_team_ps-margin" v-for="p of team.participants" :key="p.id">
             <div
               class="short_team_ps_photo"
-              :src="url + p.avatar.formats.thumbnail.url"
+              :src="url + p.avatar ? p.avatar.formats.thumbnail.url : defAvatar"
               :style="backimg(p)"
             ></div>
             <div>
@@ -50,12 +50,13 @@ export default {
   computed: {
     url() {
       return process.env.baseUrl;
-    }
+    },
+    defAvatar: process.env.defAvatar
   },
   methods: {
     backimg(profile) {
       return `background-image: url(${this.url}${
-        profile.avatar
+        profile.avatar !== null
           ? profile.avatar.formats.thumbnail.url
           : process.env.defAvatar
       })`;
