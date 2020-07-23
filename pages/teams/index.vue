@@ -9,7 +9,7 @@
           </span>
           <span>by <nuxt-link :to="`/profiles/${team.leader.id}`">{{ team.leader.fullname }}</nuxt-link></span>
         </div>
-          <button v-if="$store.state.authUser && !isOwner(team) && inTeamRequests(team)" class="btn btn-primary" @click="joinTeam(team)">Заявка</button>
+          <button v-if="$store.state.authUser && !isOwner(team) && inTeamRequests(team) && !inTeam(team)" class="btn btn-primary" @click="joinTeam(team)">Заявка</button>
         </div>
         <hr />
         <div>{{ team.about }}</div>
@@ -64,6 +64,15 @@ export default {
     },
     isOwner(team) {
       return team.leader.id === this.$store.state.authUser.user.profile.id;
+    },
+    inTeam(team){
+      let t = true;
+      const prof_id = this.$store.state.userProfile.id
+      const t_found = team.participants.some(p => p === prof_id)
+      if (t_found){
+        t = false
+      }
+      return t
     },
     inTeamRequests(team) {
         let t = true;

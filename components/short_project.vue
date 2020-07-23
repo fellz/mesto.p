@@ -1,64 +1,70 @@
 <template>
-  <div class="card card_margin">
-    <div class="card-header">
-      <nuxt-link :to="'/projects/' + project.id" class="project_name">{{ project.name }}</nuxt-link>
-      <span>
-        by
+  <div class="short_project_card">
+    <div class="short_project_card-main">
+      <h5><nuxt-link :to="'/projects/' + project.id" class="project_name">{{ project.name }}</nuxt-link></h5>
+      <p>by
         <nuxt-link
           v-if="project.owner"
           :to="'/profiles/' + project.owner.id"
         >{{ project.owner.fullname }}</nuxt-link>
-      </span>
-      <span>{{ formatDate(new Date(Date.parse(project.created_at))) }}</span>
-      <button
-        v-if="$store.state.authUser && !inProj(project) && !inProjectReqs(project) && hasTeam()"
-        class="btn btn-outline-primary dropdown-toggle"
-        type="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >Заявка команды</button>
-      <div class="dropdown-menu">
-        <a v-for="t of teams" :key="t.id" class="dropdown-item" @click.prevent="teamRequest(project, t)"
-        >{{t.name}}</a>
-      </div>
-      <span class="float-right">{{ project.stage}}</span>
-    </div>
-    <div class="card-body">
+      </p>
+      <p class="text-muted">{{ formatDate(new Date(Date.parse(project.created_at))) }}</p>
       <v-clamp autoresize :max-lines="3">{{ project.description }}</v-clamp>
-
-      <div v-if="req_await" style="color:red">Работает</div>
+     
     </div>
-    <div
-      class="card-footer text-muted"
-      v-if="project.participants && project.participants.length > 0"
-    >
-      <span>Участники:</span>
-      <span v-for="participant of project.participants" :key="participant.id" class="profiles">
-        <nuxt-link :to="'/profiles/' + participant.id">{{participant.fullname}}</nuxt-link>
-      </span>
-    </div>
-    <div class="card-footer text-muted" v-if="project.teams && project.teams.length > 0">
-      <span>Команды:</span>
-      <span v-for="team of project.teams" :key="team.id" class="profiles">
-        <nuxt-link :to="'/teams/' + team.id">{{ team.name }}</nuxt-link>
-      </span>
-    </div>
-    <div
-      class="card-footer text-muted"
-      v-if="project.project_skills && project.project_skills.length > 0"
-    >
-      <span>Кто нужен:</span>
-      <span v-for="skill of project.project_skills" :key="skill.id">
-        <span v-if="skill.filled !== true">
-          <span class="short_project_skill">{{ skill.name }}</span>
-          <button
-            class="btn btn-primary"
-            v-if="$store.state.authUser && inProject(skill) && !isOwner(project) "
-            @click="sendRequest(skill.id)"
-          >Заявка</button>
-        </span>
-      </span>
+    <div class="short_project_card-aside">
+      <p class="short_project_card-aside_status">Статус: <b>{{ project.stage}}</b></p>  
+      <div class="row">
+        <div class="col-4">
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" :href="'#list-home'+project.id" role="tab" aria-controls="home"
+            >Кто_нужен</a>
+            <a class="list-group-item list-group-item-action" id="list-teams-list" data-toggle="list" :href="'#list-teams'+project.id" role="tab" aria-controls="home"
+            >Участники</a>
+            <a class="list-group-item list-group-item-action" id="list-skills-list" data-toggle="list" :href="'#list-skills'+project.id" role="tab" aria-controls="home"
+            >Команды</a>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" :id="'list-home'+project.id" role="tabpanel" aria-labelledby="list-home-list">
+              <div v-for="skill of project.project_skills" :key="skill.id">
+                <div v-if="skill.filled !== true">
+                  <span>{{ skill.name }}</span>
+                  <a href=""
+                    v-if="$store.state.authUser && inProject(skill) && !isOwner(project) "
+                    @click.prevent="sendRequest(skill.id)"
+                  >Заявка</a>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" :id="'list-teams'+project.id" role="tabpanel" aria-labelledby="list-teams">
+              <div>
+                <span v-for="participant of project.participants" :key="participant.id" class="profiles">
+                  <nuxt-link :to="'/profiles/' + participant.id">{{participant.fullname}}</nuxt-link>
+                </span>
+              </div>
+            </div>
+            <div class="tab-pane fade" :id="'list-skills'+project.id" role="tabpanel" aria-labelledby="list-skills">
+              <div v-for="team of project.teams" :key="team.id" class="profiles">
+                <nuxt-link :to="'/teams/' + team.id">{{ team.name }}</nuxt-link>
+              </div>
+               <button
+                v-if="$store.state.authUser && !inProj(project) && !inProjectReqs(project) && hasTeam()"
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >Заявка команды</button>
+              <div class="dropdown-menu">
+                <a v-for="t of teams" :key="t.id" class="dropdown-item" @click.prevent="teamRequest(project, t)"
+                >{{t.name}}</a>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div><!-- row -->
     </div>
   </div>
 </template>
@@ -195,10 +201,23 @@ export default {
 </script>
 
 <style>
-.short_project_skill {
-  margin-right: 10px;
-  margin-left: 10px;
-  color: blue;
-  background-color: rgb(210, 210, 210);
+.short_project_card-aside_status{
+  text-align: center;
+  background-color: #e4e2e2;
+}
+.short_project_card{
+  display: flex;
+  border: 1px solid #d8d8d8;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: white;
+}
+.short_project_card-main{
+  width: 52%;
+  margin-right:10px;
+}
+.short_project_card-aside{
+  width: 48%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="projects">
     <div v-for="project of projects" :key="project.id"  >
       <short-project :project="project" />
     </div>

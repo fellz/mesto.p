@@ -1,7 +1,10 @@
 <template>
   <div id="toplevel">
     <top-menu />
-    <nuxt class="nuxt" />
+    <div class="nuxt-wrapper">
+      <nuxt class="nuxt" />
+    </div>
+    
   </div>
 </template>
 
@@ -59,9 +62,13 @@ html {
   background-color: #35495e;
 }
 .nuxt{
-  margin: 50px auto 50px auto;
+  margin: 0px auto 50px auto;
   width: 60%;
+  padding-top:50px;
 
+}
+.nuxt-wrapper{
+  background-color: #f3f3f3;
 }
 </style>
 
