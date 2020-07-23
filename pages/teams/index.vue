@@ -18,7 +18,7 @@
           <div class="short_team_ps-margin" v-for="p of team.participants" :key="p.id">
             <div
               class="short_team_ps_photo"
-              :src="url + p.avatar ? p.avatar.formats.thumbnail.url : defAvatar"
+              :src="url + (p.avatar ? p.avatar.formats.thumbnail.url : defAvatar)"
               :style="backimg(p)"
             ></div>
             <div>
@@ -40,7 +40,7 @@
 
 <script>
 import axios from "axios";
-
+//bug fix
 export default {
   data() {
     return {
