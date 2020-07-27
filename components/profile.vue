@@ -61,9 +61,8 @@ export default {
       url: process.env.baseUrl
     }
   }, 
-  async fetch(){
-    const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
-    this.profile = data;
+  fetch(){
+    this.getProfile();
   },
   computed:{
     avatar(){
@@ -78,6 +77,10 @@ export default {
   
   },
   methods: {
+    async getProfile(){
+      const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
+      this.profile = data;
+    },
     async addToContacts(profile) {
       // we add user to contacts, contacts recives only users
       let contacts = this.$store.state.userProfile.contacts;
@@ -91,7 +94,6 @@ export default {
         { contacts: new_contacts },
         options
       );
-      // req_await = false; // ublock button
       this.$store.dispatch("getProfile");
       
     },
@@ -138,11 +140,11 @@ export default {
       return contact_exist;
     }
   },
-   watch: {
-      "$store.state.userProfile": function() {
-        this.profile = this.$store.state.userProfile;
-      }
-    },
+  //  watch: {
+  //     "$store.state.userProfile": function() {
+  //       this.profile = this.$store.state.userProfile;
+  //     }
+  //   },
 
 };
 </script>
