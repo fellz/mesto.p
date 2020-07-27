@@ -35,6 +35,10 @@
           <input type="text" class="form-control" v-model="profile.city" placeholder="Откуда вы" />
         </p>
         <p>
+          <label>Ссылка</label>
+          <input type="text" class="form-control" v-model="profile.url" placeholder="Ваш сайт или ссылка на соц. сети" />
+        </p>
+        <p>
           <label>Возраст</label>
           <input type="number" class="form-control" v-model="profile.age" placeholder="Возраст" />
         </p>
@@ -66,7 +70,8 @@ export default {
       experience: data.experience,
       country: data.country,
       city: data.city,
-      age: data.age
+      age: data.age,
+      url: data.url
     };
   },
   methods: {
@@ -77,23 +82,25 @@ export default {
         about: this.profile.about,
         city: this.profile.city,
         country: this.profile.country,
-        age: this.profile.age
+        age: this.profile.age ? this.profile.age : 0 ,
+        url: this.profile.url
       };
       const options = {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
       const resp = await axios.put(
-        `${process.env.baseUrl}/profiles/${this.$store.state.authUser.user.profile.id}`,
+        `${process.env.baseUrl}/profiles/${this.$store.state.userProfile.id}`,
         profile,
         options
       );
       // ok edit message
-      this.edit_ok = true;
-      setTimeout(() => {
-        this.edit_ok = false;
-      }, 2000);
+      // this.edit_ok = true;
+      // setTimeout(() => {
+      //   this.edit_ok = false;
+      // }, 2000);
       /// end
-      this.$store.dispatch("getProfile"); // update profile
+      this.$router.replace('/my');
+      //this.$store.dispatch("getProfile"); // update profile
     }
   }
 };

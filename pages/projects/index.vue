@@ -9,7 +9,7 @@
 
 <script>
 import axios from "axios";
-import ShortProject from "~/components/short_project.vue";
+import ShortProject from "~/components/short_project/index.vue";
 import Pagination from "~/components/pagination.vue";
 
 export default {
@@ -18,6 +18,7 @@ export default {
       projects: [],
       all_projects: 0,
       start: 0,
+      url: process.env.baseUrl
     };
   },
   components: {
@@ -25,9 +26,9 @@ export default {
     Pagination
   },
   async fetch () {
-    this.$store.dispatch("getItems", {resource: 'projects', start: this.start} );
     // Get number of all projects - for pagination
-    const {data:proj} = await axios.get(`${process.env.baseUrl}/projects`)
+    const {data:proj} = await axios.get(`${this.url}/projects`);
+    this.projects = proj;
     this.all_projects = proj.length;
   },
   watch: {

@@ -24,7 +24,7 @@
       </div>
       <div class="myprofile_main">
         <p>
-          <span class="myprofile_main-name">{{ profile.name }}</span>
+          <span class="myprofile_main-name">{{ profile.fullname }}</span>
           <nuxt-link to="/my/edit_main">изменить описание</nuxt-link>
         </p>
         <div class="myprofile_main-background">
@@ -39,6 +39,10 @@
               <b>О себе:</b>
             </span>
             {{ profile.about }}
+          </p>
+          <p>
+            <b>Мой сайт</b>
+            <a :href="profile.url" target="_blank">{{ profile.url }}</a>
           </p>
         </div>
       </div>

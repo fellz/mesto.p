@@ -9,7 +9,7 @@
           </span>
           <span>by <nuxt-link :to="`/profiles/${team.leader.id}`">{{ team.leader.fullname }}</nuxt-link></span>
         </div>
-          <button v-if="$store.state.authUser && !isOwner(team) && inTeamRequests(team) && !inTeam(team)" class="btn btn-primary" @click="joinTeam(team)">Заявка</button>
+          <button v-if="isValid(team)" class="btn btn-primary" @click="joinTeam(team)">Заявка</button>
         </div>
         <hr />
         <div>{{ team.about }}</div>
@@ -52,9 +52,14 @@ export default {
     url() {
       return process.env.baseUrl;
     },
-    defAvatar: process.env.defAvatar
+    defAvatar(){
+      return process.env.defAvatar
+    }
   },
   methods: {
+    isValid(team){
+      return this.$store.state.authUser && !this.isOwner(team) && this.inTeamRequests(team) && !this.inTeam(team)
+    },
     backimg(profile) {
       return `background-image: url(${this.url}${
         profile.avatar !== null
@@ -118,6 +123,7 @@ export default {
     padding: 14px;
     margin-bottom: 10px;
     background-color: white;
+    width: 60%;
 }
 .short_team_card_head {
   display: flex;

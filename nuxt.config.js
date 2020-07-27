@@ -44,8 +44,10 @@ module.exports = {
         })
       }
     },
+    vendor: ['axios'],
     transpile: ['vue-clamp', 'resize-detector']
   },
+  plugins: ['~plugins/filters.js'],
   modules: [
     '@nuxt/http',
   ],

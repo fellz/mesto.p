@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          
+          <hr/>
           <p>
             <button
               type="button"
@@ -37,6 +37,13 @@
               v-if="this.$store.state.authUser && !inContacts(mutable_profile) && !(mutable_profile.id === this.$store.state.authUser.user.profile.id)"
               @click="addToContacts(mutable_profile)"
             >В контакты</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              v-if="this.$store.state.authUser"
+              @click="upSocial(mutable_profile)"
+            >Спасибо</button>
+            
           </p>
         </div>
       </div>
@@ -90,6 +97,23 @@ export default {
       );
       // req_await = false; // ublock button
       this.$store.dispatch("getProfile");
+      
+    },
+    async upSocial(profile) {
+      const options = {
+        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
+      };
+      const resp = await axios.post(
+        `${process.env.baseUrl}/socials`,
+        { name: "spasibo", profile  },
+        options
+      );
+      const resp_prof = await axios.put(
+        `${process.env.baseUrl}/profiles/${profile.id}`,
+        { social: profile.social += 1   },
+        options
+      );
+      //this.$store.dispatch("getProfile");
       
     },
     inContacts(profile) {

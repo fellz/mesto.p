@@ -63,7 +63,7 @@ html {
 }
 .nuxt{
   margin: 0 auto 0;
-  width: 60%;
+  width: 70%;
   padding-top:50px;
   padding-bottom: 50px;
 

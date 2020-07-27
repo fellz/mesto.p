@@ -25,10 +25,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.project {
-  width: 50%;
-  margin: 100px;
-}
-</style>
