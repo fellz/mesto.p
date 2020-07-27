@@ -2,11 +2,16 @@
   <div>
     <h4>Участники</h4>
     <input type="text" v-model="search" class="form-control" placeholder="Поиск по специализации" v-on:keyup.enter="searchProfiles" />
-    <hr>
+    <div class="profiles_sort">
+      <span>Сортировать список : </span>
+      <label>По рейтингу</label>
+      <input type="checkbox"/>
+    </div>
     <div v-for="profile of profiles" :key="profile.id">
       <short-profile :profile="profile" />
     </div>
-     <pagination :all_items="all_items" :resource="resource"></pagination>
+    
+     <pagination :all_items="all_items" :resource="resource" />
   </div>
 </template>
 
@@ -57,3 +62,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.profiles_sort{
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+</style>

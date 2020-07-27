@@ -3,28 +3,28 @@
     <div class="profile_wrapper">
       <div class="profile_photo">
         <img :src="avatar"  />
-        <div>{{mutable_profile.country}}</div>
-        <div>{{mutable_profile.city}}</div>
-        <div>{{mutable_profile.age}}</div>
+        <div>{{profile.country}}</div>
+        <div>{{profile.city}}</div>
+        <div>{{profile.age}}</div>
       </div>
       <div>
         <h5>
-          <nuxt-link :to="'/profiles/'+ mutable_profile.id" class="profile_name">{{ mutable_profile.fullname }}</nuxt-link>
+          <nuxt-link :to="'/profiles/'+ profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
         </h5>
         <div class="profile_about_wrapper">
           <p>
             <span class="profile_bold">Опыт:</span>
-            {{ mutable_profile.experience}}
+            {{ profile.experience}}
           </p>
           <p>
             <span class="profile_bold">О себе:</span>
-            {{ mutable_profile.about }}
+            {{ profile.about }}
           </p>
-          <div v-if="mutable_profile.myprojects">
-            <div v-if="mutable_profile.myprojects.length > 0">
+          <div v-if="profile.myprojects">
+            <div v-if="profile.myprojects.length > 0">
               <span class="profile_bold">Мои проекты:</span>
               <hr>
-              <div v-for="project of mutable_profile.myprojects" :key="project.id">
+              <div v-for="project of profile.myprojects" :key="project.id">
                 <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
               </div>
             </div>
@@ -34,14 +34,14 @@
             <button
               type="button"
               class="btn btn-primary"
-              v-if="this.$store.state.authUser && !inContacts(mutable_profile) && !(mutable_profile.id === this.$store.state.authUser.user.profile.id)"
-              @click="addToContacts(mutable_profile)"
+              v-if="this.$store.state.authUser && !inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
+              @click="addToContacts(profile)"
             >В контакты</button>
             <button
               type="button"
               class="btn btn-primary"
-              v-if="this.$store.state.authUser"
-              @click="upSocial(mutable_profile)"
+              v-if="this.$store.state.authUser && filterSocial(profile) && isUser(profile)"
+              @click="upSocial(profile)"
             >Спасибо</button>
             
           </p>
@@ -55,31 +55,27 @@
 import axios from "axios";
 
 export default {
-  props: {
-    profile: Object,
-    default: {}
+  data(){
+    return {
+      profile: {},
+      url: process.env.baseUrl
+    }
+  }, 
+  async fetch(){
+    const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
+    this.profile = data;
   },
-  // created(){
-  //   console.log('Mutable profile',this.mutable_profile)
-  // },
   computed:{
     avatar(){
       let url = "";
-      if (this.mutable_profile.avatar){
-         url = process.env.baseUrl + this.mutable_profile.avatar.formats.thumbnail.url
+      if (this.profile.avatar){
+         url = this.url + this.profile.avatar.formats.thumbnail.url
       }else{
-        url = process.env.baseUrl + process.env.defAvatar
+        url = this.url + process.env.defAvatar
       }
       return url
      },
-    mutable_profile:{
-      get(){
-        return this.profile
-      },
-      set(new_profile){
-        return new_profile
-      }
-    }
+  
   },
   methods: {
     async addToContacts(profile) {
@@ -91,7 +87,7 @@ export default {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
       const resp = await axios.put(
-        `${process.env.baseUrl}/profiles/${my_profile}`,
+        `${this.url}/profiles/${my_profile}`,
         { contacts: new_contacts },
         options
       );
@@ -103,18 +99,35 @@ export default {
       const options = {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
       };
+      const logged_in_user_id = this.$store.state.userProfile.id
       const resp = await axios.post(
-        `${process.env.baseUrl}/socials`,
-        { name: "spasibo", profile  },
+        `${this.url}/socials`,
+        { name: "spasibo", profile_whom: profile , profile_who: logged_in_user_id   },
         options
       );
       const resp_prof = await axios.put(
-        `${process.env.baseUrl}/profiles/${profile.id}`,
+        `${this.url}/profiles/${profile.id}`,
         { social: profile.social += 1   },
         options
       );
-      //this.$store.dispatch("getProfile");
+      this.$store.dispatch("getProfile");
       
+    },
+    filterSocial(prof){
+      let sb = true
+      const profs = this.$store.state.userProfile.social_trackers
+      const whoms = profs.map(p => p.profile_whom) // [1,3,4]
+      console.log('Whoms', whoms)
+      const in_social = whoms.some(w => w === prof.id)
+      console.log(in_social)
+      if (in_social){
+        sb = false
+      }
+      return sb
+
+    },
+    isUser(prof){
+      return !(this.$store.state.userProfile.id === prof.id)
     },
     inContacts(profile) {
       let mycontacts = this.$store.state.userProfile.contacts;
@@ -127,7 +140,7 @@ export default {
   },
    watch: {
       "$store.state.userProfile": function() {
-        this.mutable_profile = this.$store.state.userProfile;
+        this.profile = this.$store.state.userProfile;
       }
     },
 

@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ProjectMain",
   props: {
@@ -68,18 +70,18 @@ export default {
     return {
       url: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      project: {}
+      project: {owner: {}}
     }
   },
-  watch:{ // proj is Observable
-    proj: function(){
-      this.project = this.proj 
-    }
-  },
+  // watch:{ // proj is Observable
+  //   proj: function(){
+  //     this.project = this.proj 
+  //   }
+  // },
   methods: {
     backimg(profile) {
       return `background-image: url(${this.url}${
-        profile.avatar !== null
+        profile.avatar
           ? profile.avatar.formats.thumbnail.url
           : this.defAvatar
       })`;
@@ -90,6 +92,10 @@ export default {
     is_owner(project) {
       return project.owner.id === this.$store.state.userProfile.id;
     }
+  },// some changes to reload
+  async fetch() {
+    const { data } = await axios.get(`${process.env.baseUrl}/projects/${this.$route.params.id}`);
+    this.project = data;
   }
 };
 </script>
