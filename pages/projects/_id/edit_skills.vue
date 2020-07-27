@@ -1,15 +1,16 @@
 <template>
   <div>
     <div>
-      <span class="project_edit_skills_teamname">Команда проекта</span>
-      <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
+      <nuxt-link :to="'/projects/' + project.id" class="project_edit_skills_teamname">{{ project.name }}</nuxt-link>
+      <span class="text-muted">Команда проекта</span>
+      
       <hr/>
       <div v-for="p of project.participants" :key="p.id">
         <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
       </div>
     </div>
-    
-    <p><b>Вакансии</b></p>
+    <hr/>
+    <h5> Вакансии </h5>
     <div class="profile_edit_card_custom">
       <section class="card" v-for="s of project_skills" :key="s.id"> 
         <div class="card-body profile_edit_card_body_custom">

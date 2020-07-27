@@ -1,25 +1,53 @@
 <template>
   <div>
-    <div class="team_wrapper">
-      <div class="team_head">
-        <div>
-          <span class="team_head-name">
-            <nuxt-link :to="`/teams/${team.id}`">{{ team.name }}</nuxt-link>
-          </span>
-          <span>by {{ team.leader ? team.leader.fullname : "" }}</span>
-        </div>
-        <nuxt-link v-if="$store.state.authUser && isOwner(team)" :to="'/teams/' + team.id + '/requests'">Заявки</nuxt-link>
-      </div>
-      <hr />
+    <div class="team-wrapper">
       <div class="team_main">
-        <div class="team_main_first">{{team.about}}</div>
-        <div>
-          <div v-for="p of team.participants" :key="p.id">
-            <nuxt-link :to="'/profiles/'+p.id">{{p.fullname}}</nuxt-link>
+        <div class="team_main_header">
+          <div class="team_main_header_time text-muted">Создана: {{ team.created_at | formatDate }}</div>
+        </div>
+        <h4>{{  team.name }}</h4>
+        <p>{{ team.about }}</p>
+      </div>
+      <div class="team_aside">
+        <div v-if="$store.state.authUser && isOwner(team)" class="team_aside_manage">
+          <h4>Управление</h4>
+          <hr/>
+          <nuxt-link
+            class="btn btn-primary team_aside_manage_edit"
+            :to="'/teams/' + team.id+'/edit'"
+          >Редактировать</nuxt-link>
+          <nuxt-link
+            class="btn btn-primary team_aside_manage_edit_skills"
+            :to="'/teams/requests'"
+          >Заявки</nuxt-link>
+        </div>
+        <h4>Участники команды</h4>
+        <hr/>
+        <div class="team_aside_team-flex">
+          <div class="team_aside_team_owner">
+            <div v-if="team.leader"
+              class="team_aside_team_owner_photo"
+              :src="thumb(team.leader)"
+              :style="backimg(team.leader)">
+            </div>
+            <nuxt-link v-if="team.leader" :to="'/profiles/' + team.leader.id">{{ team.leader.fullname }}</nuxt-link>
+          </div>
+          <div v-for="p of team.participants" :key="p.id" class="team_aside_team-member">
+            <div
+                class="team_aside_team_photo"
+                :src="thumb(p)"
+                :style="backimg(p)"
+              ></div>
+              <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
           </div>
         </div>
+        <div class="team_aside_skills">
+          <h4>Заявка в команду </h4>
+          <hr/>
+          
+        </div>
       </div>
-    </div>
+    </div> 
   </div>
 </template>
 
@@ -30,7 +58,8 @@ export default {
   data() {
     return {
       team: {},
-      url: process.env.baseUrl
+      url: process.env.baseUrl,
+      defAvatar: process.env.defAvatar
     };
   },
   async fetch() {
@@ -45,30 +74,73 @@ export default {
         own = team.leader.id === this.$store.state.authUser.user.profile.id;  
       }
       return own
-    }
+    },
+    backimg(profile) {
+      return `background-image: url(${this.url}${
+        profile.avatar
+          ? profile.avatar.formats.thumbnail.url
+          : this.defAvatar
+      })`;
+    },
+    thumb(profile){
+      return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
+    },
   }
 };
 </script>
 
 <style>
-.team_wrapper {
-  border: 1px solid black;
-  padding: 10px;
-  border-radius: 7px;
-}
-.team_main {
+.team-wrapper{
   display: flex;
-  justify-content: space-between;
 }
-.team_main_first {
+.team_main{
+  width: 60%;
+  padding-right: 50px;
+}
+.team_main_header{
+  display:flex;
+  justify-content: space-between;
+  margin-bottom:20px;
+}
+.team_main_header_status{
+  padding:0 10px 0 10px;
+  background-color: gray;
+  color:white;
+}
+
+.team_aside{
+  width: 40%;
+}
+.team_aside_manage{
+  margin-bottom:10px;
+}
+.team_aside_manage a{
+  margin-right:5px;
+}
+.team_aside_team-flex {
+  display: flex;
+  flex-flow: wrap;
+}
+.team_aside_team-member, .team_aside_team_owner{
   margin-right: 10px;
-  width: 61%;
 }
-.team_head {
-  display: flex;
-  justify-content: space-between;
+.team_aside_team_photo, .team_aside_team_owner_photo {
+  width: 70px;
+  height: 70px;
+  background-position: center;
+  border-radius: 50%;
+  margin: auto;
 }
-.team_head-name{
-  font-size: 20px;
+.team_aside_team_owner_photo{
+  border: 2px solid red;
+}
+.team_aside_edit_skills{
+  margin-left: 100px;
+}
+.team_edit_stage{
+  float: right;
+}
+.team_aside_skills{
+  margin-top: 20px;
 }
 </style>

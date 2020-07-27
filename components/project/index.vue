@@ -10,7 +10,7 @@
         <p>{{ project.description }}</p>
       </div>
       <div class="project_aside">
-        <div v-if="$store.state.authUser && is_owner(project)" class="project_aside_manage">
+        <div v-if="$store.state.authUser && isOwner(project)" class="project_aside_manage">
           <h4>Управление</h4>
           <hr/>
           <nuxt-link
@@ -89,7 +89,7 @@ export default {
     thumb(profile){
       return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
     },
-    is_owner(project) {
+    isOwner(project) {
       return project.owner.id === this.$store.state.userProfile.id;
     }
   },// some changes to reload
