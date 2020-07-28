@@ -23,7 +23,7 @@ export default {
   },
   methods:{
     async getTeam(){
-      const { data } = await axios.get(`${process.env.baseUrl}/teams/${this.$route.params.id}`)
+      const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`)
       this.team = data
     },
     async joinTeam(profile){

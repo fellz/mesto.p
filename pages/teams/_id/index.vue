@@ -18,8 +18,8 @@
           >Редактировать</nuxt-link>
           <nuxt-link
             class="btn btn-primary team_aside_manage_edit_skills"
-            :to="'/teams/requests'"
-          >Заявки</nuxt-link>
+            :to="'/teams/'+team.id+'/requests'"
+          >Заявки в команду</nuxt-link>
         </div>
         <h4>Участники команды</h4>
         <hr/>
@@ -41,10 +41,10 @@
               <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
           </div>
         </div>
-        <div class="team_aside_skills">
+        <div v-if="sendReqFilter(team)" class="team_aside_skills" >
           <h4>Заявка в команду </h4>
           <hr/>
-          
+          <button class="btn btn-primary" @click="sendTeamReq(team)">Отправить</button>
         </div>
       </div>
     </div> 
@@ -62,11 +62,33 @@ export default {
       defAvatar: process.env.defAvatar
     };
   },
-  async fetch() {
-    const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`);
-    this.team = data;
+  fetch() {
+    this.getTeam()
   },
   methods: {
+    async getTeam(){
+      const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`);
+      this.team = data;
+    },
+    sendReqFilter(team){
+      return (
+        this.$store.state.authUser &&
+        !this.isOwner(team) &&
+        !this.inTeam(team.participants) &&
+        !this.inTeam(team.requests)
+      )
+    },
+    inTeam(participants){
+      //participants could be undefined 
+      let found = false;
+      const p_id = this.$store.state.userProfile.id
+      if(participants){
+        participants.some( p => p.id === p_id )
+        ? found = true
+        : found
+      }
+      return found
+    },
     isOwner(team){
       let own = false;
       // because team is reactive need to check for null !!! ((
@@ -85,6 +107,18 @@ export default {
     thumb(profile){
       return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
     },
+    async sendTeamReq(team){
+       const options = {
+        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
+      };
+      const profile = this.$store.state.userProfile.id
+      const new_reqs = [...team.requests, profile]
+      const { data } = await axios.put(`${this.url}/teams/${team.id}`,
+      {requests: new_reqs},
+      options)
+      this.getTeam()
+    }
+    
   }
 };
 </script>

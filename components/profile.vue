@@ -119,9 +119,7 @@ export default {
       let sb = true
       const profs = this.$store.state.userProfile.social_trackers
       const whoms = profs.map(p => p.profile_whom) // [1,3,4]
-      console.log('Whoms', whoms)
       const in_social = whoms.some(w => w === prof.id)
-      console.log(in_social)
       if (in_social){
         sb = false
       }

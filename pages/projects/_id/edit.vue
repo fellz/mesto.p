@@ -43,10 +43,7 @@ export default {
     return {
       project_name: "",
       project_description: "",
-      users: [],
-      skills: [],
       stage_selected: "",
-      skills_selected: []
     };
   },
   middleware: ["auth"],
@@ -55,8 +52,7 @@ export default {
       let proj = {
         name: this.project_name,
         description: this.project_description,
-        stage: this.selected,
-        skills: this.skills_selected
+        stage: this.stage_selected,
       };
       const options = {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
