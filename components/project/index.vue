@@ -36,7 +36,7 @@
           <h4>Кто нужен в проект: </h4>
           <hr/>
           <div v-for="skill of project.project_skills" :key="skill.id">
-            {{ skill.name }}
+            {{ skill.name }} <span class="project_aside--skills--pay">({{skill.pay ? "платим" : "волонтер"}})</span>
             <a href=""
                 v-if="skillReqFilter(skill, project) "
                 @click.prevent="projectRequest(skill.id)"
@@ -233,6 +233,9 @@ export default {
 }
 .project_main--edit{
   margin-left: 20px;
+}
+.project_aside--skills--pay{
+  font-weight: bold;
 }
 .project_aside--manage{
   margin-bottom:10px;

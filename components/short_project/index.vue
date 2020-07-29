@@ -10,7 +10,6 @@
       </p>
       <p class="text-muted">{{  project.created_at | formatDate }}</p>
       <v-clamp autoresize :max-lines="3">{{ project.description }}</v-clamp>
-     
     </div>
     <div class="sp_card_aside">
       <p class="sp_card-aside_status">Статус: <b>{{ project.stage}}</b></p>  
@@ -35,8 +34,6 @@ export default {
     VClamp,
     ProjectSkills
   },
-  methods: {
-  }
 };
 </script>
 

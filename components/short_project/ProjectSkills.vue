@@ -15,7 +15,7 @@
         <div class="tab-pane fade show active" :id="'list-home'+project.id" role="tabpanel" aria-labelledby="list-home-list">
           <div v-for="skill of project.project_skills" :key="skill.id">
             <div v-if="skill.filled !== true">
-              <span>{{ skill.name }}</span>
+              <span>{{ skill.name }} <span class="project_skills--pay">({{skill.pay ? "платим" : "волонтер"}})</span></span>
             </div>
           </div>
           <div><nuxt-link :to="'/projects/' + project.id">Оставить заявку</nuxt-link></div>
@@ -47,3 +47,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.project_skills--pay{
+  font-weight: bold;
+}
+</style>
