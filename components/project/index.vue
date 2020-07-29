@@ -43,6 +43,12 @@
               >Заявка</a>
           </div>
         </div>
+        <div v-if="project.url || project.url_presentation ">
+          <h4>Ссылки: </h4>
+          <hr/>
+          <p><a :href="project.url" target="_blank" >{{project.url}}</a></p>
+          <p><a :href="project.url_presentation" target="_blank" >{{project.url_presentation}}</a></p>
+        </div>
         <div class="project_aside--teams">
           <h4>Команды в проекте: </h4>
           <hr/>

@@ -8,16 +8,24 @@
       <form @submit.prevent="checkForm" method="post">
         <p>
           <label>Название</label>
-          <input type="text" v-model="project_name" class="form-control" placeholder="About" />
+          <input type="text" v-model="project.name" class="form-control" placeholder="About" />
         </p>
         <p>
           <label>О чем проект</label>
           <textarea
             class="form-control"
-            v-model="project_description"
+            v-model="project.description"
             placeholder="Descrition"
             aria-label="With textarea"
           ></textarea>
+        </p>
+        <p>
+          <label>Ссылка на сайт:</label>
+          <input type="text" v-model="project.url" class="form-control" placeholder="https://google.com" />
+        </p>
+        <p>
+          <label>Ссылка на презентацию проекта:</label>
+          <input type="text" v-model="project.url_presentation" class="form-control" placeholder="https://google.com" />
         </p>
         <p>В какой стадии проект:</p>
         <p>
@@ -41,8 +49,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      project_name: "",
-      project_description: "",
+      project: {},
       stage_selected: "",
     };
   },
@@ -50,8 +57,10 @@ export default {
   methods: {
     async checkForm() {
       let proj = {
-        name: this.project_name,
-        description: this.project_description,
+        name: this.project.name,
+        description: this.project.description,
+        url: this.project.url,
+        url_presentation: this.project.url_presentation,
         stage: this.stage_selected,
       };
       const options = {
@@ -71,8 +80,7 @@ export default {
     const { data } = await axios.get(
       `${process.env.baseUrl}/projects/${this.$route.params.id}`
     );
-    this.project_name = data.name;
-    this.project_description = data.description;
+    this.project = data
     this.stage_selected = data.stage;
   }
 };
