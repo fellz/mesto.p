@@ -27,24 +27,9 @@
         </div>
         <h4>Участники команды</h4>
         <hr/>
-        <div class="team_aside_team-flex">
-          <div class="team_aside_team_owner">
-            <div v-if="team.leader"
-              class="team_aside_team_owner_photo"
-              :src="thumb(team.leader)"
-              :style="backimg(team.leader)">
-            </div>
-            <nuxt-link v-if="team.leader" :to="'/profiles/' + team.leader.id">{{ team.leader.fullname }}</nuxt-link>
-          </div>
-          <div v-for="p of team.participants" :key="p.id" class="team_aside_team-member">
-            <div
-                class="team_aside_team_photo"
-                :src="thumb(p)"
-                :style="backimg(p)"
-              ></div>
-              <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
-          </div>
-        </div>
+
+        <participants :owner_profile="team.leader" :resource="team" />
+        
         <div v-if="sendReqFilter(team)" class="team_aside_skills" >
           <h4>Заявка в команду </h4>
           <hr/>
@@ -57,8 +42,12 @@
 
 <script>
 import axios from "axios";
+import Participants from "~/components/participants/index.vue";
 
 export default {
+  components:{
+    Participants
+  },
   data() {
     return {
       team: {},
@@ -104,16 +93,6 @@ export default {
       }
       return owner
     },
-    backimg(profile) {
-      return `background-image: url(${this.url}${
-        profile.avatar
-          ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar
-      })`;
-    },
-    thumb(profile){
-      return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
-    },
     async sendTeamReq(team){
        const options = {
         headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
@@ -125,7 +104,6 @@ export default {
       options)
       this.getTeam()
     }
-    
   }
 };
 </script>
@@ -162,23 +140,6 @@ export default {
 }
 .team_aside_manage a{
   margin-right:5px;
-}
-.team_aside_team-flex {
-  display: flex;
-  flex-flow: wrap;
-}
-.team_aside_team-member, .team_aside_team_owner{
-  margin-right: 10px;
-}
-.team_aside_team_photo, .team_aside_team_owner_photo {
-  width: 70px;
-  height: 70px;
-  background-position: center;
-  border-radius: 50%;
-  margin: auto;
-}
-.team_aside_team_owner_photo{
-  border: 2px solid red;
 }
 .team_aside_edit_skills{
   margin-left: 100px;

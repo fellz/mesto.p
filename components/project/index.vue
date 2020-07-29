@@ -30,24 +30,7 @@
         <div>
           <h4>Команда проекта</h4>
           <hr/>
-          <div class="project_aside--team--flex">
-            <div class="project_aside--team--project_owner">
-              <div v-if="project.owner"
-                class="project_aside--team--project_owner--photo"
-                :src="thumb(project.owner)"
-                :style="backimg(project.owner)">
-              </div>
-              <nuxt-link :to="'/profiles/' + project.id">{{ project.owner?  project.owner.fullname :'' }}</nuxt-link>
-            </div>
-            <div v-for="p of project.participants" :key="p.id" class="project_aside--team--member">
-              <div
-                  class="project_aside--team--photo"
-                  :src="thumb(p)"
-                  :style="backimg(p)"
-                ></div>
-                <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
-            </div>
-          </div>
+          <participants :owner_profile="project.owner" :resource="project"/>
         </div>
         <div class="project_aside--skills">
           <h4>Кто нужен в проект: </h4>
@@ -86,9 +69,13 @@
 
 <script>
 import axios from "axios";
+import Participants from "~/components/participants/index.vue";
 
 export default {
   name: "ProjectMain",
+  components:{
+    Participants
+  },
   data(){
     return {
       url: process.env.baseUrl,
@@ -158,7 +145,7 @@ export default {
       }
       return t_found
     },
-     hasTeam(){
+    hasTeam(){
       return this.teams.length > 0
     },
     inProject(skill) {
@@ -180,7 +167,7 @@ export default {
       return proj;
     },
     isOwner(project) {
-       return project.owner.id === this.$store.state.userProfile.id; // o should be true here
+       return project.owner.id === this.$store.state.userProfile.id; 
     },
     async projectRequest(id) {
       const options = {
@@ -213,18 +200,7 @@ export default {
       this.getProject();   
       //this.$store.dispatch("getItems", {resource: 'projects', start: 0} );
     },
-    
-    backimg(profile) {
-      return `background-image: url(${this.url}${
-        profile.avatar
-          ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar
-      })`;
-    },
-    thumb(profile){
-      return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
-    },
-  }// some changes to reload
+  } 
 };
 </script>
 
@@ -233,7 +209,7 @@ export default {
   display: flex;
 }
 .project_main{
-  width: 60%;
+  width: 55%;
   padding-right: 50px;
 }
 .project_main--header{
@@ -252,9 +228,6 @@ export default {
 .project_main--edit{
   margin-left: 20px;
 }
-.project_aside{
-  width: 40%;
-}
 .project_aside--manage{
   margin-bottom:10px;
 }
@@ -264,19 +237,6 @@ export default {
 .project_aside--team--flex {
   display: flex;
   flex-flow: wrap;
-}
-.project_aside--team--member, .project_aside--team--project_owner{
-  margin-right: 10px;
-}
-.project_aside--team--photo, .project_aside--team--project_owner--photo {
-  width: 70px;
-  height: 70px;
-  background-position: center;
-  border-radius: 50%;
-  margin: auto;
-}
-.project_aside--team--project_owner--photo{
-  border: 2px solid red;
 }
 .project_aside--skills{
   margin-top: 20px;

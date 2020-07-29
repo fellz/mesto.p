@@ -12,26 +12,8 @@
         <aside class="short_team--aside">
           <h4>Участники</h4>
           <hr/>
-          <div class="short_team--aside--participants">
-            <div class="short_team--aside--participants--leader">
-            <div v-if="team.leader"
-              class="short_team--aside--participants_photo short_team--aside--participants--leader--photo"
-              :src="thumb(team.leader)"
-              :style="backimg(team.leader)">
-            </div>
-            <nuxt-link v-if="team.leader" :to="'/profiles/' + team.leader.id">{{ team.leader.fullname }}</nuxt-link>
-          </div>
-            <div class="short_team--aside--participant" v-for="p of team.participants" :key="p.id">
-              <div
-                class="short_team--aside--participants_photo"
-                :src="url + (p.avatar ? p.avatar.formats.thumbnail.url : defAvatar)"
-                :style="backimg(p)"
-              ></div>
-              <div>
-                <nuxt-link :to="'/profiles/'+p.id">{{ p.fullname }}</nuxt-link>
-              </div>
-            </div>
-          </div>
+          <participants :owner_profile="team.leader" :resource="team" />
+          
           <div class="short_team--aside--projects">
             <h5>Участвует в проектах</h5>
             <hr/>
@@ -47,9 +29,12 @@
 
 <script>
 import axios from "axios";
-//bug fix
-// test project watching 
+import Participants from "~/components/participants/index.vue";
+
 export default {
+   components:{
+    Participants
+  },
   data() {
     return {
       teams: [],
@@ -57,19 +42,6 @@ export default {
       defAvatar: process.env.defAvatar  
     }
   },
-  methods: {
-    backimg(profile) {
-      return `background-image: url(${this.url}${
-        profile.avatar !== null
-          ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar
-      })`;
-    },
-    thumb(profile){
-      return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)
-    },
-  },
-
   async fetch() {
     const { data } = await axios.get(`${this.url}/teams`);
     this.teams = data;
@@ -94,25 +66,6 @@ export default {
 .short_team--main--head{
   display: flex;
   justify-content: space-between;
-}
-.short_team--aside{
-  width: 50%;
-}
-.short_team--aside--participants{
-  display:flex;
-}
-.short_team--aside--participant, .short_team--aside--participants--leader{
-  margin-right: 10px;
-}
-.short_team--aside--participants--leader--photo{
-  border: 2px solid red;
-}
-.short_team--aside--participants_photo {
-  width: 70px;
-  height: 70px;
-  background-position: center;
-  border-radius: 50%;
-  margin: auto;
 }
 .short_team--aside--projects{
   margin-top: 10px;

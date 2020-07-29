@@ -1,56 +1,62 @@
 <template>
   <div>
-    <div>
-      <nuxt-link :to="'/projects/' + project.id" class="project_edit_skills_teamname">{{ project.name }}</nuxt-link>
-      <span class="text-muted">Команда проекта</span>
-      
-      <hr/>
-      <div v-for="p of project.participants" :key="p.id">
-        <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
+    <div class="project--edit_skills--wrapper">
+      <div class="project--edit_skills--vacancies">
+        <h4>
+          <nuxt-link :to="'/projects/' + project.id" 
+          class="project_edit_skills_teamname">{{ project.name }}
+          </nuxt-link>
+        </h4>
+        <hr/>
+        <h5> Вакансии </h5>
+        <div class="project--edit_skills--vacancy">
+          <section  v-for="s of project_skills" :key="s.id"> 
+            <div class="project--edit_skills--vacancies--flex">
+              <div>
+                <h5 class="card-title">{{s.name}}</h5>
+                {{ s.pay === true ? "платим" : "волонтер" }}
+                <hr/>
+                <div>
+                  <button v-if="s.filled != true" class="btn btn-primary" @click="foundSkillClose(s)">Закрыть </button>
+                  <button v-else class="btn btn-primary" @click="foundSkillOpen(s)">
+                    Открыть
+                  </button>
+                </div>
+              </div>
+              <div>
+                <project-requests :skill="s"></project-requests>
+              </div>
+            </div>
+          </section>
+        </div>
+        <hr/>
+      </div>
+      <div class="project--edit_skills--participants">
+        <form @submit.prevent="addSkill" method="post" class="project_edit_skills-form"> 
+          <p><b>Кто нужен в проект:</b></p>
+          <label>Платим?</label>
+          <input type="checkbox" v-model="pay" />
+          <p>
+            <select v-model="selected" @change="itemSelected" class="custom-select">
+              <option disabled value="">Выберите скилл</option>
+              <option v-for="skill of skills" :key="skill.id" :value="skill.id">{{skill.skill}}</option>
+            </select>
+          </p>
+          <input type="submit" class="btn btn-primary" value="Добавить" />
+        </form>
+        <h5>Команда проекта</h5>
+        <hr/>
+        <participants :owner_profile="project.owner" :resource="project" />
       </div>
     </div>
-    <hr/>
-    <h5> Вакансии </h5>
-    <div class="profile_edit_card_custom">
-      <section class="card" v-for="s of project_skills" :key="s.id"> 
-        <div class="card-body profile_edit_card_body_custom">
-          <div>
-            <h5 class="card-title">{{s.name}}</h5>
-            {{ s.pay === true ? "платим" : "волонтер" }}
-            <hr/>
-            <div>
-              <button v-if="s.filled != true" class="btn btn-primary" @click="foundSkillClose(s)">Закрыть </button>
-              <button v-else class="btn btn-primary" @click="foundSkillOpen(s)">
-                Открыть
-              </button>
-            </div>
-          </div>
-          <div>
-            <project-requests :skill="s"></project-requests>
-          </div>
-        </div>
-      </section>
-      
-    </div>
-    <hr/>
-    <form @submit.prevent="addSkill" method="post" class="project_edit_skills-form"> 
-    <p><b>Кто нужен в проект:</b></p>
-    <label>Платим?</label>
-    <input type="checkbox" v-model="pay" />
-    <p>
-      <select v-model="selected" @change="itemSelected" class="custom-select">
-        <option disabled value="">Выберите скилл</option>
-        <option v-for="skill of skills" :key="skill.id" :value="skill.id">{{skill.skill}}</option>
-      </select>
-    </p>
-     <input type="submit" class="btn btn-primary" value="Добавить" />
-    </form>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import ProjectRequests from "~/components/ProjectRequests";
+import Participants from "~/components/participants/index.vue";
+
 export default {
   data(){
     return {
@@ -64,7 +70,8 @@ export default {
     }
   },
   components:{
-    ProjectRequests
+    ProjectRequests,
+    Participants
   },
   middleware: ["auth"],
   async fetch(){
@@ -135,18 +142,23 @@ export default {
 </script>
 
 <style>
-.project_edit_skills_teamname{
-  font-size: 22px;
-  margin-right: 20px;
+.project--edit_skills--wrapper{
+  display: flex;
 }
-.profile_edit_card_custom section{
-  margin-bottom: 20px;
+.project--edit_skills--vacancies{
+  width: 70%;
+  padding-right: 20px;
 }
-.profile_edit_card_body_custom{
+.project--edit_skills--vacancies--flex{
   display: flex;
   justify-content: space-between;
 }
+.project--edit_skills--vacancies section{
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+}
 .project_edit_skills-form{
-  width: 30%;
+  margin-bottom: 15px;
 }
 </style>
