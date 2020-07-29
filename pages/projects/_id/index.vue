@@ -1,6 +1,6 @@
 <template>
  <div class="project">
-   <project-main  />
+    <project-main  />
  </div>
 </template>
 
@@ -13,3 +13,4 @@ export default {
   },
 }
 </script>
+

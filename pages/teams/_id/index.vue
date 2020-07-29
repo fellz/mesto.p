@@ -5,17 +5,21 @@
         <div class="team_main_header">
           <div class="team_main_header_time text-muted">Создана: {{ team.created_at | formatDate }}</div>
         </div>
-        <h4>{{  team.name }}</h4>
+        <div class="team_main_name">
+          <h4>{{  team.name }}</h4>
+          <div>
+            <nuxt-link
+            v-if="managerFilter(team)"
+            :to="'/teams/' + team.id+'/edit'"
+            >Редактировать</nuxt-link>
+          </div>
+        </div>
         <p>{{ team.about }}</p>
       </div>
       <div class="team_aside">
-        <div v-if="$store.state.authUser && isOwner(team)" class="team_aside_manage">
+        <div v-if="managerFilter(team)" class="team_aside_manage">
           <h4>Управление</h4>
           <hr/>
-          <nuxt-link
-            class="btn btn-primary team_aside_manage_edit"
-            :to="'/teams/' + team.id+'/edit'"
-          >Редактировать</nuxt-link>
           <nuxt-link
             class="btn btn-primary team_aside_manage_edit_skills"
             :to="'/teams/'+team.id+'/requests'"
@@ -70,6 +74,9 @@ export default {
       const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`);
       this.team = data;
     },
+    managerFilter(team){
+      return this.$store.state.authUser && this.isOwner(team)
+    },
     sendReqFilter(team){
       return (
         this.$store.state.authUser &&
@@ -90,12 +97,12 @@ export default {
       return found
     },
     isOwner(team){
-      let own = false;
-      // because team is reactive need to check for null !!! ((
+      let owner = false;
+      // because team is reactive and team.leader could be undefined --> need to check for null !!! ((
       if(team.leader){
-        own = team.leader.id === this.$store.state.authUser.user.profile.id;  
+        owner = team.leader.id === this.$store.state.userProfile.id;  
       }
-      return own
+      return owner
     },
     backimg(profile) {
       return `background-image: url(${this.url}${
@@ -141,7 +148,12 @@ export default {
   background-color: gray;
   color:white;
 }
-
+.team_main_name{
+  display: flex;
+}
+.team_main_name div{
+  margin-left: 30px;
+}
 .team_aside{
   width: 40%;
 }

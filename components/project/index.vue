@@ -1,52 +1,55 @@
   <template>
   <div>
-    <div class="project-wrapper">
+    <div class="project_wrapper">
       <div class="project_main">
-        <div class="project_main_header">
-          <div class="project_main_header_time text-muted">Создан: {{ project.created_at | formatDate }}</div>
-          <div class="project_main_header_status">Статус: {{ project.stage }} </div>
+        <div class="project_main--header">
+          <div class="text-muted">Создан: {{ project.created_at | formatDate }}</div>
+          <div class="project_main--header--status">Статус: {{ project.stage }} </div>
         </div>
-        <h4>{{ project.name }}</h4>
+        <div class="project_main--name">
+          <h4>{{ project.name }}</h4>
+          <div class="project_main--edit">
+            <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/edit'">Редактировать</nuxt-link>
+          </div>
+        </div>
         <p>{{ project.description }}</p>
       </div>
-      <div class="project_aside">
-        <div v-if="managerFilter(project)" class="project_aside_manage">
+      <aside class="project_aside">
+        <div v-if="managerFilter(project)" class="project_aside--manage">
           <h4>Управление</h4>
           <hr/>
           <nuxt-link
-            class="btn btn-primary project_aside_manage_edit_teams"
+            class="btn btn-primary"
             :to="'/projects/' + project.id+'/team_reqs'"
           >Команды</nuxt-link>
           <nuxt-link
-            class="btn btn-primary project_aside_manage_edit"
-            :to="'/projects/' + project.id+'/edit'"
-          >Редактировать</nuxt-link>
-          <nuxt-link
-            class="btn btn-primary project_aside_manage_edit_skills"
+            class="btn btn-primary"
             :to="'/projects/' + project.id+'/edit_skills'"
           >Вакансии</nuxt-link>
         </div>
-        <h4>Команда проекта</h4>
-        <hr/>
-        <div class="project_aside_team-flex">
-          <div class="project_aside_project_owner">
-            <div v-if="project.owner"
-              class="project_aside_project_owner_photo"
-              :src="thumb(project.owner)"
-              :style="backimg(project.owner)">
+        <div>
+          <h4>Команда проекта</h4>
+          <hr/>
+          <div class="project_aside--team--flex">
+            <div class="project_aside--team--project_owner">
+              <div v-if="project.owner"
+                class="project_aside--team--project_owner--photo"
+                :src="thumb(project.owner)"
+                :style="backimg(project.owner)">
+              </div>
+              <nuxt-link :to="'/profiles/' + project.id">{{ project.owner?  project.owner.fullname :'' }}</nuxt-link>
             </div>
-            <nuxt-link :to="'/profiles/' + project.id">{{ project.owner?  project.owner.fullname :'' }}</nuxt-link>
-          </div>
-          <div v-for="p of project.participants" :key="p.id" class="project_aside_team-member">
-            <div
-                class="project_aside_team_photo"
-                :src="thumb(p)"
-                :style="backimg(p)"
-              ></div>
-              <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
+            <div v-for="p of project.participants" :key="p.id" class="project_aside--team--member">
+              <div
+                  class="project_aside--team--photo"
+                  :src="thumb(p)"
+                  :style="backimg(p)"
+                ></div>
+                <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link>
+            </div>
           </div>
         </div>
-        <div class="project_aside_skills">
+        <div class="project_aside--skills">
           <h4>Кто нужен в проект: </h4>
           <hr/>
           <div v-for="skill of project.project_skills" :key="skill.id">
@@ -57,7 +60,7 @@
               >Заявка</a>
           </div>
         </div>
-        <div class="project_aside_teams">
+        <div class="project_aside--teams">
           <h4>Команды в проекте: </h4>
           <hr/>
           <div v-for="team of project.teams" :key="team.id">
@@ -65,18 +68,18 @@
           </div>
           <button
             v-if="teamReqFilter(project)"
-            class="btn btn-outline-primary dropdown-toggle project_aside_teams_req_button"
+            class="btn btn-outline-primary dropdown-toggle req_button--margin"
             type="button"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >Заявка команды</button>
           <div class="dropdown-menu">
-            <a v-for="t of teams" :key="t.id" class="dropdown-item project_aside_teams_req--pointer" @click.prevent="teamRequest(project, t)"
+            <a v-for="t of teams" :key="t.id" class="dropdown-item dropdown--pointer" @click.prevent="teamRequest(project, t)"
             >{{t.name}}</a>
           </div>
         </div>
-      </div>
+      </aside>
     </div> 
   </div>
 </template>
@@ -226,64 +229,63 @@ export default {
 </script>
 
 <style>
-.project-wrapper{
+.project_wrapper{
   display: flex;
 }
 .project_main{
   width: 60%;
   padding-right: 50px;
 }
-.project_main_header{
+.project_main--header{
   display:flex;
   justify-content: space-between;
   margin-bottom:20px;
 }
-.project_main_header_status{
+.project_main--header--status{
   padding:0 10px 0 10px;
   background-color: gray;
   color:white;
 }
-
+.project_main--name{
+  display: flex;
+}
+.project_main--edit{
+  margin-left: 20px;
+}
 .project_aside{
   width: 40%;
 }
-.project_aside_manage{
+.project_aside--manage{
   margin-bottom:10px;
 }
-.project_aside_manage a{
+.project_aside--manage a{
   margin-right:5px;
 }
-.project_aside_team-flex {
+.project_aside--team--flex {
   display: flex;
   flex-flow: wrap;
 }
-.project_aside_team-member, .project_aside_project_owner{
+.project_aside--team--member, .project_aside--team--project_owner{
   margin-right: 10px;
 }
-.project_aside_team_photo, .project_aside_project_owner_photo {
+.project_aside--team--photo, .project_aside--team--project_owner--photo {
   width: 70px;
   height: 70px;
   background-position: center;
   border-radius: 50%;
   margin: auto;
 }
-.project_aside_project_owner_photo{
+.project_aside--team--project_owner--photo{
   border: 2px solid red;
 }
-.project_aside_edit_skills{
-  margin-left: 100px;
-}
-.project_edit_stage{
-  float: right;
-}
-.project_aside_skills{
+.project_aside--skills{
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.project_aside_teams_req_button{
+.project_aside--teams .req_button--margin{
   margin-top: 10px;
 }
-.project_aside_teams_req--pointer{
+.project_aside--teams .dropdown--pointer{
   cursor: pointer;
 }
 </style>

@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div  v-if="managerFilter(team)">
     <h4>Заявки </h4>
-    <div v-for="req of team.requests" :key="req.id">
-      {{ req.fullname }}
-      <button class="btn btn-primary" @click="joinTeam(req)">Принять</button>
+    <div v-if="team.requests.length > 0">
+      <div v-for="req of team.requests" :key="req.id">
+        {{ req.fullname }}
+        <button class="btn btn-primary" @click="joinTeam(req)">Принять</button>
+      </div>
     </div>
+    <div v-else>Пока ничего нет...</div>
   </div>
 </template>
 
@@ -22,6 +25,17 @@ export default {
     this.getTeam()
   },
   methods:{
+    managerFilter(team){
+      return this.$store.state.authUser && this.isOwner(team)
+    },
+    isOwner(team){
+      let owner = false;
+      // because team is reactive and team.leader could be undefined --> need to check for null !!! ((
+      if(team.leader){
+        owner = team.leader.id === this.$store.state.userProfile.id;  
+      }
+      return owner
+    },
     async getTeam(){
       const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`)
       this.team = data
