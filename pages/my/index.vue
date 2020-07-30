@@ -30,12 +30,6 @@
         <div class="myprofile_main-background">
           <p>
             <span>
-              <b>Опыт:</b>
-            </span>
-            {{ profile.experience}}
-          </p>
-          <p>
-            <span>
               <b>О себе:</b>
             </span>
             {{ profile.about }}

@@ -13,10 +13,6 @@
         </h5>
         <div class="profile_about_wrapper">
           <p>
-            <span class="profile_bold">Опыт:</span>
-            {{ profile.experience}}
-          </p>
-          <p>
             <span class="profile_bold">О себе:</span>
             {{ profile.about }}
           </p>

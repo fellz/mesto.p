@@ -9,15 +9,6 @@
           <input type="text" v-model="profile.fullname" class="form-control" placeholder="Имя" />
         </p>
         <p>
-          <label>Опыт</label>
-          <textarea
-            class="form-control"
-            v-model="profile.experience"
-            placeholder="Опыт"
-            aria-label="With textarea"
-          ></textarea>
-        </p>
-        <p>
           <label>О себе</label>
           <textarea
             class="form-control"
@@ -67,7 +58,6 @@ export default {
     this.profile = {
       fullname: data.fullname,
       about: data.about,
-      experience: data.experience,
       country: data.country,
       city: data.city,
       age: data.age,
@@ -78,7 +68,6 @@ export default {
     async checkForm() {
       const profile = {
         fullname: this.profile.fullname,
-        experience: this.profile.experience,
         about: this.profile.about,
         city: this.profile.city,
         country: this.profile.country,
@@ -93,14 +82,8 @@ export default {
         profile,
         options
       );
-      // ok edit message
-      // this.edit_ok = true;
-      // setTimeout(() => {
-      //   this.edit_ok = false;
-      // }, 2000);
-      /// end
+      
       this.$router.replace('/my');
-      //this.$store.dispatch("getProfile"); // update profile
     }
   }
 };

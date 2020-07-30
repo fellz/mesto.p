@@ -36,7 +36,7 @@ export default {
       baseUrl: process.env.baseUrl,
     };
   },
-  async fetch() {
+  created() {
     this.getProfiles(this.start);
     this.getAllProfiles();
   },
