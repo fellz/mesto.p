@@ -63,7 +63,8 @@ export default {
       this.profiles = data;
       this.all_profiles = data.length;
       if (this.search === "") {
-        this.getProfiles(this.start)      
+        this.getProfiles(this.start) 
+        this.getAllProfiles()     
       }
       this.search = "";
     },
