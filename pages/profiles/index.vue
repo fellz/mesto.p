@@ -10,8 +10,7 @@
     <div v-for="profile of profiles" :key="profile.id">
       <short-profile :profile="profile" />
     </div>
-    
-     <pagination :all_items="all_items" :resource="resource" />
+     <pagination v-on:new-start-page="setStartPage($event)" :all_items="all_profiles"  />
   </div>
 </template>
 
@@ -24,10 +23,11 @@ export default {
   data() {
     return {
       profiles: [],
-      all_items: 0,
+      all_profiles: 0,
       resource: "profiles",
       start: 0,
-      search: ""
+      search: "",
+      baseUrl: process.env.baseUrl
     };
   },
   methods: {
@@ -39,27 +39,30 @@ export default {
         this.$store.dispatch("getItems", {resource: this.resource, start: this.start} );
       }
       this.search = ""
-      
     }
   },
-  created() {
-    this.$store.dispatch("getItems", {resource: this.resource, start: this.start} );
-    // Get number of all projects - for pagination
-    axios.get(`${process.env.baseUrl}/profiles`).then(resp => {
-      this.all_items = resp.data.length;
-    });
+  async fetch() {
+    this.getProfiles(this.start)
+    this.getAllProfiles()
   },
-  watch: {
-    "$store.state.profiles": function() {
-      const profiles = this.$store.state.profiles;
-      this.profiles = profiles;
-      this.all_items = profiles.length;
-    }
-  },
+ 
   components: {
     ShortProfile,
     Pagination
   },
+  methods: {
+    async getProfiles(start){
+      const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.profiles = data
+    },
+    async getAllProfiles(){
+      const { data } = await axios.get(`${this.baseUrl}/profiles`);
+      this.all_profiles = data.length
+    },
+    setStartPage(new_start_page){
+      this.getProfiles(new_start_page)
+  },
+  }
 }
 </script>
 

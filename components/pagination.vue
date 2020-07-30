@@ -15,7 +15,6 @@ import axios from "axios";
 
 export default {
   props: {
-    resource: '',
     all_items: {
       type: Number,
       default: 0
@@ -24,7 +23,6 @@ export default {
   data(){
     return {
       page: 0,
-      start_page: 0,
       per_page: 5,
       all_projects: 0,
       current_page: 1
@@ -41,14 +39,11 @@ export default {
         return [...Array(end - start + 1)].map((_, i) => start + i);
       },
     async setStartPage(page) {
-      const start = this.start_page + this.per_page * (page - 1);
+      const start = this.per_page * (page - 1);
       this.current_page = page;
-      this.getItems(start, page );
+      console.log('Page', page)
+      this.$emit('new-start-page', start)
     },
-    async getItems(start, page){  
-      this.$store.dispatch("getItems", {resource: this.resource, start});
-      this.current_page = page;
-    }
   }
   
 }

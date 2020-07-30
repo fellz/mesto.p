@@ -45,11 +45,11 @@ export default {
     }
   },
   watch:{
-    owner_profile: function(){
-      this.profile = this.owner_profile
+    owner_profile(new_val){
+      this.profile = new_val
     },
-    resource: function(){
-      this.res = this.resource
+    resource(new_val){
+      this.res = new_val
     }
   },
   methods:{

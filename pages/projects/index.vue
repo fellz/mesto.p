@@ -3,7 +3,7 @@
     <div v-for="project of projects" :key="project.id"  >
       <short-project :project="project" />
     </div>
-    <pagination :all_items="all_projects" :resource="'projects'"></pagination>
+    <pagination @new-start-page="setStartPage($event)" :all_items="all_projects" ></pagination>
   </div>
 </template>
 
@@ -18,25 +18,30 @@ export default {
       projects: [],
       all_projects: 0,
       start: 0,
-      url: process.env.baseUrl
+      baseUrl: process.env.baseUrl
     };
   },
   components: {
     ShortProject,
     Pagination
   },
-  async fetch () {
-    // Get number of all projects - for pagination
-    const {data:proj} = await axios.get(`${this.url}/projects`);
-    this.projects = proj;
-    this.all_projects = proj.length;
+  async fetch() {
+    this.getProjects(this.start)
+    this.getAllProjects()
   },
-  watch: {
-    "$store.state.projects": function() {
-      console.log('Re-render projects')
-      this.projects = this.$store.state.projects;
-    }
-  },
+  methods:{
+     async getProjects(start){
+      const { data } = await axios.get(`${this.baseUrl}/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.projects = data
+    },
+    async getAllProjects(){
+      const { data } = await axios.get(`${this.baseUrl}/projects`);
+      this.all_projects = data.length
+    },
+    setStartPage(new_start_page){
+      this.getProjects(new_start_page)
+    },
+  }
 };
 </script>
 
