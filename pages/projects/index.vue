@@ -25,7 +25,7 @@ export default {
     ShortProject,
     Pagination
   },
-  async fetch() {
+  async created() {
     this.getProjects(this.start)
     this.getAllProjects()
   },
