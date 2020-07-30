@@ -22,9 +22,10 @@
         </div>
         <div class="tab-pane fade" :id="'list-teams'+project.id" role="tabpanel" aria-labelledby="list-teams">
           <div>
-            <div v-for="participant of project.participants" :key="participant.id" class="profiles">
-              <nuxt-link :to="'/profiles/' + participant.id">{{participant.fullname}}</nuxt-link>
-            </div>
+            <b><nuxt-link :to="'/profiles/' + project.owner.id">{{project.owner.fullname}}</nuxt-link></b>
+          </div>
+          <div v-for="participant of project.participants" :key="participant.id" >
+            <nuxt-link :to="'/profiles/' + participant.id">{{participant.fullname}}</nuxt-link>
           </div>
         </div>
         <div class="tab-pane fade" :id="'list-skills'+project.id" role="tabpanel" aria-labelledby="list-skills">

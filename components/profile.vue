@@ -16,9 +16,9 @@
             <span class="profile_bold">О себе:</span>
             {{ profile.about }}
           </p>
-          <div v-if="profile.myprojects">
-            <div v-if="profile.myprojects.length > 0">
-              <span class="profile_bold">Мои проекты:</span>
+          <div>
+            <div v-if="profile.myprojects && profile.myprojects.length > 0">
+              <h5>Мои проекты:</h5>
               <hr>
               <div v-for="project of profile.myprojects" :key="project.id">
                 <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
