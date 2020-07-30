@@ -12,10 +12,6 @@
           <span class="profile_bold">О себе:</span>
           <v-clamp autoresize :max-lines="3">{{ profile.about }}</v-clamp>
         </p>
-        <p>
-          <span class="profile_bold">Опыт:</span>
-          <v-clamp autoresize :max-lines="3">{{ profile.experience}}</v-clamp>
-        </p>
       </div>
       <p v-if="!hasSkills">
         <span class="profile_bold">Навыки:</span>
