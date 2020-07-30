@@ -1,16 +1,22 @@
 <template>
   <div>
     <h4>Участники</h4>
-    <input type="text" v-model="search" class="form-control" placeholder="Поиск по специализации" v-on:keyup.enter="searchProfiles" />
+    <input
+      type="text"
+      v-model="search"
+      class="form-control"
+      placeholder="Поиск по специализации"
+      v-on:keyup.enter="searchProfiles"
+    />
     <div class="profiles_sort">
-      <span>Сортировать список : </span>
+      <span>Сортировать список :</span>
       <label>По рейтингу</label>
-      <input type="checkbox"/>
+      <input type="checkbox" />
     </div>
     <div v-for="profile of profiles" :key="profile.id">
       <short-profile :profile="profile" />
     </div>
-     <pagination v-on:new-start-page="setStartPage($event)" :all_items="all_profiles"  />
+    <pagination v-on:new-start-page="setStartPage($event)" :all_items="all_profiles" />
   </div>
 </template>
 
@@ -27,48 +33,47 @@ export default {
       resource: "profiles",
       start: 0,
       search: "",
-      baseUrl: process.env.baseUrl
+      baseUrl: process.env.baseUrl,
     };
   },
-  methods: {
-    async searchProfiles(){
-      const { data } = await axios.get(`${process.env.baseUrl}/profiles?skills.skill=${this.search}`)  
-      this.profiles = data
-      this.all_items = data.length
-      if ( this.search === ''){
-        this.$store.dispatch("getItems", {resource: this.resource, start: this.start} );
-      }
-      this.search = ""
-    }
-  },
   async fetch() {
-    this.getProfiles(this.start)
-    this.getAllProfiles()
+    this.getProfiles(this.start);
+    this.getAllProfiles();
   },
- 
   components: {
     ShortProfile,
-    Pagination
+    Pagination,
   },
   methods: {
-    async getProfiles(start){
-      const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.profiles = data
+    async getProfiles(start) {
+      const { data } = await axios.get(
+        `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`
+      );
+      this.profiles = data;
     },
-    async getAllProfiles(){
+    async getAllProfiles() {
       const { data } = await axios.get(`${this.baseUrl}/profiles`);
-      this.all_profiles = data.length
+      this.all_profiles = data.length;
     },
-    setStartPage(new_start_page){
-      this.getProfiles(new_start_page)
+    setStartPage(new_start_page) {
+      this.getProfiles(new_start_page);
+    },
+    async searchProfiles() {
+      const { data } = await axios.get(`${process.env.baseUrl}/profiles?skills.skill=${this.search}`);
+      this.profiles = data;
+      this.all_profiles = data.length;
+      if (this.search === "") {
+        this.getProfiles(this.start)      
+      }
+      this.search = "";
+    },
   },
-  }
-}
+};
 </script>
 
 <style>
-.profiles_sort{
-  margin-top:10px;
+.profiles_sort {
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 </style>
