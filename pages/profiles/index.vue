@@ -54,11 +54,16 @@ export default {
   },
   methods: {
     async socialSelect(){
-      const start = 0
-       const { data } = await axios.get(
+      if (this.social === true){
+        const start = 0
+        const { data } = await axios.get(
         `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=social:DESC`
-      );
-      this.profiles = data;
+        );
+        this.profiles = data;
+      }else{
+        this.getProfiles(this.start);
+        this.getAllProfiles();
+      }
     },
     async getProfiles(start) {
       const { data } = await axios.get(
