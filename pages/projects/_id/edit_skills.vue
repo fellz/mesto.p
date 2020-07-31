@@ -54,8 +54,8 @@
 
 <script>
 import axios from "axios";
-import ProjectRequests from "~/components/ProjectRequests";
-import Participants from "~/components/participants/index.vue";
+import ProjectRequests from "~/components/projects/ProjectRequests";
+import Participants from "~/components/common/participants.vue";
 
 export default {
   data(){

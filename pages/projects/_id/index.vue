@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ProjectMain from "~/components/project/index.vue"
+import ProjectMain from "~/components/projects/project/index.vue"
 
 export default {
   components: {

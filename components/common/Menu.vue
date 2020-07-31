@@ -19,10 +19,10 @@
           <nuxt-link to="/teams" class="nav-link">Команды</nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link>
+          <b><nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link></b>
         </li>
         <li class="nav-item">
-          <nuxt-link v-if="$store.state.authUser" to="/teams/new" class="nav-link">Создать команду</nuxt-link>
+          <b><nuxt-link v-if="$store.state.authUser" to="/teams/new" class="nav-link">Создать команду</nuxt-link></b>
         </li>
       </ul>
       <nuxt-link to="/register" v-if="!$store.state.authUser" class="nav-link">Регистрация</nuxt-link>

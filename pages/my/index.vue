@@ -142,14 +142,6 @@ export default {
     this.profile.avatar = data.avatar ? data.avatar.formats.thumbnail.url : `${process.env.defAvatar}`
     this.$store.dispatch("getProfile");
   },
-  // watch: {
-  //   "$store.state.userProfile": function() {
-  //     this.profile.projects = this.$store.state.userProfile.projects;
-  //     this.skills = this.$store.state.userProfile.skills;
-  //     this.contacts = this.$store.state.userProfile.contacts;
-  //     this.myprojects = this.$store.state.userProfile.myprojects;
-  //   }
-  // }
 };
 </script>
 

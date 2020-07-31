@@ -5,25 +5,31 @@
         <img :src="avatar"  />
         <div>{{profile.country}}</div>
         <div>{{profile.city}}</div>
-        <div>{{profile.age}}</div>
+        <div v-if="profile.age || profile.age !== 0">{{profile.age}}</div>
       </div>
       <div>
-        <h5>
-          <nuxt-link :to="'/profiles/'+ profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
-        </h5>
+        <div class="profile--head">
+          <h5>
+            <nuxt-link :to="'/profiles/'+ profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
+          </h5>
+          <div v-if="profile.social > 0" class="profile--head--social">{{ profile.social }} Спасибо</div>
+        </div>
         <div class="profile_about_wrapper">
           <p>
             <span class="profile_bold">О себе:</span>
             {{ profile.about }}
           </p>
-          <div>
-            <div v-if="profile.myprojects && profile.myprojects.length > 0">
-              <h5>Мои проекты:</h5>
-              <hr>
-              <div v-for="project of profile.myprojects" :key="project.id">
-                <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-              </div>
+          <div v-if="profile.myprojects && profile.myprojects.length > 0">
+            <h5>Мои проекты:</h5>
+            <hr>
+            <div v-for="project of profile.myprojects" :key="project.id">
+              <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
             </div>
+          </div>
+          <br/>
+          <div>
+            <h4>Как связаться</h4>
+            <a :href="profile.url">{{ profile.url }}</a>
           </div>
           <hr/>
           <p>
@@ -160,5 +166,12 @@ export default {
 }
 .profile_photo{
   margin-right: 10px;
+}
+.profile--head{
+  display:flex;
+  justify-content: space-between;
+}
+.profile--head--social{
+  font-weight: bold;
 }
 </style>

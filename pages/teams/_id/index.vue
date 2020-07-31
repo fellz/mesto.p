@@ -42,7 +42,7 @@
 
 <script>
 import axios from "axios";
-import Participants from "~/components/participants/index.vue";
+import Participants from "~/components/common/participants.vue";
 
 export default {
   components:{

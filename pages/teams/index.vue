@@ -24,27 +24,45 @@
         </aside>
       </div>
     </div>
+    <pagination @new-start-page="setStartPage($event)" :all_items="all_teams" ></pagination>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Participants from "~/components/participants/index.vue";
+import Participants from "~/components/common/participants.vue";
+import Pagination from "~/components/common/pagination.vue";
 
 export default {
    components:{
-    Participants
+    Participants,
+    Pagination
   },
   data() {
     return {
       teams: [],
-      url: process.env.baseUrl,
+      start: 0,
+      all_teams: 0,
+      baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar  
     }
   },
-  async fetch() {
-    const { data } = await axios.get(`${this.url}/teams`);
-    this.teams = data;
+  created() {
+    this.getTeams(this.start)
+    this.getAllTeams()
+  },
+  methods: {
+    async getTeams(start){
+      const { data } = await axios.get(`${this.baseUrl}/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.teams = data;
+    },
+    async getAllTeams(){
+      const { data } = await axios.get(`${this.baseUrl}/teams`);
+      this.all_teams = data.length
+    },
+    setStartPage(new_start_page){
+      this.getTeams(new_start_page)
+    },
   }
 };
 </script>

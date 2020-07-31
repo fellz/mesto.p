@@ -23,7 +23,7 @@
 <script>
 import axios from "axios";
 import VClamp from "vue-clamp";
-import ProjectSkills from "~/components/short_project/ProjectSkills.vue";
+import ProjectSkills from "~/components/projects/short_project/ProjectSkills.vue";
 
 export default {
   name: "ShortProject",

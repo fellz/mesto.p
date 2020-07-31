@@ -9,8 +9,8 @@
 
 <script>
 import axios from "axios";
-import ShortProject from "~/components/short_project/index.vue";
-import Pagination from "~/components/pagination.vue";
+import ShortProject from "~/components/projects/short_project/index.vue";
+import Pagination from "~/components/common/pagination.vue";
 
 export default {
   data() {

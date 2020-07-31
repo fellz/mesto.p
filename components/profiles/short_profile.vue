@@ -2,11 +2,15 @@
   <div class="short_profile">
     <div>
       <div class="short_profile_photo" :style="backimg"></div>
+      <div><b>{{profile.city}}</b></div>
     </div>
     <div class="short_profile_main">
-      <h5>
-        <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
-      </h5>
+      <div class="short_profile--main--head">
+        <h5>
+          <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
+        </h5>
+        <div v-if="profile.social > 0" class="short_profile--main--head--social">{{ profile.social }} Спасибо</div>
+      </div>
       <div class="short_profile_wrapper">
         <p>
           <span class="profile_bold">О себе:</span>
@@ -59,6 +63,13 @@ export default {
 }
 .short_profile_main {
   overflow: hidden;
+}
+.short_profile--main--head{
+  display: flex;
+  justify-content: space-between;
+}
+.short_profile--main--head--social{
+  font-weight: bold;
 }
 .short_profile_photo {
   margin-right: 10px;
