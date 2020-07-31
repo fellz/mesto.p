@@ -7,13 +7,16 @@
       v-model="search"
       class="form-control"
       placeholder="Поиск по специализации"
-      v-on:keyup.enter="searchProfiles"
+      @keyup.enter="searchProfiles"
     />
     <!-- sort -->
     <div class="profiles_sort">
       <span>Сортировать список :</span>
       <label>По рейтингу</label>
-      <input type="checkbox" />
+      <input type="checkbox"
+      v-model="social"
+      @change="socialSelect()"
+       />
     </div>
     <!-- profiles -->
     <div v-for="profile of profiles" :key="profile.id">
@@ -37,6 +40,7 @@ export default {
       resource: "profiles",
       start: 0,
       search: "",
+      social: false,
       baseUrl: process.env.baseUrl,
     };
   },
@@ -49,6 +53,13 @@ export default {
     Pagination,
   },
   methods: {
+    async socialSelect(){
+      const start = 0
+       const { data } = await axios.get(
+        `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=social:DESC`
+      );
+      this.profiles = data;
+    },
     async getProfiles(start) {
       const { data } = await axios.get(
         `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`
