@@ -1,12 +1,13 @@
 <template>
   <div class="sp_card">
     <div class="sp_card_main">
-      <h5><nuxt-link :to="'/projects/' + project.id" >{{ project.name }}</nuxt-link></h5>
+      <h5><nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link></h5>
       <p>by
         <nuxt-link
           v-if="project.owner"
           :to="'/profiles/' + project.owner.id"
-        >{{ project.owner.fullname }}</nuxt-link>
+          >{{ project.owner.fullname }}
+        </nuxt-link>
       </p>
       <p class="text-muted">{{  project.created_at | formatDate }}</p>
       <v-clamp autoresize :max-lines="3">{{ project.description }}</v-clamp>

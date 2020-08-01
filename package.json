@@ -16,7 +16,8 @@
     "@nuxt/http": "^0.5.3",
     "axios": "^0.19.2",
     "nuxt": "^2.0.0",
-    "vue-clamp": "^0.3.0"
+    "vue-clamp": "^0.3.0",
+    "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

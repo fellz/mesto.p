@@ -63,18 +63,12 @@ export default {
       url: process.env.baseUrl
     }
   }, 
-  fetch(){
+  created(){
     this.getProfile();
   },
   computed:{
     avatar(){
-      let url = "";
-      if (this.profile.avatar){
-         url = this.url + this.profile.avatar.formats.thumbnail.url
-      }else{
-        url = this.url + process.env.defAvatar
-      }
-      return url
+      return this.profile.avatar ? this.url + this.profile.avatar.formats.thumbnail.url : this.url + process.env.defAvatar
      },
   
   },

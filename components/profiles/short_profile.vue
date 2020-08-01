@@ -7,7 +7,7 @@
     <div class="short_profile_main">
       <div class="short_profile--main--head">
         <h5>
-          <nuxt-link :to="'/profiles/'+profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
+          <nuxt-link :to="'/profiles/'+profile.id" class="profile_name" target="_blank">{{ profile.fullname }}</nuxt-link>
         </h5>
         <div v-if="profile.social > 0" class="short_profile--main--head--social">{{ profile.social }} Спасибо</div>
       </div>
