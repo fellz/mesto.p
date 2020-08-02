@@ -60,9 +60,12 @@ export default {
 .short_profile {
   margin-top: 30px;
   display: flex;
+  background-color: white;
+  padding: 20px;
+  border-radius: 7px;
 }
 .short_profile_main {
-  overflow: hidden;
+  padding-left: 10px;
 }
 .short_profile--main--head{
   display: flex;
@@ -72,21 +75,20 @@ export default {
   font-weight: bold;
 }
 .short_profile_photo {
-  margin-right: 10px;
   width: 100px;
   height: 100px;
   background-position: center;
   border-radius: 50%;
+  margin: auto;
 }
-.short_profile_photo img {
-  border-radius: 50%;
+.short_profile_photo div {
+  text-align: center;
 }
 .profile_bold {
   font-weight: bold;
   padding-right: 10px;
 }
 .short_profile_wrapper {
-  background-color: #f5f3f38f;
   padding: 10px;
 }
 .short_profile_skill {

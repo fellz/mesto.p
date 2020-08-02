@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div class="pagination--style">
     <button
       class="btn btn-primary projects_paging_margin"
       v-for="p of pag_pages"
       :key="p.id"
-      :id="currPage(current_page, p)"
       @click.prevent="setCurrentPage(p)"
       :class="{ 'btn-warning': current_page === p }"
     >{{p}}</button>
@@ -45,9 +44,6 @@ export default {
   },
   methods: {
     currPage(c,p){
-      console.log('Current page', c )
-      console.log('Page', p)
-      console.log(c === p)
       return c === p
     },
     myrange(start, end) {
@@ -70,7 +66,7 @@ export default {
 </script>
 
 <style>
-.projects_paging_margin {
-  margin-right: 5px;
+.pagination--style {
+  margin-top: 20px;
 }
 </style>

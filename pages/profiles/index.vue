@@ -10,7 +10,7 @@
      >
     </multiselect>
     <!-- sort -->
-    <div class="profiles_sort">
+    <div class="$style.profiles_sort">
       <span>Сортировать список :</span>
       <label>По рейтингу</label>
       <input type="checkbox"
@@ -70,8 +70,10 @@ export default {
     },
     // default method to take profiles
     async getProfiles(start) {
-      const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.profiles = data;
+      //const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      //this.profiles = data;
+      const res = await fetch(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.profiles = await res.json()
     },
     // for pagination
     async getAllProfiles() {
@@ -117,7 +119,7 @@ export default {
 };
 </script>
 
-<style>
+<style langs="scss" module>
 .profiles_sort {
   margin-top: 10px;
   margin-bottom: 10px;
