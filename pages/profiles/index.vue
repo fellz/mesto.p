@@ -10,7 +10,7 @@
      >
     </multiselect>
     <!-- sort -->
-    <div class="$style.profiles_sort">
+    <div :class="$style.profiles_sort">
       <span>Сортировать список :</span>
       <label>По рейтингу</label>
       <input type="checkbox"
@@ -19,11 +19,11 @@
        />
     </div>
     <!-- profiles -->
-    <div v-for="profile of profiles" :key="profile.id">
+    <div  v-for="profile of profiles" :key="profile.id">
       <short-profile :profile="profile" />
     </div>
     <!-- pagination --> 
-    <pagination v-if="search === ''" @new-start-number="setStartPage($event)" :all_items="all_profiles" :resource="resource" />
+    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
   </div>
 </template>
 
@@ -96,19 +96,19 @@ export default {
       const { data: all_skills } = await axios.get(`${this.baseUrl}/profiles?${skill_string}`)
       this.profiles = data;
       this.all_profiles = all_skills.length
-    }
-    // async socialSelect(){
-    //   if (this.social === true){
-    //     const start = 0
-    //     const { data } = await axios.get(
-    //     `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=social:DESC`
-    //     );
-    //     this.profiles = data;
-    //   }else{
-    //     this.getProfiles(this.start);
-    //     this.getAllProfiles();
-    //   }
-   // },
+    },
+    async socialSelect(){
+      // if (this.social === true){
+      //   const start = 0
+      //   const { data } = await axios.get(
+      //   `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=social:DESC`
+      //   );
+      //   this.profiles = data;
+      // }else{
+      //   this.getProfiles(this.start);
+      //   this.getAllProfiles();
+      // }
+   },
   },
   watch: {
     value(newVal){
@@ -119,7 +119,7 @@ export default {
 };
 </script>
 
-<style langs="scss" module>
+<style lang="scss" module>
 .profiles_sort {
   margin-top: 10px;
   margin-bottom: 10px;

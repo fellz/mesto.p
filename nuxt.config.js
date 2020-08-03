@@ -24,6 +24,18 @@ module.exports = {
     baseUrl: process.env.API_HOST,
     defAvatar: process.env.AVATAR 
   },
+  webfontloader: {
+    events: false,
+    google: {
+      families: ['Montserrat:400,500,600:cyrillic&display=swap']
+    },
+    timeout: 5000
+  },
+  styleResources: {
+    scss: ['./assets/scss/global-variables.scss'], // alternative: scss
+    less: [],
+    stylus: []
+  },
   /*
   ** Customize the progress bar color
   */
@@ -50,7 +62,8 @@ module.exports = {
   },
   plugins: ['~plugins/filters.js'],
   modules: [
-    '@nuxt/http',
+    '@nuxtjs/style-resources',
+    'nuxt-webfontloader',
   ],
 }
 

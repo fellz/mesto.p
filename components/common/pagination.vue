@@ -19,7 +19,6 @@ import axios from "axios";
 export default {
   props: {
     all_items: Number,
-    resource: String
   },
   data(){
     return {
@@ -52,6 +51,7 @@ export default {
     async setCurrentPage(page) {
       // устанавливаем current_page на ту кнопку, на которую кликнули
       this.current_page = page;
+      window.scrollTo(0,0);
       // распределение обязанностей )
       this.sendStartNumberToParent(page);
     },

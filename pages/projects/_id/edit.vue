@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="project_edit_wrapper">
+    <div class="project_edit--wrapper">
       <p>
         Отредактируйте проект
       </p>
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style >
-.project_edit_wrapper {
+.project_edit--wrapper {
   width: 50%;
 }
 </style>>

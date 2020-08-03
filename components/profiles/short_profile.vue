@@ -2,7 +2,7 @@
   <div class="short_profile">
     <div>
       <div class="short_profile_photo" :style="backimg"></div>
-      <div><b>{{profile.city}}</b></div>
+      <div class="short_profile--city"><b>{{profile.city}}</b></div>
     </div>
     <div class="short_profile_main">
       <div class="short_profile--main--head">
@@ -74,15 +74,15 @@ export default {
 .short_profile--main--head--social{
   font-weight: bold;
 }
+.short_profile--city{
+  text-align: center;
+}
 .short_profile_photo {
   width: 100px;
   height: 100px;
   background-position: center;
   border-radius: 50%;
   margin: auto;
-}
-.short_profile_photo div {
-  text-align: center;
 }
 .profile_bold {
   font-weight: bold;

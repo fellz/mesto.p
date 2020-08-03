@@ -1,54 +1,47 @@
 <template>
   <div>
-    <div class="profile_wrapper">
-      <div class="profile_photo">
+    <div class="profile--wrapper">
+      <aside class="profile__aside">
         <img :src="avatar"  />
         <div>{{profile.country}}</div>
         <div>{{profile.city}}</div>
         <div v-if="profile.age || profile.age !== 0">{{profile.age}}</div>
-      </div>
-      <div>
-        <div class="profile--head">
-          <h5>
-            <nuxt-link :to="'/profiles/'+ profile.id" class="profile_name">{{ profile.fullname }}</nuxt-link>
-          </h5>
-          <div v-if="profile.social > 0" class="profile--head--social">{{ profile.social }} Спасибо</div>
-        </div>
-        <div class="profile_about_wrapper">
-          <p>
-            <span class="profile_bold">О себе:</span>
-            {{ profile.about }}
-          </p>
-          <div v-if="profile.myprojects && profile.myprojects.length > 0">
-            <h5>Мои проекты:</h5>
-            <hr>
-            <div v-for="project of profile.myprojects" :key="project.id">
-              <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-            </div>
+      </aside>
+      <main>
+        <header class="main__header">
+          <h5>{{ profile.fullname }}</h5>
+          <div v-if="profile.social > 0" class="header__social">{{ profile.social }} Спасибо</div>
+        </header>
+        <section>
+          {{ profile.about }}
+        </section>
+        <section v-if="profile.myprojects && profile.myprojects.length > 0">
+          <h5>Мои проекты:</h5>
+          <hr>
+          <div v-for="project of profile.myprojects" :key="project.id">
+            <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
           </div>
-          <br/>
-          <div>
-            <h4>Как связаться</h4>
-            <a :href="profile.url">{{ profile.url }}</a>
-          </div>
+        </section>
+        <section v-if="profile.url" >
+          <h4>Как связаться</h4>
           <hr/>
-          <p>
-            <button
-              type="button"
-              class="btn btn-primary"
-              v-if="this.$store.state.authUser && !inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
-              @click="addToContacts(profile)"
-            >В контакты</button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              v-if="this.$store.state.authUser && filterSocial(profile) && isUser(profile)"
-              @click="upSocial(profile)"
-            >Спасибо</button>
-            
-          </p>
-        </div>
-      </div>
+          <a :href="profile.url">{{ profile.url }}</a>
+        </section>
+        <section>
+          <button
+            type="button"
+            class="btn btn-primary"
+            v-if="this.$store.state.authUser && !inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
+            @click="addToContacts(profile)"
+          >В контакты</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            v-if="this.$store.state.authUser && filterSocial(profile) && isUser(profile)"
+            @click="upSocial(profile)"
+          >Спасибо</button>
+        </section>
+      </main>
     </div>
   </div>
 </template>
@@ -144,28 +137,24 @@ export default {
 </script>
 
 <style>
-.profile_bold {
-  font-weight: bold;
-  padding-right: 10px;
-}
-.profile_about_wrapper {
-  background-color: #f5f3f38f;
-  padding: 10px;
-}
-.profile_wrapper {
+.profile--wrapper {
   display: flex;
 }
-.profile_photo div{
-  font-weight: bold;
-}
-.profile_photo{
-  margin-right: 10px;
-}
-.profile--head{
-  display:flex;
-  justify-content: space-between;
-}
-.profile--head--social{
-  font-weight: bold;
-}
+  .profile__aside {
+    margin-right: 20px;
+  }
+    .profile__aside div {
+      font-weight: bold;
+    }
+  .main__header {
+    display:flex;
+    justify-content: space-between;
+  }
+    .header__social{
+      font-weight: bold;
+    }
+  .profile__about {
+    background-color: #f5f3f38f;
+    padding: 10px;
+  }
 </style>

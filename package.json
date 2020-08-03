@@ -13,9 +13,12 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@nuxt/http": "^0.5.3",
+    "@nuxtjs/style-resources": "^1.0.0",
     "axios": "^0.19.2",
+    "node-sass": "^4.14.1",
     "nuxt": "^2.0.0",
+    "nuxt-webfontloader": "^1.1.0",
+    "sass-loader": "^9.0.2",
     "vue-clamp": "^0.3.0",
     "vue-multiselect": "^2.1.6"
   },
