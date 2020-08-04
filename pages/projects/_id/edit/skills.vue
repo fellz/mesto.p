@@ -139,7 +139,7 @@ export default {
 </script>
 
 <style>
-.project_edit_skills_main{
+.main__vacancy{
   background-color: white;
   padding: 20px;
   margin-bottom: 20px;
@@ -147,5 +147,4 @@ export default {
 .header__pay{
   background-color:  #ebebeb;
 }
-
 </style>
