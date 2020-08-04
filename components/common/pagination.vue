@@ -1,7 +1,7 @@
 <template>
   <div class="pagination--style">
     <button
-      class="btn btn-primary projects_paging_margin"
+      class="btn btn-primary pagination--margin"
       v-for="p of pag_pages"
       :key="p.id"
       @click.prevent="setCurrentPage(p)"
@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style>
+.pagination--margin{
+  margin-right: 10px;
+}
 .pagination--style {
   margin-top: 20px;
 }

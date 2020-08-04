@@ -1,38 +1,40 @@
 <template>
   <div class="short_profile">
-    <div>
-      <div class="short_profile_photo" :style="backimg"></div>
-      <div class="short_profile--city"><b>{{profile.city}}</b></div>
-    </div>
-    <div class="short_profile_main">
-      <div class="short_profile--main--head">
+    <aside class="short_profile__aside">
+      <div class="aside__photo" :style="backimg"></div>
+      <div class="text-center font-weight-bold">
+        {{profile.city}}
+      </div>
+    </aside>
+    <main class="short_profile__main">
+      <header class="main__header">
         <h5>
-          <nuxt-link :to="'/profiles/'+profile.id" class="profile_name" target="_blank">{{ profile.fullname }}</nuxt-link>
+          <nuxt-link
+            :to="'/profiles/'+profile.id"
+            target="_blank"
+          >{{ profile.fullname }}</nuxt-link>
         </h5>
-        <div v-if="profile.social > 0" class="short_profile--main--head--social">{{ profile.social }} Спасибо</div>
-      </div>
-      <div class="short_profile_wrapper">
-        <p>
-          <span class="profile_bold">О себе:</span>
-          <v-clamp autoresize :max-lines="3">{{ profile.about }}</v-clamp>
-        </p>
-      </div>
-      <p v-if="!hasSkills">
-        <span class="profile_bold">Навыки:</span>
-        <span v-for="skill of profile.skills" :key="skill.id">
-          <span class="short_profile_skill">{{skill.skill}}</span>
+        <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
+      </header>
+      <section>
+        <v-clamp autoresize :max-lines="4">{{ profile.about }}</v-clamp>
+      </section>
+      <footer class="main__skills" v-if="!hasSkills">
+        <span class="font-weight-bold">Навыки:</span>
+        <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
+          {{skill.skill}}
         </span>
-      </p>
-    </div>
+      </footer>
+    </main>
   </div>
 </template>
 
 <script>
-import VClamp from 'vue-clamp';
+import VClamp from "vue-clamp";
 
 export default {
   props: {
-    profile: Object
+    profile: Object,
   },
   data() {
     return {
@@ -41,17 +43,17 @@ export default {
           this.profile.avatar
             ? this.profile.avatar.formats.thumbnail.url
             : `${process.env.defAvatar}`
-        })`
+        })`,
       },
     };
   },
-  computed:{
-    hasSkills(){
-      return this.profile.skills.length === 0
-    }
+  computed: {
+    hasSkills() {
+      return this.profile.skills.length === 0;
+    },
   },
   components: {
-    VClamp
+    VClamp,
   },
 };
 </script>
@@ -64,36 +66,23 @@ export default {
   padding: 20px;
   border-radius: 7px;
 }
-.short_profile_main {
-  padding-left: 10px;
-}
-.short_profile--main--head{
-  display: flex;
-  justify-content: space-between;
-}
-.short_profile--main--head--social{
-  font-weight: bold;
-}
-.short_profile--city{
-  text-align: center;
-}
-.short_profile_photo {
-  width: 100px;
-  height: 100px;
-  background-position: center;
-  border-radius: 50%;
-  margin: auto;
-}
-.profile_bold {
-  font-weight: bold;
-  padding-right: 10px;
-}
-.short_profile_wrapper {
-  padding: 10px;
-}
-.short_profile_skill {
-  margin-right: 10px;
-  color: blue;
-  background-color: rgb(210, 210, 210);
-}
+  .short_profile__aside {
+    margin-right: 20px;
+  }
+    .aside__photo {
+      width: 100px;
+      height: 100px;
+      background-position: center;
+      border-radius: 50%;
+      margin: auto;
+    }
+  .main__header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .skills__name {
+    margin-right: 10px;
+    color: blue;
+    background-color: rgb(210, 210, 210);
+  }
 </style>

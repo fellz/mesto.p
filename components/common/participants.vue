@@ -1,23 +1,27 @@
 <template>
   <div>
-    <div class="participants--flex">
-      <div v-if="profile" class="participants--owner">
+    <main class="participants">
+      <div v-if="profile" class="participants__owner">
         <div 
-          class="participants--owner--photo"
+          class="owner__photo"
           :src="thumb( profile )"
           :style="backimg( profile )">
         </div>
         <nuxt-link :to="'/profiles/' + profile.id">{{ profile.fullname }}</nuxt-link>
       </div>
-      <div v-for="p of res.participants" :key="p.id" class="participants--member" >
+      <div v-for="p of res.participants" :key="p.id" class="participants__member" >
         <div
-            class="participants--member--photo"
+            class="member__photo"
             :src="thumb( p )"
             :style="backimg( p )"
           ></div>
-         <div> <nuxt-link :to="'/profiles/' + p.id">{{p.fullname}}</nuxt-link></div>
+        <div>
+          <nuxt-link :to="'/profiles/' + p.id">
+            {{p.fullname}}
+          </nuxt-link>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -68,21 +72,21 @@ export default {
 </script>
 
 <style>
-.participants--flex{
+.participants{
   display: flex;
   flex-flow: wrap;
 }
-.participants--member--photo, .participants--owner--photo{
+.member__photo, .owner__photo{
   width: 70px;
   height: 70px;
   background-position: center;
   border-radius: 50%;
   margin: auto;
 }
-.participants--owner, .participants--member{
+.participants__owner, .participants__member{
   margin-right: 10px;
 }
-.participants--owner--photo{
+.owner__photo{
   border: 2px solid red;
 }
 </style>

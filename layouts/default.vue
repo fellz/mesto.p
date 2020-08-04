@@ -2,7 +2,7 @@
   <div id="toplevel">
     <top-menu />
     <div class="nuxt-wrapper">
-      <nuxt class="nuxt" />
+      <nuxt class="nuxt container" />
     </div>
     
   </div>
@@ -34,9 +34,6 @@ body {
   box-sizing: border-box;
   margin: 0;
 }
-section{
-  margin: 10px 0;
-}
 
 .button--green {
   display: inline-block;
@@ -66,9 +63,18 @@ section{
   color: #fff;
   background-color: #35495e;
 }
+
+/* Custom css */
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 970px;
+    }
+}
+section{
+  margin: 10px 0;
+}
 .nuxt{
-  margin: 0 auto 0;
-  width: 70%;
   padding-top:50px;
   padding-bottom: 50px;
 

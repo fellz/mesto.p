@@ -1,6 +1,7 @@
 <template>
   <div>
     <h4>Заявки </h4>
+    <hr/>
     <div v-for="req of project.team_requests" :key="req.id">
       {{ req.name }}
       <button class="btn btn-primary" @click="joinProject(req)">Принять</button>

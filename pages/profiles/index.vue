@@ -1,29 +1,32 @@
 <template>
   <div>
-    <h4>Участники</h4>
-    <multiselect 
-      v-model="value" 
-      placeholder="Search or add a tag" 
-      label="name" track-by="code" 
-      :options="options" 
-      :multiple="true" 
-     >
-    </multiselect>
-    <!-- sort -->
-    <div :class="$style.profiles_sort">
-      <span>Сортировать список :</span>
-      <label>По рейтингу</label>
-      <input type="checkbox"
-      v-model="social"
-      @change="socialSelect()"
-       />
+    <div class="profiles">
+      <h4>Участники</h4>
+      <!-- Skill search -->
+      <multiselect 
+        v-model="value" 
+        placeholder="Выберите навык" 
+        label="name" track-by="code" 
+        :options="options" 
+        :multiple="true" 
+      >
+      </multiselect>
+      <!-- sort -->
+      <div class="profiles__sort">
+        <span>Сортировать список :</span>
+        <label>По рейтингу</label>
+        <input type="checkbox"
+        v-model="social"
+        @change="socialSelect()"
+        />
+      </div>
+      <!-- profiles -->
+      <div  v-for="profile of profiles" :key="profile.id">
+        <short-profile :profile="profile" />
+      </div>
+      <!-- pagination --> 
+      <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
     </div>
-    <!-- profiles -->
-    <div  v-for="profile of profiles" :key="profile.id">
-      <short-profile :profile="profile" />
-    </div>
-    <!-- pagination --> 
-    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
   </div>
 </template>
 
@@ -119,8 +122,8 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
-.profiles_sort {
+<style>
+.profiles__sort {
   margin-top: 10px;
   margin-bottom: 10px;
 }

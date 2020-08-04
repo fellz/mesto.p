@@ -1,16 +1,16 @@
 <template>
   <div class="row">
-    <div class="col-4">
+    <div class="col-sm-5">
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" :href="'#list-home'+project.id" role="tab" aria-controls="home"
-        >Кто_нужен</a>
+        >Кто нужен</a>
         <a class="list-group-item list-group-item-action" id="list-teams-list" data-toggle="list" :href="'#list-teams'+project.id" role="tab" aria-controls="home"
         >Участники</a>
         <a class="list-group-item list-group-item-action" id="list-skills-list" data-toggle="list" :href="'#list-skills'+project.id" role="tab" aria-controls="home"
         >Команды</a>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-sm-7">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" :id="'list-home'+project.id" role="tabpanel" aria-labelledby="list-home-list">
           <div v-for="skill of project.project_skills" :key="skill.id">

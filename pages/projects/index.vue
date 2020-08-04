@@ -1,5 +1,5 @@
 <template>
-  <div class="projects">
+  <div>
     <div v-for="project of projects" :key="project.id"  >
       <short-project :project="project" />
     </div>
@@ -45,19 +45,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.card_margin {
-  margin-bottom: 30px;
-}
-.project_name {
-  font-weight: bold;
-  font-size: 24px;
-}
-.profiles {
-  margin-left: 10px;
-}
-.projects_paging_margin {
-  margin-right: 5px;
-}
-</style>

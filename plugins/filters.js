@@ -27,6 +27,6 @@ Vue.filter('formatDate', val => {
   } else if (diffHour < 1) {
     return `${diffMin} min. ago`;
   } else {
-    return `${dayOfMonth}.${month}.${year} ${hour}:${minutes}`;
+    return `${dayOfMonth}.${month}.${year}`;
   }
 })

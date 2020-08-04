@@ -3,14 +3,14 @@
     <div class="profile--wrapper">
       <aside class="profile__aside">
         <img :src="avatar"  />
-        <div>{{profile.country}}</div>
-        <div>{{profile.city}}</div>
-        <div v-if="profile.age || profile.age !== 0">{{profile.age}}</div>
+        <div class="font-weight-bold">{{profile.country}}</div>
+        <div class="font-weight-bold">{{profile.city}}</div>
+        <div v-if="profile.age || profile.age !== 0" class="font-weight-bold">{{profile.age}}</div>
       </aside>
       <main>
         <header class="main__header">
           <h5>{{ profile.fullname }}</h5>
-          <div v-if="profile.social > 0" class="header__social">{{ profile.social }} Спасибо</div>
+          <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
         </header>
         <section>
           {{ profile.about }}
@@ -23,7 +23,7 @@
           </div>
         </section>
         <section v-if="profile.url" >
-          <h4>Как связаться</h4>
+          <h5>Как связаться</h5>
           <hr/>
           <a :href="profile.url">{{ profile.url }}</a>
         </section>
@@ -143,18 +143,8 @@ export default {
   .profile__aside {
     margin-right: 20px;
   }
-    .profile__aside div {
-      font-weight: bold;
-    }
   .main__header {
     display:flex;
     justify-content: space-between;
-  }
-    .header__social{
-      font-weight: bold;
-    }
-  .profile__about {
-    background-color: #f5f3f38f;
-    padding: 10px;
   }
 </style>

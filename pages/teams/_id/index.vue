@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="team-wrapper">
-      <div class="team_main">
-        <div class="team_main_header">
-          <div class="team_main_header_time text-muted">Создана: {{ team.created_at | formatDate }}</div>
-        </div>
-        <div class="team_main_name">
+    <div class="row team">
+      <main class="col-sm-6">
+        <header>
+          <div class="text-muted">Создана: {{ team.created_at | formatDate }}</div>
+        </header>
+        <section class="team_main_name">
           <h4>{{  team.name }}</h4>
           <div>
             <nuxt-link
@@ -13,29 +13,28 @@
             :to="'/teams/' + team.id+'/edit'"
             >Редактировать</nuxt-link>
           </div>
-        </div>
+        </section>
         <p>{{ team.about }}</p>
-      </div>
-      <div class="team_aside">
-        <div v-if="managerFilter(team)" class="team_aside_manage">
+      </main>
+      <aside class="col-sm-6">
+        <section v-if="managerFilter(team)">
           <h4>Управление</h4>
           <hr/>
           <nuxt-link
             class="btn btn-primary team_aside_manage_edit_skills"
             :to="'/teams/'+team.id+'/requests'"
           >Заявки в команду</nuxt-link>
-        </div>
+        </section>
         <h4>Участники команды</h4>
         <hr/>
-
+        <!-- Component --> 
         <participants :owner_profile="team.leader" :resource="team" />
-        
-        <div v-if="sendReqFilter(team)" class="team_aside_skills" >
+        <section v-if="sendReqFilter(team)" class="team_aside_skills" >
           <h4>Заявка в команду </h4>
           <hr/>
           <button class="btn btn-primary" @click="sendTeamReq(team)">Отправить</button>
-        </div>
-      </div>
+        </section>
+      </aside>
     </div> 
   </div>
 </template>
@@ -107,47 +106,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.team-wrapper{
-  display: flex;
-}
-.team_main{
-  width: 60%;
-  padding-right: 50px;
-}
-.team_main_header{
-  display:flex;
-  justify-content: space-between;
-  margin-bottom:20px;
-}
-.team_main_header_status{
-  padding:0 10px 0 10px;
-  background-color: gray;
-  color:white;
-}
-.team_main_name{
-  display: flex;
-}
-.team_main_name div{
-  margin-left: 30px;
-}
-.team_aside{
-  width: 40%;
-}
-.team_aside_manage{
-  margin-bottom:10px;
-}
-.team_aside_manage a{
-  margin-right:5px;
-}
-.team_aside_edit_skills{
-  margin-left: 100px;
-}
-.team_edit_stage{
-  float: right;
-}
-.team_aside_skills{
-  margin-top: 20px;
-}
-</style>

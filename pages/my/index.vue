@@ -3,45 +3,37 @@
     <h4>Профиль</h4>
     <hr />
     <div class="myprofile">
-      <div class="myprofile_photo">
-        <div><nuxt-link to="/my/edit_photo">изменить фото</nuxt-link></div>
+      <aside class="myprofile__aside">
+        <div><nuxt-link to="/my/edit/photo">изменить фото</nuxt-link></div>
         <div>
           <img :src=" url + profile.avatar" />
         </div>
-        <div>
-          <span>Страна:</span>
+        <div class="font-weight-bold">
           {{ profile.country }}
         </div>
-        <div>
-          <span>Город:</span>
+        <div class="font-weight-bold">
           {{ profile.city }}
         </div>
-        <div>
-          <span>Возраст:</span>
+        <div v-if="profile.age" class="font-weight-bold">
+          Возраст
           {{ profile.age }}
         </div>
-        <hr />
-      </div>
-      <div class="myprofile_main">
-        <p>
-          <span class="myprofile_main-name">{{ profile.fullname }}</span>
-          <nuxt-link to="/my/edit_main">изменить описание</nuxt-link>
-        </p>
-        <div class="myprofile_main-background">
-          <p>
-            <span>
-              <b>О себе:</b>
-            </span>
-            {{ profile.about }}
-          </p>
-          <p>
-            <b>Мой сайт</b>
-            <a :href="profile.url" target="_blank">{{ profile.url }}</a>
-          </p>
-        </div>
-      </div>
+      </aside>
+      <main class="myprofile__main">
+        <header class="main__title">
+          <h4>{{ profile.fullname }}</h4>
+          <nuxt-link to="/my/edit/">изменить описание</nuxt-link>
+        </header>
+        <section >
+          {{ profile.about }}
+        </section>
+        <section>
+          <b>Cайт: </b>
+          <a :href="profile.url" target="_blank">{{ profile.url }}</a>
+      </section>
+      </main>
     </div>
-    <div class="row">
+    <footer class="row profile__footer">
       <div class="col-4">
         <div class="list-group" id="list-tab" role="tablist">
           <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"
@@ -116,10 +108,7 @@
 
         </div>
       </div>
-    </div>
-  <div>
-      
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -149,31 +138,15 @@ export default {
 .myprofile {
   display: flex;
 }
-.myprofile_main{
-  width: 80%
-}
-.myprofile_main-background {
-  background-color: #f5f3f38f;
-  padding: 10px;
-}
-.myprofile_main-name {
-  margin-right: 10px;
-  font-size: 2rem;
-}
-.myprofile_photo {
-  margin-right: 20px;
-}
-.myprofile_photo span {
-  font-weight: bold;
-}
-.myprofile_skill {
-  margin-right: 10px;
-  color: blue;
-  background-color: rgb(210, 210, 210);
-}
-.myprofile_skills-font{
-  font-size: 20px;
-  font-weight: bold;
-}
+  .myprofile__aside{
+    margin-right: 20px;   
+  }
+.main__title{
+    display: flex;
+    justify-content: space-between;
+  }  
+.profile__footer{
+  margin-top: 20px;
+}  
 
 </style>

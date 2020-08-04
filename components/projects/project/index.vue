@@ -1,73 +1,74 @@
   <template>
-  <div>
-    <div class="project_wrapper">
-      <div class="project_main">
-        <div class="project_main--header">
-          <div class="text-muted">Создан: {{ project.created_at | formatDate }}</div>
-          <div class="project_main--header--status">Статус: {{ project.stage }} </div>
-        </div>
-        <div class="project_main--name">
-          <h4>{{ project.name }}</h4>
-          <div class="project_main--edit">
-            <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/edit'">Редактировать</nuxt-link>
-          </div>
-        </div>
-        <p>{{ project.description }}</p>
-      </div>
-      <aside class="project_aside">
-        <div v-if="managerFilter(project)" class="project_aside--manage">
-          <h4>Управление</h4>
-          <hr/>
-          <nuxt-link
-            class="btn btn-primary"
-            :to="'/projects/' + project.id+'/team_reqs'"
-          >Команды</nuxt-link>
-          <nuxt-link
-            class="btn btn-primary"
-            :to="'/projects/' + project.id+'/edit_skills'"
-          >Вакансии</nuxt-link>
-        </div>
-        <div>
-          <h4>Команда проекта</h4>
-          <hr/>
-          <participants :owner_profile="project.owner" :resource="project"/>
-        </div>
-        <div class="project_aside--skills">
-          <h4>Кто нужен в проект: </h4>
-          <hr/>
-          <div v-for="skill of project.project_skills" :key="skill.id">
-            {{ skill.name }} <span class="project_aside--skills--pay">({{skill.pay ? "платим" : "волонтер"}})</span>
-            <a href=""
-                v-if="skillReqFilter(skill, project) "
-                @click.prevent="projectRequest(skill.id)"
-              >Заявка</a>
-          </div>
-        </div>
-        <div v-if="project.url || project.url_presentation ">
-          <h4>Ссылки: </h4>
-          <hr/>
-          <p><a :href="project.url" target="_blank" >{{project.url}}</a></p>
-          <p><a :href="project.url_presentation" target="_blank" >{{project.url_presentation}}</a></p>
-        </div>
-        <div class="project_aside--teams">
-          <h4>Команды в проекте: </h4>
-          <hr/>
-          <div v-for="team of project.teams" :key="team.id">
-            <nuxt-link :to="'/teams/' + team.id">{{ team.name }}</nuxt-link>
-          </div>
-          <button
-            v-if="teamReqFilter(project)"
-            class="btn btn-outline-primary dropdown-toggle req_button--margin"
-            type="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >Заявка команды</button>
-          <div class="dropdown-menu">
-            <a v-for="t of teams" :key="t.id" class="dropdown-item dropdown--pointer" @click.prevent="teamRequest(project, t)"
-            >{{t.name}}</a>
-          </div>
-        </div>
+    <div>
+      <div class="row project">
+        <main class="col-sm-7 project__main">
+          <header class="main__header">
+            <div class="text-muted">Создан: {{ project.created_at | formatDate }}</div>
+            <div class="header__status">Статус: {{ project.stage }} </div>
+          </header>
+          <section class="main__title">
+            <h4>{{ project.name }}</h4>
+            <div class="title__project_edit">
+              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/edit/'">Редактировать</nuxt-link>
+            </div>
+          </section>
+          <section>{{ project.description }}</section>
+        </main>
+        <aside class="col-sm-5 project__aside">
+          <section v-if="managerFilter(project)">
+            <h4>Управление</h4>
+            <hr/>
+            <nuxt-link
+              class="btn btn-primary"
+              :to="'/projects/' + project.id+'/team_reqs'"
+            >Команды</nuxt-link>
+            <nuxt-link
+              class="btn btn-primary"
+              :to="'/projects/' + project.id+'/edit/skills'"
+            >Вакансии</nuxt-link>
+          </section>
+          <section>
+            <h4>Команда проекта</h4>
+            <hr/>
+            <!-- participants component -->
+            <participants :owner_profile="project.owner" :resource="project"/>
+          </section>
+          <section v-if="project.project_skills && project.project_skills > 0">
+            <h4>Кто нужен в проект: </h4>
+            <hr/>
+            <div v-for="skill of project.project_skills" :key="skill.id">
+              {{ skill.name }} <span class="font-weight-bold">({{skill.pay ? "платим" : "волонтер"}})</span>
+              <a href=""
+                  v-if="skillReqFilter(skill, project) "
+                  @click.prevent="projectRequest(skill.id)"
+                >Заявка</a>
+            </div>
+          </section>
+          <section v-if="project.url || project.url_presentation ">
+            <h4>Ссылки: </h4>
+            <hr/>
+            <p>Сайт: <a :href="project.url" target="_blank" >{{project.url}}</a></p>
+            <p>Презентация: <a :href="project.url_presentation" target="_blank" >{{project.url_presentation}}</a></p>
+          </section>
+          <section v-if="project.teams && project.teams.length > 0" class="aside__teams">
+            <h4>Команды в проекте: </h4>
+            <hr/>
+            <div v-for="team of project.teams" :key="team.id">
+              <nuxt-link :to="'/teams/' + team.id">{{ team.name }}</nuxt-link>
+            </div>
+            <button
+              v-if="teamReqFilter(project)"
+              class="btn btn-outline-primary dropdown-toggle teams__request_button"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Заявка команды</button>
+            <div class="dropdown-menu">
+              <a v-for="t of teams" :key="t.id" class="dropdown-item teams__dropdown_pointer" @click.prevent="teamRequest(project, t)"
+              >{{t.name}}</a>
+            </div>
+          </section>
       </aside>
     </div> 
   </div>
@@ -78,7 +79,7 @@ import axios from "axios";
 import Participants from "~/components/common/participants.vue";
 
 export default {
-  name: "ProjectMain",
+  name: "Project",
   components:{
     Participants
   },
@@ -204,57 +205,38 @@ export default {
         options
       );
       this.getProject();   
-      //this.$store.dispatch("getItems", {resource: 'projects', start: 0} );
     },
   } 
 };
 </script>
 
 <style>
-.project_wrapper{
-  display: flex;
-}
-.project_main{
-  width: 55%;
-  padding-right: 50px;
-}
-.project_main--header{
-  display:flex;
-  justify-content: space-between;
-  margin-bottom:20px;
-}
-.project_main--header--status{
-  padding:0 10px 0 10px;
-  background-color: gray;
-  color:white;
-}
-.project_main--name{
-  display: flex;
-}
-.project_main--edit{
-  margin-left: 20px;
-}
-.project_aside--skills--pay{
-  font-weight: bold;
-}
-.project_aside--manage{
-  margin-bottom:10px;
-}
-.project_aside--manage a{
-  margin-right:5px;
-}
-.project_aside--team--flex {
-  display: flex;
-  flex-flow: wrap;
-}
-.project_aside--skills{
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.project_aside--teams .req_button--margin{
-  margin-top: 10px;
-}
-.project_aside--teams .dropdown--pointer{
-  cursor: pointer;
-}
+  .project__main{
+    width: 55%;
+    padding-right: 50px;
+  }
+    .main__header{
+      display:flex;
+      justify-content: space-between;
+      margin-bottom:20px;
+    }
+      .header__status{
+        padding:0 10px 0 10px;
+        background-color: gray;
+        color:white;
+      }
+    .main__title{
+      display: flex;
+    }
+      .title__project_edit{
+        margin-left: 20px;
+      }
+    .teams__dropdown_pointer{
+      cursor: pointer;
+    }
+  .project__aside{
+    background-color: white;
+    padding: 20px;
+    border-radius: 7px;
+  }
 </style>
