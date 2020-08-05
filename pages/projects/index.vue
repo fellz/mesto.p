@@ -8,6 +8,7 @@
 </template>
 
 <script>
+// to reload mesto
 import axios from "axios";
 import ShortProject from "~/components/projects/short_project/index.vue";
 import Pagination from "~/components/common/pagination.vue";
