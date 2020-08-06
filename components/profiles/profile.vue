@@ -141,7 +141,7 @@ export default {
   display: flex;
 }
   .profile__aside {
-    margin-right: 20px;
+    padding-right: 20px;
   }
   .main__header {
     display:flex;

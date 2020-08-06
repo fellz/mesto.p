@@ -139,7 +139,7 @@ export default {
   display: flex;
 }
   .myprofile__aside{
-    margin-right: 20px;   
+    padding-right: 20px;   
   }
 .main__title{
     display: flex;
