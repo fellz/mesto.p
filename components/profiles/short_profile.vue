@@ -19,7 +19,7 @@
       <section>
         <v-clamp autoresize :max-lines="4">{{ profile.about }}</v-clamp>
       </section>
-      <footer class="main__skills" v-if="!hasSkills">
+      <footer class="main__skills" v-if="hasSkills">
         <span class="font-weight-bold">Навыки:</span>
         <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
           {{skill.skill}}
@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     hasSkills() {
-      return this.profile.skills.length === 0;
+      return this.profile.skills.length > 0;
     },
   },
   components: {

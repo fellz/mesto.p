@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="profile--wrapper">
-      <aside class="profile__aside">
+    <div class="row profile">
+      <aside class="col-sm-3 profile__aside">
         <img :src="avatar"  />
         <div class="font-weight-bold">{{profile.country}}</div>
         <div class="font-weight-bold">{{profile.city}}</div>
         <div v-if="profile.age || profile.age !== 0" class="font-weight-bold">{{profile.age}}</div>
       </aside>
-      <main>
+      <main class="col-sm-9">
         <header class="main__header">
           <h5>{{ profile.fullname }}</h5>
           <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
@@ -22,10 +22,16 @@
             <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
           </div>
         </section>
-        <section v-if="profile.url" >
+        <section v-if="profile.url && profile.url !=0" >
           <h5>Как связаться</h5>
           <hr/>
           <a :href="profile.url">{{ profile.url }}</a>
+        </section>
+        <section v-if="profile.skills && profile.skills.length > 0 ">
+          <span class="font-weight-bold">Навыки:</span>
+          <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
+            {{skill.skill}}
+          </span>
         </section>
         <section>
           <button
@@ -63,7 +69,6 @@ export default {
     avatar(){
       return this.profile.avatar ? this.url + this.profile.avatar.formats.thumbnail.url : this.url + process.env.defAvatar
      },
-  
   },
   methods: {
     async getProfile(){
@@ -113,7 +118,6 @@ export default {
         sb = false
       }
       return sb
-
     },
     isUser(prof){
       return !(this.$store.state.userProfile.id === prof.id)
@@ -126,25 +130,21 @@ export default {
       }
       return contact_exist;
     }
-  },
-  //  watch: {
-  //     "$store.state.userProfile": function() {
-  //       this.profile = this.$store.state.userProfile;
-  //     }
-  //   },
-
+  }
 };
 </script>
 
 <style>
-.profile--wrapper {
-  display: flex;
-}
   .profile__aside {
     padding-right: 20px;
   }
   .main__header {
     display:flex;
     justify-content: space-between;
+  }
+  .skills__name{
+    margin-right: 10px;
+    color: blue;
+    background-color: rgb(210, 210, 210);
   }
 </style>
