@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const baseUrl = process.env.baseUrl;
+
 export const state = () => ({
   authUser: null,
   projects: [],
@@ -35,7 +37,7 @@ export const actions = {
   },
   async login ({ commit }, { identifier, password }) {
     try {
-      const { data } = await axios.post(`${process.env.baseUrl}/auth/local`, { identifier, password })
+      const { data } = await axios.post(`${baseUrl}/auth/local`, { identifier, password })
       commit('SET_USER', data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -46,36 +48,26 @@ export const actions = {
   },
   async logout ({ commit }) {
     commit('SET_USER', null)
+    commit('SET_USER_PROFILE', null)
   },
   async setProject({ commit }, {id}){
     const options ={
       headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}
     } 
-    console.log('Setting project')
-    const { data } = await axios.get(`${process.env.baseUrl}/projects/${id}`,
+    const { data } = await axios.get(`${baseUrl}/projects/${id}`,
     options);
     commit('SET_PROJECT', data)
-  }
-  ,
-  async getProfile({commit}){
-    const options ={
-      headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}
-    } 
-    const { data } = await axios.get(`${process.env.baseUrl}/users/me`,options);
-    const { data: profile } = await axios.get(`${process.env.baseUrl}/profiles/${data.profile}`,options); // data.profile -> profile id
+  },
+  async getMyProfile({state, commit}){
+    const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.userProfile.id}`); // data.profile -> profile id
+    commit('SET_USER_PROFILE', profile)
+  },// set profile after login
+  async setProfileAfterLogin({state, commit}){
+    const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.authUser.user.id}`); // data.profile -> profile id
     commit('SET_USER_PROFILE', profile)
   },
   setProfile({commit}, { profile }){
     commit('SET_USER_PROFILE', profile)
-  },
-  async getItems ({ commit}, {resource, start }) {
-    
-    const { data } = await axios.get(`${process.env.baseUrl}/${resource}?_start=${start}&_limit=5&_sort=created_at:DESC`);
-    if(resource === "projects"){
-      commit('SET_PROJECTS', data)
-    }else{
-      commit('SET_PROFILES', data)
-    }
   }
 
 }

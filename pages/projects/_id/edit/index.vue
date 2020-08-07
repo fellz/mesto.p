@@ -10,6 +10,7 @@ import ProjectEdit from "~/components/projects/project/edit/index.vue";
 export default {
   components: {
     ProjectEdit
-  }
+  },
+  middleware: ["auth"]
 }
 </script>

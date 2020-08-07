@@ -16,7 +16,7 @@
         <!-- Participants component -->
         <participants :owner_profile="team.leader" :resource="team" />
         
-        <section class="aside__projects">
+        <section class="aside__projects" v-if="team.projects.length > 0">
           <h5>Участвует в проектах</h5>
           <hr/>
           <span v-for="proj of team.projects" :key="proj.id">

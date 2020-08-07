@@ -1,17 +1,17 @@
 <template>
   <div>
+    <h4>
+      <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
+    </h4>
+    <hr/>
     <div class="row">
       <main class="col-sm-6">
-        <h4>
-          <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-        </h4>
-        <hr/>
         <h5> Вакансии </h5>
-        <main class="project_edit_skills_main">
+        <main class="project_edit_skills__main">
           <section class="main__vacancy"  v-for="s of project.project_skills" :key="s.id"> 
             <header class="row vacancy__header">
               <h5 class="col-sm-4">{{s.name}}</h5> 
-              <div class="col-sm-4 text-left header__pay">{{ s.pay === true ? "платим" : "волонтер" }}</div>
+              <div class="col-sm-4 text-left"><span class="header__pay">{{ s.pay === true ? "платим" : "волонтер" }}</span></div>
               <div class="col-sm-4 text-right">
                 <button v-if="s.filled != true" class="btn btn-primary" @click="foundSkillClose(s)">Закрыть </button>
                 <button v-else class="btn btn-primary" @click="foundSkillOpen(s)">Открыть </button>
@@ -24,10 +24,11 @@
           </section>
         </main>
       </main>
-      <aside class="project--edit_skills--participants">
+      <aside>
         <section>
           <form @submit.prevent="addSkill" method="post"> 
             <h5>Кто нужен в проект:</h5>
+            <hr/>
             <label>Платим?</label>
             <input type="checkbox" v-model="pay" />
             <p>
@@ -51,7 +52,7 @@
 
 <script>
 import axios from "axios";
-import ProjectRequests from "~/components/projects/project/edit/projectRequests";
+import ProjectRequests from "~/components/projects/project/vacancies/projectRequests";
 import Participants from "~/components/common/participants.vue";
 
 export default {
@@ -70,7 +71,6 @@ export default {
     ProjectRequests,
     Participants
   },
-  middleware: ["auth"],
   created(){
     this.getSkills()
     this.getProject();

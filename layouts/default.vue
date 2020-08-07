@@ -72,7 +72,7 @@ body {
     }
 }
 section{
-  margin: 10px 0;
+  margin: 20px 0;
 }
 .nuxt{
   padding-top:50px;

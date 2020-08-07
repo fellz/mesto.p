@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="managerFilter(project)">
     <h4>Заявки </h4>
     <hr/>
     <div v-for="req of project.team_requests" :key="req.id">
@@ -13,7 +13,7 @@
 import axios from "axios";
 
 export default {
-  name: "TeamRequests",
+  name: "TeamRequestsManager",
   data(){
     return {
       project: {},
@@ -21,9 +21,20 @@ export default {
     }
   },
   async fetch(){
-    this.getProject()
+    await this.getProject()
   },
   methods:{
+    managerFilter(project){
+      return this.$store.state.authUser && this.isOwner(project)
+    },
+    isOwner(project){
+      let owner = false;
+      // need to check for null  project.owner !!! ((
+      if(project.owner){
+        owner = project.owner.id === this.$store.state.userProfile.id;  
+      }
+      return owner
+    },
     async getProject(){
       const { data } = await axios.get(`${this.url}/projects/${this.$route.params.id}`)
       this.project = data

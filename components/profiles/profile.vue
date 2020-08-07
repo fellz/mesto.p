@@ -37,13 +37,13 @@
           <button
             type="button"
             class="btn btn-primary"
-            v-if="this.$store.state.authUser && !inContacts(profile) && !(profile.id === this.$store.state.authUser.user.profile.id)"
+            v-if="addToContactsFilter(profile)"
             @click="addToContacts(profile)"
           >В контакты</button>
           <button
             type="button"
             class="btn btn-primary"
-            v-if="this.$store.state.authUser && filterSocial(profile) && isUser(profile)"
+            v-if="this.$store.state.authUser && filterSocial(profile) && !loggedUserFilter(profile)"
             @click="upSocial(profile)"
           >Спасибо</button>
         </section>
@@ -62,8 +62,13 @@ export default {
       url: process.env.baseUrl
     }
   }, 
-  created(){
-    this.getProfile();
+  // created(){
+  //   this.getProfile();
+  // },
+  async fetch(){
+    // const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
+    // this.profile = data;
+    await this.getProfile()
   },
   computed:{
     avatar(){
@@ -74,6 +79,10 @@ export default {
     async getProfile(){
       const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
       this.profile = data;
+    },
+    // Show only to Authorized & Not in Contacts already & not myself
+    addToContactsFilter(profile){
+      return this.$store.state.authUser && !this.inContacts(profile) && !this.loggedUserFilter(profile)
     },
     async addToContacts(profile) {
       // we add user to contacts, contacts recives only users
@@ -88,8 +97,18 @@ export default {
         { contacts: new_contacts },
         options
       );
-      this.$store.dispatch("getProfile");
+      this.$store.dispatch("getMyProfile");
       
+    },
+    filterSocial(prof){
+      let sb = true
+      const profs = this.$store.state.userProfile.social_trackers
+      const whoms = profs.map(p => p.profile_whom) // [1,3,4]
+      const in_social = whoms.some(w => w === prof.id)
+      if (in_social){
+        sb = false
+      }
+      return sb
     },
     async upSocial(profile) {
       const options = {
@@ -106,21 +125,11 @@ export default {
         { social: profile.social += 1   },
         options
       );
-      this.$store.dispatch("getProfile");
+      this.$store.dispatch("getMyProfile"); // update MyProfile data
       
-    },
-    filterSocial(prof){
-      let sb = true
-      const profs = this.$store.state.userProfile.social_trackers
-      const whoms = profs.map(p => p.profile_whom) // [1,3,4]
-      const in_social = whoms.some(w => w === prof.id)
-      if (in_social){
-        sb = false
-      }
-      return sb
-    },
-    isUser(prof){
-      return !(this.$store.state.userProfile.id === prof.id)
+    }, // Service functions
+    loggedUserFilter(prof){
+      return (this.$store.state.userProfile.id === prof.id)
     },
     inContacts(profile) {
       let mycontacts = this.$store.state.userProfile.contacts;

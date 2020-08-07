@@ -44,7 +44,7 @@ export default {
         this.password = ''
         this.formError = null
         this.wait = false
-        this.$store.dispatch("getProfile")
+        this.$store.dispatch("setProfileAfterLogin")
         this.$nuxt.$router.replace({ path: '/projects'})
       } catch (e) {
         this.formError = e.message
