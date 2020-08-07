@@ -24,6 +24,7 @@
 import axios from "axios";
 
 export default {
+  name: "ProjectRequests",
   props: {
     skill: Object
   },

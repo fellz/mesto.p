@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="row profile">
-      <aside class="col-sm-2 profile__aside">
+      <aside class="col-sm-3 profile__aside">
         <img :src="avatar"  />
         <div class="font-weight-bold">{{profile.country}}</div>
         <div class="font-weight-bold">{{profile.city}}</div>
         <div v-if="profile.age || profile.age !== 0" class="font-weight-bold">{{profile.age}}</div>
       </aside>
-      <main class="col-sm-10">
+      <main class="col-sm-9">
         <header class="main__header">
           <h5>{{ profile.fullname }}</h5>
           <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>

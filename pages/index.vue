@@ -8,7 +8,7 @@
 
 export default {
   created(){
-    this.$nuxt.$router.replace({ path: '/projects'});
+    this.$nuxt.$router.replace('/projects');
   }
 };
 </script>

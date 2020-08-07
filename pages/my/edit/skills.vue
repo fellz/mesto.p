@@ -1,60 +1,16 @@
 <template>
-  <section class="profile_edit_skills">
-    <h5>Навыки:</h5>
-    <select
-      v-model="selected"
-      class="custom-select"
-      style="height:100%; margin-left:10px;"
-      multiple
-    >
-      <option disabled value>Выберите несколько вариантов</option>
-      <option v-for="skill of skills" :key="skill.id" :value="skill.id">{{skill.skill}}</option>
-    </select>
-    <input
-      type="submit"
-      class="btn btn-primary edit_skills-button_margin"
-      @click="skillChoosen"
-      value="Изменить"
-    />
-  </section>
+  <div>
+    <profile-skills />
+  </div>
 </template>
 
 <script>
-import axios from "axios";
+import ProfileSkills from "~/components/my/edit/skills.vue";
 
 export default {
-  data() {
-    return {
-      skills: [],
-      selected: []
-    };
+  components:{
+    ProfileSkills
   },
-  async fetch() {
-    const { data } = await axios.get(`${process.env.baseUrl}/skills`);
-    this.skills = data;
-  },
-  methods: {
-    async skillChoosen() {
-      const skills = this.selected;
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await axios.put(
-        `${process.env.baseUrl}/profiles/${this.$store.state.userProfile.id}`,
-        { skills },
-        options
-      );
-      this.$router.replace({ path: "/my" });
-    }
-  }
+  middleware: ["auth"],
 };
 </script>
-
-<style>
-.profile_edit_skills {
-  height: 400px;
-}
-.edit_skills-button_margin{
-  margin-top: 20px;
-}
-</style>
