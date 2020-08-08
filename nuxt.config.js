@@ -8,7 +8,6 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' },
-      { name:"yandex-verification", content: "6b9d1ddb8e384195" }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -61,10 +60,14 @@ module.exports = {
     vendor: ['axios'],
     transpile: ['vue-clamp', 'resize-detector']
   },
-  plugins: ['~plugins/filters.js'],
+  plugins: [
+    '~plugins/filters.js',
+    '~/plugins/axios'
+  ],
   modules: [
     '@nuxtjs/style-resources',
     'nuxt-webfontloader',
+    '@nuxtjs/axios',
   ],
 }
 

@@ -65,7 +65,7 @@ export default {
   methods: {
     // get skills for select
     async getSkills(){
-      const { data } = await axios.get(`${this.baseUrl}/skills`);
+      const data = await this.$axios.$get(`/skills`);
       this.options = data.map(s => {
         const id = s.id;
         const skill = s.skill;
@@ -74,10 +74,10 @@ export default {
     },
     // default method to take profiles
     async getProfiles(start) {
-      //const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      //this.profiles = data;
-      const res = await fetch(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.profiles = await res.json()
+      const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.profiles = data;
+     // const res = await fetch(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      // this.profiles = await res.json()
     },
     // for pagination
     async getAllProfiles() {

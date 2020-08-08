@@ -44,7 +44,11 @@ export default {
         this.password = ''
         this.formError = null
         this.wait = false
-        this.$store.dispatch("setProfileAfterLogin")
+        // set profile
+        this.$store.dispatch("setProfileAfterLogin");
+        // set token for requests
+        this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
+        // redirect to porjects
         this.$nuxt.$router.replace({ path: '/projects'})
       } catch (e) {
         this.formError = e.message

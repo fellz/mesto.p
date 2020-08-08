@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="project_edit--wrapper">
+    <div class="project_edit">
       <p>
         Отредактируйте проект
       </p>
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "ProjectEdit",
@@ -55,13 +54,12 @@ export default {
       baseUrl: process.env.baseUrl
     };
   },
-  created(){
-    this.getProject();
+  async fetch(){
+    await this.getProject();
   },
-  middleware: ["auth"],
   methods: {
     async getProject(){
-      const { data } = await axios.get(`${this.baseUrl}/projects/${this.$route.params.id}`);
+      const data = await this.$axios.$get(`/projects/${this.$route.params.id}`);
       this.project = data
       this.stage_selected = data.stage;
     },
@@ -73,24 +71,15 @@ export default {
         url_presentation: this.project.url_presentation,
         stage: this.stage_selected,
       };
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await this.$http.put(
-        `${process.env.baseUrl}/projects/${this.$route.params.id}`,
-        proj,
-        options
-      );
-      this.$nuxt.$router.replace({
-        path: `/projects/${this.$route.params.id}`
-      });
+      const resp = await this.$axios.$put(`/projects/${this.$route.params.id}`, proj,);
+      this.$nuxt.$router.replace(`/projects/${this.$route.params.id}`);
     }
   }
 };
 </script>
 
 <style >
-.project_edit--wrapper {
+.project_edit {
   width: 50%;
 }
 </style>>

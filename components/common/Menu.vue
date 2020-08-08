@@ -22,34 +22,26 @@
           <nuxt-link to="/teams" class="nav-link">Команды</nuxt-link>
         </li>
         <li class="nav-item">
-          <b><nuxt-link v-if="$store.state.authUser" to="/projects/new" class="nav-link">Создать проект</nuxt-link></b>
+          <b><nuxt-link v-if="$store.state.authUser" to="/projects/auth/new" class="nav-link">Создать проект</nuxt-link></b>
         </li>
         <li class="nav-item">
-          <b><nuxt-link v-if="$store.state.authUser" to="/teams/new" class="nav-link">Создать команду</nuxt-link></b>
+          <b><nuxt-link v-if="$store.state.authUser" to="/teams/auth/new" class="nav-link">Создать команду</nuxt-link></b>
         </li>
       </ul>
       <nuxt-link to="/register" v-if="!$store.state.authUser" class="nav-link">Регистрация</nuxt-link>
       <nuxt-link to="/login" v-if="!$store.state.authUser" class="nav-link">Войти</nuxt-link>
       <button type="button" class="btn btn-link" v-if="$store.state.authUser" @click="logout">Выйти</button>
-      <nuxt-link to="/my" v-if="$store.state.authUser" class="nav-link">{{ full_name }}</nuxt-link>
+      <nuxt-link to="/my/auth/" v-if="$store.state.authUser" class="nav-link">{{ full_name }}</nuxt-link>
     </div>
   </nav>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      full_name: "Профиль"
-    };
-  },
-  watch: {
-    "$store.state.userProfile": function() {
-      if(this.$store.state.userProfile.fullname != null){
-        this.full_name = this.$store.state.userProfile.fullname
-      }else{
-        this.full_name = "Профиль"
-      }
+  
+  computed: {
+    full_name(){
+      return this.$store.state.userProfile ? this.$store.state.userProfile.fullname : "Профиль" 
     }
   },
   methods: {

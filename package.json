@@ -13,6 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.12.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "axios": "^0.19.2",
     "node-sass": "^4.14.1",

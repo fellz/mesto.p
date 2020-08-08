@@ -10,7 +10,9 @@ import NewProject from "~/components/projects/new.vue";
 export default {
   components: {
     NewProject
-  }  
+  },
+  middleware: ["auth"],
+
 };
 </script>
 

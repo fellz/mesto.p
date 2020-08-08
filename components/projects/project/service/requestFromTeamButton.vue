@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$store.state.userProfile">
     <!-- Заявка от команды -->
     <button
       v-if="teamRequestFilter(project)"

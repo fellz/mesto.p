@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "ProfileSkills",
@@ -28,28 +27,21 @@ export default {
     return {
       skills: [],
       selected: [],
-      baseUrl: process.env.baseUrl
     };
   },
-  created() {
-    this.getSkills()
+  async fetch() {
+    await this.getSkills()
   },
   methods: {
     async getSkills(){
-      const { data } = await axios.get(`${this.baseUrl}/skills`);
-      this.skills = data;
+      this.skills = await this.$axios.$get(`/skills`);
     },
     async skillChoosen() {
       const skills = this.selected;
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await axios.put(
-        `${this.baseUrl}/profiles/${this.$store.state.userProfile.id}`,
-        { skills },
-        options
+      const resp = await this.$axios.$put(`/profiles/${this.$store.state.userProfile.id}`,
+        { skills }
       );
-      this.$router.replace({ path: "/my" });
+      this.$router.replace({ path: "/my/auth/" });
     }
   }
 };

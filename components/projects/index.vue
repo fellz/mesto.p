@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import ShortProject from "~/components/projects/short_project/index.vue";
 import Pagination from "~/components/common/pagination.vue";
 
@@ -33,12 +32,14 @@ export default {
   },
   methods:{
      async getProjects(start){
-      const { data } = await axios.get(`${this.baseUrl}/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      //const { data } = await axios.get(`${this.baseUrl}/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      const data = await this.$axios.$get(`/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
       this.projects = data
     },
     async getAllProjects(){
-      const { data } = await axios.get(`${this.baseUrl}/projects`);
-      this.all_projects = data.length
+      //const { data } = await axios.get(`${this.baseUrl}/projects`);
+      const data = await this.$axios.$get(`${this.baseUrl}/projects`);
+      this.all_projects = data.length;
     },
     setStartPage(new_start_number){
       this.getProjects(new_start_number)

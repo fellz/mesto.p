@@ -9,7 +9,7 @@
           <section class="main__title">
             <h4>{{ project.name }}</h4>
             <div class="title__project_edit">
-              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/edit/'">Редактировать</nuxt-link>
+              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/auth/edit/'">Редактировать</nuxt-link>
             </div>
           </section>
           <section>{{ project.description }}</section>
@@ -20,11 +20,11 @@
             <hr/>
             <nuxt-link
               class="btn btn-primary"
-              :to="'/projects/' + project.id+'/teams/'"
+              :to="'/projects/' + project.id+'/auth/teams/'"
             >Команды</nuxt-link>
             <nuxt-link
               class="btn btn-primary"
-              :to="'/projects/' + project.id+'/vacancies/'"
+              :to="'/projects/' + project.id+'/auth/vacancies/'"
             >Вакансии</nuxt-link>
           </section>
           <section>

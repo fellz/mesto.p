@@ -41,23 +41,20 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   data() {
     return {
       profile: {},
       edit_ok: false,
-      baseUrl: process.env.baseUrl
     };
   },
-  created() {
-    this.getProfile();
+  async fetch() {
+    await this.getProfile();
   },
   methods: {
     async getProfile(){
-      const { data } = await axios.get(`${this.baseUrl}/profiles/${this.$store.state.userProfile.id}`);
-      this.profile = data;
+      this.profile = await this.$axios.$get(`/profiles/${this.$store.state.userProfile.id}`);
     },
     async checkForm() {
       const profile = {
@@ -68,16 +65,8 @@ export default {
         age: this.profile.age ? this.profile.age : 0 ,
         url: this.profile.url
       };
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await axios.put(
-        `${this.baseUrl}/profiles/${this.$store.state.userProfile.id}`,
-        profile,
-        options
-      );
-      
-      this.$router.replace('/my');
+      const resp = await this.$axios.$put(`/profiles/${this.$store.state.userProfile.id}`, profile);
+      this.$router.replace('/my/auth/');
     }
   }
 };
