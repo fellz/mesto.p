@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "TeamEdit",
@@ -35,21 +34,15 @@ export default {
   },
   methods: {
     async getTeam(){
-      const { data } = await axios.get(`${process.env.baseUrl}/teams/${this.$route.params.id}`);
-      this.team = data;
+      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);
     },
     async checkForm() {
       let team = {
         name: this.team.name,
         about: this.team.about,
       };
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await axios.put(
-        `${this.baseUrl}/teams/${this.$route.params.id}`,
+      const resp = await this.$axios.$put(`/teams/${this.$route.params.id}`,
         team,
-        options
       );
       this.$nuxt.$router.replace(`/teams/${this.$route.params.id}`);
     }

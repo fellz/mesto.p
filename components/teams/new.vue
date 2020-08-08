@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "NewTeam",
@@ -35,14 +34,9 @@ export default {
         name: this.team.name,
         about: this.team.about,
         leader: this.$store.state.userProfile.id
-      };
-      const options ={
-        headers: {'Authorization': `Bearer ${this.$store.state.authUser.jwt}`}
-      } 
-      const { data } = await axios.post(
-        `${process.env.baseUrl}/teams`,
-        team,
-        options
+      }; 
+      const resp = await this.$axios.$post(`/teams`,
+        team
       );
       this.$router.replace('/teams')
     }

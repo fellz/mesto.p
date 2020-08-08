@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import ProjectRequests from "~/components/projects/project/vacancies/projectRequests";
 import Participants from "~/components/common/participants.vue";
 
@@ -71,42 +70,33 @@ export default {
     ProjectRequests,
     Participants
   },
-  created(){
-    this.getSkills()
-    this.getProject();
+  async fetch(){
+    await this.getSkills()
+    await this.getProject();
   },
   methods:{
     async getSkills(){
-      const { data } = await axios.get(`${this.url}/skills`);
-      this.skills = data;
+      this.skills = await this.$axios.$get(`/skills`);
     },
     async getProject(){
-      const { data } = await axios.get(`${this.url}/projects/${this.$route.params.id}`);
-      this.project = data;
+      this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },
      async skillClose(skill){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const { data } = await axios.put(`${this.url}/project-skills/${skill.id}`,
+      const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
         {filled: true, requests: []},
-        options)
+      )
       this.getSkills();
     },
     async skillOpen(skill){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const { data } = await axios.put(`${this.url}/project-skills/${skill.id}`,
+      const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
         { filled: false },
-        options)
+      )
       this.getSkills();
     },
     itemSelected(){
       const sk = this.skills.find(s => this.selected === s.id)
       this.name = sk.skill
     },
-    
     async addSkill() {
       let proj = {
         pay: this.pay,
@@ -114,14 +104,8 @@ export default {
         skill: this.selected,
         project: parseInt(this.$route.params.id, 10),
       };
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      
-      const { data } = await axios.post(
-        `${process.env.baseUrl}/project-skills/`,
+      const resp = await this.$axios.$post(`/project-skills/`,
         proj,
-        options
       );
       this.pay = null
       this.name = ""

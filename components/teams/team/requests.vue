@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   data(){
@@ -21,8 +20,8 @@ export default {
       url: process.env.baseUrl
     }
   },
-  created(){
-    this.getTeam()
+  async fetch(){
+    await this.getTeam()
   },
   methods:{
     managerFilter(team){
@@ -37,26 +36,18 @@ export default {
       return owner
     },
     async getTeam(){
-      const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`)
-      this.team = data
+      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`)
     },
     async joinTeam(profile){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
       const new_ps = [...this.team.participants, profile.id];
       //update participants
-      const { data } = await axios.put(
-        `${this.url}/teams/${this.team.id}`,
-        { participants: new_ps },
-        options
+      const resp = await this.$axios.$put(`/teams/${this.team.id}`,
+        { participants: new_ps }
       );
       // update requests, delete profile from requests
       const new_reqs =  this.team.requests.filter(p => p.id !== profile.id)
-      const { data: req } = await axios.put(
-        `${this.url}/teams/${this.team.id}`,
-        { requests: new_reqs },
-        options
+      const req = await this.$axios.$put(`/teams/${this.team.id}`,
+        { requests: new_reqs }
       );
       this.getTeam()
     }

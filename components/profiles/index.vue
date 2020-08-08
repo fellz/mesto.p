@@ -57,10 +57,10 @@ export default {
     Pagination,
     Multiselect
   },
-  created() {
-    this.getProfiles(this.start);
-    this.getAllProfiles();
-    this.getSkills();
+  async fetch() {
+    await this.getProfiles(this.start);
+    await this.getAllProfiles();
+    await this.getSkills();
   },
   methods: {
     // get skills for select
@@ -74,14 +74,11 @@ export default {
     },
     // default method to take profiles
     async getProfiles(start) {
-      const { data } = await axios.get(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.profiles = data;
-     // const res = await fetch(`${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      // this.profiles = await res.json()
+      this.profiles = await this.$axios.$get(`/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
     },
     // for pagination
     async getAllProfiles() {
-      const { data } = await axios.get(`${this.baseUrl}/profiles`);
+      const data = await this.$axios.$get(`/profiles`);
       this.all_profiles = data.length;
     },
     // get 'start' number from pagination component
@@ -91,14 +88,14 @@ export default {
         this.searchProfiles(this.value, start)
       }
     },
+    // search profiles by skill
     async searchProfiles(skills, start) {
       let skill_string = ''
       skills.forEach(s=>{
         skill_string += 'skills.skill=' + s.name + '&'
       })
-      const { data } = await axios.get(`${this.baseUrl}/profiles?${skill_string}_start=${start === undefined ? 0 : start }&_limit=5&_sort=social:DESC`);
-      const { data: all_skills } = await axios.get(`${this.baseUrl}/profiles?${skill_string}`)
-      this.profiles = data;
+      this.profiles = await this.$axios.$get(`/profiles?${skill_string}_start=${start === undefined ? 0 : start }&_limit=5&_sort=social:DESC`);
+      const all_skills = await this.$axios.$get(`/profiles?${skill_string}`)
       this.all_profiles = all_skills.length
     },
     async socialSelect(){

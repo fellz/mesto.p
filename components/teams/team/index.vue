@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Participants from "~/components/common/participants.vue";
 
 export default {
@@ -55,13 +54,12 @@ export default {
       defAvatar: process.env.defAvatar
     };
   },
-  created() {
-    this.getTeam()
+  async fetch() {
+    await this.getTeam()
   },
   methods: {
     async getTeam(){
-      const { data } = await axios.get(`${this.url}/teams/${this.$route.params.id}`);
-      this.team = data;
+      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);
     },
     managerFilter(team){
       return this.$store.state.authUser && this.isOwner(team)
@@ -94,14 +92,11 @@ export default {
       return owner
     },
     async sendTeamReq(team){
-       const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
       const profile = this.$store.state.userProfile.id
       const new_reqs = [...team.requests, profile]
-      const { data } = await axios.put(`${this.url}/teams/${team.id}`,
-      {requests: new_reqs},
-      options)
+      const resp = await this.$axios.$put(`/teams/${team.id}`,
+        {requests: new_reqs},
+      )
       this.getTeam()
     }
   }

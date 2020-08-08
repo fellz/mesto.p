@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "TeamRequestsManager",
@@ -36,26 +35,18 @@ export default {
       return owner
     },
     async getProject(){
-      const { data } = await axios.get(`${this.url}/projects/${this.$route.params.id}`)
-      this.project = data
+      this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`)
     },
     async joinProject(team){
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
       const new_ts = [...this.project.teams, team.id];
       //update participants
-      const { data } = await axios.put(
-        `${this.url}/projects/${this.project.id}`,
-        { teams: new_ts },
-        options
+      const data  = await this.$axios.$put(`/projects/${this.project.id}`,
+        { teams: new_ts }
       );
       // update requests, delete team from requests
       const new_reqs =  this.project.team_requests.filter(t => t.id !== team.id)
-      const { data: req } = await axios.put(
-        `${this.url}/projects/${this.project.id}`,
-        { team_requests: new_reqs },
-        options
+      const req = await this.$axios.$put(`/projects/${this.project.id}`,
+        { team_requests: new_reqs }
       );
       this.getProject()
     }

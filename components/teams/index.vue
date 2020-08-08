@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import ShortTeam from "~/components/teams/short_team.vue";
 import Pagination from "~/components/common/pagination.vue";
 
@@ -27,17 +26,17 @@ export default {
       defAvatar: process.env.defAvatar  
     }
   },
-  created() {
-    this.getTeams(this.start)
-    this.getAllTeams()
+  async fetch() {
+    await this.getTeams(this.start)
+    await this.getAllTeams()
   },
   methods: {
     async getTeams(start){
-      const { data } = await axios.get(`${this.baseUrl}/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.teams = data;
+      this.teams = await this.$axios.$get(`/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
     },
+    // FIX: crazy to take all team projects or profiles
     async getAllTeams(){
-      const { data } = await axios.get(`${this.baseUrl}/teams`);
+      const { data } = await this.$axios.$get(`/teams`);
       this.all_teams = data.length
     },
     setStartPage(new_start_page){

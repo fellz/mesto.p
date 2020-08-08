@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "RequestFromTeamButton",
@@ -58,14 +57,10 @@ export default {
       return false
     },// Заявка от команды
     async teamRequest(proj, team) {
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
+     
       const reqs = [...proj.team_requests, team.id];
-      const { data } = await axios.put(
-        `${process.env.baseUrl}/projects/${proj.id}`,
-        { team_requests: reqs },
-        options
+      const data  = await this.$axios.$put(`/projects/${proj.id}`,
+        { team_requests: reqs }
       );
       this.$emit("update-project")
     },

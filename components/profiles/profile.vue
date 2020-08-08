@@ -43,7 +43,7 @@
           <button
             type="button"
             class="btn btn-primary"
-            v-if="this.$store.state.authUser && filterSocial(profile) && !loggedUserFilter(profile)"
+            v-if="spasiboFilter(profile)"
             @click="upSocial(profile)"
           >Спасибо</button>
         </section>
@@ -62,12 +62,7 @@ export default {
       url: process.env.baseUrl
     }
   }, 
-  // created(){
-  //   this.getProfile();
-  // },
   async fetch(){
-    // const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
-    // this.profile = data;
     await this.getProfile()
   },
   computed:{
@@ -77,8 +72,7 @@ export default {
   },
   methods: {
     async getProfile(){
-      const { data } = await axios.get(`${this.url}/profiles/${this.$route.params.id}`);
-      this.profile = data;
+      this.profile = await this.$axios.$get(`/profiles/${this.$route.params.id}`);
     },
     // Show only to Authorized & Not in Contacts already & not myself
     addToContactsFilter(profile){
@@ -89,17 +83,15 @@ export default {
       let contacts = this.$store.state.userProfile.contacts;
       const my_profile = this.$store.state.userProfile.id; // my profile id
       const new_contacts = [...contacts, profile.id]; // we get new array here because we cann't modify store
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
-      const resp = await axios.put(
-        `${this.url}/profiles/${my_profile}`,
+      const resp = await this.$axios.$put(`/profiles/${my_profile}`,
         { contacts: new_contacts },
-        options
       );
       this.$store.dispatch("getMyProfile");
-      
     },
+    spasiboFilter(profile){
+      return this.$store.state.authUser && this.filterSocial(profile) && !this.loggedUserFilter(profile)
+    },
+    // FIX: можно проще
     filterSocial(prof){
       let sb = true
       const profs = this.$store.state.userProfile.social_trackers
@@ -111,19 +103,12 @@ export default {
       return sb
     },
     async upSocial(profile) {
-      const options = {
-        headers: { Authorization: `Bearer ${this.$store.state.authUser.jwt}` }
-      };
       const logged_in_user_id = this.$store.state.userProfile.id
-      const resp = await axios.post(
-        `${this.url}/socials`,
+      const resp = await this.$axios.$post(`/socials`,
         { name: "spasibo", profile_whom: profile , profile_who: logged_in_user_id   },
-        options
       );
-      const resp_prof = await axios.put(
-        `${this.url}/profiles/${profile.id}`,
+      const resp_prof = await this.$axios.$put(`/profiles/${profile.id}`,
         { social: profile.social += 1   },
-        options
       );
       this.$store.dispatch("getMyProfile"); // update MyProfile data
       
@@ -134,7 +119,8 @@ export default {
     inContacts(profile) {
       let mycontacts = this.$store.state.userProfile.contacts;
       let contact_exist = false;
-      if (mycontacts.some(ct => ct.id === profile.id)) {
+      const res = mycontacts.some(ct => ct.id === profile.id);
+      if (res) {
         contact_exist = true;
       }
       return contact_exist;

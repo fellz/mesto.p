@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
 import RequestFromTeamButton from "~/components/projects/project/service/requestFromTeamButton.vue";
 import Participants from "~/components/common/participants.vue";
@@ -90,8 +89,7 @@ export default {
   },
   methods: {
     async getProject(){
-      const { data } = await axios.get(`${process.env.baseUrl}/projects/${this.$route.params.id}`);
-      this.project = data;
+      this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },
     isOwner(project) {
       return project.owner.id === this.$store.state.userProfile.id; 
