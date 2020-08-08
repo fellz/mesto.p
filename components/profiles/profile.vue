@@ -2,17 +2,16 @@
   <div>
     <div class="row profile">
       <main class="col-sm-9 profile__main">
-        <header class="main__header">
-          <div>
-            <h5>{{ profile.fullname }}</h5>
-          </div>
+        <!--<header class="main__header">
           <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
-        </header>
+        </header>-->
         <img class="main__avatar" :src="avatar"  />
-        <div class="main__city text-center ">
+        
+        <section class="main__about">
+          <div class="main__city text-left ">
           <span class="font-weight-bold">{{profile.city ? profile.city : " "}}</span>
         </div>
-        <section class="main__about">
+          <h5 class="main__fullname">{{ profile.fullname }}</h5>
           {{ profile.about }}
         </section>
         <section v-if="profile.skills && profile.skills.length > 0 ">
@@ -130,29 +129,27 @@ export default {
 </script>
 
 <style>
-  .profile__photo {
-    padding-right: 20px;
-  }
-  .main__avatar {
-    border-radius: 50%;
-    position: absolute;
-    right: 40%;
-    top: -32px;
-  }
   .main__header {
     display:flex;
     justify-content: space-between;
   }
-  .main__about {
-    background-color: #ebebeb;;
-    padding: 125px 20px 20px 20px;
-    margin-top: -31px;
+  .main__fullname {
+    margin-bottom: 19px;
   }
   .main__city{
-    position: relative;
-    top: 90px;
     color: #f96b6b;
-    height: 30px;
+    padding-bottom: 25px;
+  }
+  .main__avatar {
+    border-radius: 50%;
+    position: absolute;
+    right: 56px;
+    top: -24px;
+  }
+  .main__about {
+    background-color: #ebebeb;;
+    padding: 22px 30px 20px 35px;
+    margin-top: 53px;
   }
   .skills__name{
     margin-right: 10px;
