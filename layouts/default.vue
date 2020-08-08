@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// reload project
 import TopMenu from "~/components/common/Menu.vue";
 export default {
    components: {
