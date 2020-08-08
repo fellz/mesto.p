@@ -1,19 +1,25 @@
 <template>
   <div>
     <div class="row profile">
-      <aside class="col-sm-3 profile__aside">
-        <img :src="avatar"  />
-        <div class="font-weight-bold">{{profile.country}}</div>
-        <div class="font-weight-bold">{{profile.city}}</div>
-        <div v-if="profile.age || profile.age !== 0" class="font-weight-bold">{{profile.age}}</div>
-      </aside>
-      <main class="col-sm-9">
+      <main class="col-sm-9 profile__main">
         <header class="main__header">
-          <h5>{{ profile.fullname }}</h5>
+          <div>
+            <h5>{{ profile.fullname }}</h5>
+          </div>
           <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
         </header>
-        <section>
+        <img class="main__avatar" :src="avatar"  />
+        <div class="main__city text-center ">
+          <span class="font-weight-bold">{{profile.city ? profile.city : " "}}</span>
+        </div>
+        <section class="main__about">
           {{ profile.about }}
+        </section>
+        <section v-if="profile.skills && profile.skills.length > 0 ">
+          <span class="font-weight-bold">Навыки:</span>
+          <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
+            {{skill.skill}}
+          </span>
         </section>
         <section v-if="profile.myprojects && profile.myprojects.length > 0">
           <h5>Мои проекты:</h5>
@@ -26,12 +32,6 @@
           <h5>Как связаться</h5>
           <hr/>
           <a :href="profile.url">{{ profile.url }}</a>
-        </section>
-        <section v-if="profile.skills && profile.skills.length > 0 ">
-          <span class="font-weight-bold">Навыки:</span>
-          <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
-            {{skill.skill}}
-          </span>
         </section>
         <section>
           <button
@@ -130,12 +130,29 @@ export default {
 </script>
 
 <style>
-  .profile__aside {
+  .profile__photo {
     padding-right: 20px;
+  }
+  .main__avatar {
+    border-radius: 50%;
+    position: absolute;
+    right: 40%;
+    top: -32px;
   }
   .main__header {
     display:flex;
     justify-content: space-between;
+  }
+  .main__about {
+    background-color: #ebebeb;;
+    padding: 125px 20px 20px 20px;
+    margin-top: -31px;
+  }
+  .main__city{
+    position: relative;
+    top: 90px;
+    color: #f96b6b;
+    height: 30px;
   }
   .skills__name{
     margin-right: 10px;
