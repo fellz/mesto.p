@@ -36,8 +36,8 @@ export default {
     },
     // FIX: crazy to take all team projects or profiles
     async getAllTeams(){
-      const { data } = await this.$axios.$get(`/teams`);
-      this.all_teams = data.length
+      const data = await this.$axios.$get(`/teams/count`);
+      this.all_teams = data
     },
     setStartPage(new_start_page){
       this.getTeams(new_start_page)

@@ -78,8 +78,8 @@ export default {
     },
     // for pagination
     async getAllProfiles() {
-      const data = await this.$axios.$get(`/profiles`);
-      this.all_profiles = data.length;
+      const data = await this.$axios.$get(`/profiles/count`);
+      this.all_profiles = data;
     },
     // get 'start' number from pagination component
     setStartPage( start) {
@@ -95,8 +95,8 @@ export default {
         skill_string += 'skills.skill=' + s.name + '&'
       })
       this.profiles = await this.$axios.$get(`/profiles?${skill_string}_start=${start === undefined ? 0 : start }&_limit=5&_sort=social:DESC`);
-      const all_skills = await this.$axios.$get(`/profiles?${skill_string}`)
-      this.all_profiles = all_skills.length
+      const all_skills = await this.$axios.$get(`/profiles/count?${skill_string}`)
+      this.all_profiles = all_skills
     },
     async socialSelect(){
       // if (this.social === true){

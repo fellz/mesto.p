@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="login_container">
-      <h4>Login</h4>
+      <h4>Регистрация</h4>
       <hr />
       <form v-if="!$store.state.authUser" @submit.prevent="register">
         <p v-if="formError" class="error">{{ formError }}</p>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   data () {
@@ -47,9 +46,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      
-      const { data } = await axios.post(
-        `${process.env.baseUrl}/users`,
+      const data = await this.$axios.$post(`/users`,
         user
       );
       const profile = {
@@ -58,8 +55,7 @@ export default {
         fullname: "Иван Иванович",
         user: data.id
        }
-      const { data: profile_resp} = await axios.post(
-        `${process.env.baseUrl}/profiles`,
+      const profile_resp = await this.$axios.$post(`/profiles`,
         profile
       );
       this.$store.dispatch("setProfile", {profile: profile_resp});
