@@ -13,8 +13,10 @@ export default function ({ $axios, store, redirect }) {
       // For created method --> created works only on client
       // For fetch --> use nuxtServerInit method
 
-      // set token for requests
-      $axios.setToken(store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
+      // set token for requests only if logged in
+      if (store.state.authUser){
+        $axios.setToken(store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
+      }
 
       const token = store.state.authUser;
       // if no token in store
