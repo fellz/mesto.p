@@ -34,7 +34,6 @@ export default {
     async getTeams(start){
       this.teams = await this.$axios.$get(`/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
     },
-    // FIX: crazy to take all team projects or profiles
     async getAllTeams(){
       const data = await this.$axios.$get(`/teams/count`);
       this.all_teams = data

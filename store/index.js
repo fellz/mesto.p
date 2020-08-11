@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const baseUrl = process.env.baseUrl;
 
+
 export const state = () => ({
   authUser: null,
   projects: [],
@@ -30,9 +31,22 @@ export const mutations = {
 
 export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
-  nuxtServerInit ({ commit }, { req }) {
+  // called on the server
+  async nuxtServerInit ({ commit }, { req }) {
     if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
+    }else{
+      if (req.headers.cookie){
+        const token = {}  
+        const c = require('cookie').parse(req.headers.cookie);
+        const jwt = c['jwt'];
+        const id = c['user_id'];
+        const { data } = await axios.get(`${baseUrl}/profiles/${id}`)
+        token.jwt = jwt
+        console.log('Set cookie')
+        commit('SET_USER', token)
+        commit('SET_USER_PROFILE', data)
+      }
     }
   },
   async login ({ commit }, { identifier, password }) {
@@ -46,10 +60,23 @@ export const actions = {
       throw error
     }
   },
+  
+  async setUserFromCookie({ commit }, {jwt, id}){
+    console.log('Got dispatch event')
+    const user = {jwt}
+    const {data} = await axios.get(`${baseUrl}/profiles/${id}`)
+    commit('SET_USER', user)
+    commit('SET_USER_PROFILE', data)
+  },
+
   async logout ({ commit }) {
+   
+    document.cookie = "jwt="+ this.state.authUser.jwt + ";max-age=0";
+
     commit('SET_USER', null)
     commit('SET_USER_PROFILE', null)
   },
+  
   async setProject({ commit }, {id}){
     const options ={
       headers: {'Authorization': `Bearer ${this.state.authUser.jwt}`}
@@ -58,14 +85,18 @@ export const actions = {
     options);
     commit('SET_PROJECT', data)
   },
+  
   async getMyProfile({state, commit}){
     const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.userProfile.id}`); // data.profile -> profile id
     commit('SET_USER_PROFILE', profile)
-  },// set profile after login
+  },
+
+  // set profile after login
   async setProfileAfterLogin({state, commit}){
     const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.authUser.user.id}`); // data.profile -> profile id
     commit('SET_USER_PROFILE', profile)
   },
+
   setProfile({commit}, { profile }){
     commit('SET_USER_PROFILE', profile)
   }
