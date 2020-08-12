@@ -10,7 +10,7 @@
           <div>
             <nuxt-link
             v-if="managerFilter(team)"
-            :to="'/teams/' + team.id+'/edit'"
+            :to="'/teams/' + team.id+'/auth/edit'"
             >Редактировать</nuxt-link>
           </div>
         </section>
