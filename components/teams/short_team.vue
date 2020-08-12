@@ -5,7 +5,7 @@
         <div class="main__head">
           <h4><nuxt-link :to="`/teams/${team.id}`">{{ team.name }}</nuxt-link></h4>
         </div>
-        <div>{{ team.about }}</div>  
+        <v-clamp autoresize :max-lines="10">{{ team.about }}</v-clamp>
       </main>
       <aside class="col-sm-6 short_team__aside">
         <header class="row aside">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import VClamp from "vue-clamp";
 import Participants from "~/components/common/participants.vue";
 
 export default {
@@ -37,6 +38,7 @@ export default {
     team: Object
   },
   components: {
+    VClamp,
     Participants
   }
 }
