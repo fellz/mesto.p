@@ -77,9 +77,10 @@ export default {
   flex-flow: wrap;
 }
 .member__photo, .owner__photo{
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background-position: center;
+  background-size: cover;
   border-radius: 50%;
   margin: auto;
 }
