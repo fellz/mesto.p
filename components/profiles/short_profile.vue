@@ -1,26 +1,26 @@
 <template>
-  <div class="short_profile">
-    <aside class="short_profile__aside">
-      <div class="aside__photo" :style="backimg"></div>
+  <div class="row mb-3 p-4 bg-white rounded">
+    <aside class="col-sm-2 ">
+      <img class="aside__photo rounded-circle" :src="profilePhotoUrl" />
       <div class="text-center font-weight-bold">
         {{profile.city}}
       </div>
     </aside>
-    <main class="short_profile__main">
-      <header class="main__header">
-        <h5>
+    <main class="col-sm-10 ">
+      <header class="row">
+        <h5 class="col-sm-6">
           <nuxt-link
             :to="'/profiles/'+profile.id"
           >{{ profile.fullname }}</nuxt-link>
         </h5>
-        <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
+        <div v-if="profile.social > 0" class="col-sm-6 text-right font-weight-bold">{{ profile.social }} Спасибо</div>
       </header>
       <section>
         <v-clamp autoresize :max-lines="4">{{ profile.about }}</v-clamp>
       </section>
-      <footer class="main__skills" v-if="hasSkills">
-        <span class="font-weight-bold">Навыки:</span>
-        <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
+      <footer v-if="hasSkills">
+        <span class="font-weight-bold">Навыки: </span>
+        <span class="mr-2 text-white bg-info px-1" v-for="skill of profile.skills" :key="skill.id">
           {{skill.skill}}
         </span>
       </footer>
@@ -35,21 +35,21 @@ export default {
   props: {
     profile: Object,
   },
-  data() {
+  data(){
     return {
-      backimg: {
-        "background-image": `url(${process.env.baseUrl}${
-          this.profile.avatar
-            ? this.profile.avatar.formats.thumbnail.url
-            : `${process.env.defAvatar}`
-        })`,
-      },
-    };
+      baseUrl: process.env.baseUrl,
+      defAvatar: process.env.defAvatar
+    }
   },
   computed: {
     hasSkills() {
       return this.profile.skills.length > 0;
     },
+    profilePhotoUrl(){
+      return (`${this.baseUrl}${this.profile.avatar
+            ? this.profile.avatar.formats.thumbnail.url
+            : this.defAvatar}`)
+    }
   },
   components: {
     VClamp,
@@ -58,30 +58,7 @@ export default {
 </script>
 
 <style>
-.short_profile {
-  margin-top: 30px;
-  display: flex;
-  background-color: white;
-  padding: 20px;
-  border-radius: 7px;
-}
-  .short_profile__aside {
-    margin-right: 20px;
-  }
-    .aside__photo {
-      width: 100px;
-      height: 100px;
-      background-position: center;
-      border-radius: 50%;
-      margin: auto;
-    }
-  .main__header {
-    display: flex;
-    justify-content: space-between;
-  }
-  .skills__name {
-    margin-right: 10px;
-    color: blue;
-    background-color: rgb(210, 210, 210);
+  .aside__photo {
+    width: inherit;
   }
 </style>

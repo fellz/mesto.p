@@ -12,7 +12,7 @@
       >
       </multiselect>
       <!-- sort -->
-      <div class="profiles__sort">
+      <div class="mt-3 mb-3">
         <span>Сортировать список :</span>
         <label>По рейтингу</label>
         <input type="checkbox"
@@ -119,10 +119,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.profiles__sort {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-</style>
