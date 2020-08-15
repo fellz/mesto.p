@@ -58,7 +58,7 @@ export default {
           about: "Расскажите о себе",
           experience: "Расскажите о своем опыте в профессии и создании проектов",
           fullname: "Иван Иванович",
-          user: data.id
+          user: data //fix
         }
         const profile_resp = await this.$axios.$post(`/profiles`,
           profile
