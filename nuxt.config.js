@@ -33,8 +33,6 @@ module.exports = {
   },
   styleResources: {
     scss: ['./assets/scss/global-variables.scss'], // alternative: scss
-    less: [],
-    stylus: []
   },
   /*
   ** Customize the progress bar color

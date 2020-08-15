@@ -11,6 +11,7 @@
         <h5 class="col-sm-6">
           <nuxt-link
             :to="'/profiles/'+profile.id"
+            target="_blank"
           >{{ profile.fullname }}</nuxt-link>
         </h5>
         <div v-if="profile.social > 0" class="col-sm-6 text-right font-weight-bold">{{ profile.social }} Спасибо</div>

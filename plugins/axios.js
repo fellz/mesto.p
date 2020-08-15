@@ -6,32 +6,32 @@ function getCookie(name) {
 }
 export default function ({ $axios, store, redirect }) {
   $axios.setBaseURL(process.env.baseUrl);
-  
-  $axios.onRequest(request => {
-    if (process.client){
+} 
+  // $axios.onRequest(request => {
+  //   if (process.client){
       
-      // For created method --> created works only on client
-      // For fetch --> use nuxtServerInit method
+  //     // For created method --> created works only on client
+  //     // For fetch --> use nuxtServerInit method
 
-      // set token for requests only if logged in
-      if (store.state.authUser){
-        $axios.setToken(store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
-      }
+  //     // set token for requests only if logged in
+  //     if (store.state.authUser){
+  //       $axios.setToken(store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
+  //     }
 
-      const token = store.state.authUser;
-      // if no token in store
-      if (token == null){
+  //     const token = store.state.authUser;
+  //     // if no token in store
+  //     if (token == null){
         
-        // get jwt from cookie
-        const jwt = getCookie("jwt");
-        const id = getCookie("user_id");
+  //       // get jwt from cookie
+  //       const jwt = getCookie("jwt");
+  //       const id = getCookie("user_id");
         
-        // if jwt exists then set it to axios
-        if(jwt){
-          // cookie ok -> set token
-          store.dispatch('setUserFromCookie', {jwt, id})        
-        }
-      }  
-    }
-  })
-}
+  //       // if jwt exists then set it to axios
+  //       if(jwt){
+  //         // cookie ok -> set token
+  //         store.dispatch('setUserFromCookie', {jwt, id})        
+  //       }
+  //     }  
+  //   }
+ // })
+//}

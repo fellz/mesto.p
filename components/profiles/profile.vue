@@ -1,52 +1,53 @@
 <template>
   <div>
-    <div class="row profile">
-      <main class="col-sm-9 profile__main">
+    <div class="row mt-4 profile">
+      <main class="col-sm-9 mb-4 bg-white rounded ">
         <!--<header class="main__header">
           <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
         </header>-->
-        <img class="main__avatar" :src="avatar"  />
-        
-        <section class="main__about">
-          <div class="main__city text-left ">
+        <img class="rounded-circle main__avatar" :src="avatar"  />
+        <section >
+          <div class="text-left mb-4 main__city  ">
           <span class="font-weight-bold">{{profile.city ? profile.city : " "}}</span>
         </div>
-          <h5 class="main__fullname">{{ profile.fullname }}</h5>
+          <h5>{{ profile.fullname }}</h5>
           {{ profile.about }}
         </section>
-        <section v-if="profile.skills && profile.skills.length > 0 ">
-          <span class="font-weight-bold">Навыки:</span>
-          <span class="skills__name" v-for="skill of profile.skills" :key="skill.id">
-            {{skill.skill}}
-          </span>
-        </section>
-        <section v-if="profile.myprojects && profile.myprojects.length > 0">
-          <h5>Мои проекты:</h5>
-          <hr>
-          <div v-for="project of profile.myprojects" :key="project.id">
-            <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-          </div>
-        </section>
-        <section v-if="profile.url && profile.url !=0" >
-          <h5>Как связаться</h5>
-          <hr/>
-          <a :href="profile.url">{{ profile.url }}</a>
-        </section>
-        <section>
-          <button
-            type="button"
-            class="btn btn-primary"
-            v-if="addToContactsFilter(profile)"
-            @click="addToContacts(profile)"
-          >В контакты</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            v-if="spasiboFilter(profile)"
-            @click="upSocial(profile)"
-          >Спасибо</button>
-        </section>
-      </main>
+        </main>
+        <footer class="p-3 bg-white">
+          <section v-if="profile.skills && profile.skills.length > 0 ">
+            <span class="font-weight-bold">Навыки:</span>
+            <span class="bg-info text-white px-1 mr-2" v-for="skill of profile.skills" :key="skill.id">
+              {{skill.skill}}
+            </span>
+          </section>
+          <section v-if="profile.myprojects && profile.myprojects.length > 0">
+            <h5>Мои проекты:</h5>
+            <hr>
+            <div v-for="project of profile.myprojects" :key="project.id">
+              <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
+            </div>
+          </section>
+          <section v-if="profile.url && profile.url !=0" >
+            <h5>Как связаться</h5>
+            <hr/>
+            <a :href="profile.url">{{ profile.url }}</a>
+          </section>
+          <section>
+            <button
+              type="button"
+              class="btn btn-primary"
+              v-if="addToContactsFilter(profile)"
+              @click="addToContacts(profile)"
+            >В контакты</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              v-if="spasiboFilter(profile)"
+              @click="upSocial(profile)"
+            >Спасибо</button>
+          </section>
+      </footer>
     </div>
   </div>
 </template>
@@ -129,31 +130,12 @@ export default {
 </script>
 
 <style>
-  .main__header {
-    display:flex;
-    justify-content: space-between;
-  }
-  .main__fullname {
-    margin-bottom: 19px;
-  }
   .main__city{
     color: #f96b6b;
-    padding-bottom: 25px;
   }
   .main__avatar {
-    border-radius: 50%;
     position: absolute;
     right: 56px;
-    top: -24px;
-  }
-  .main__about {
-    background-color: #ebebeb;;
-    padding: 22px 30px 20px 35px;
-    margin-top: 53px;
-  }
-  .skills__name{
-    margin-right: 10px;
-    color: blue;
-    background-color: rgb(210, 210, 210);
+    top: -78px;
   }
 </style>

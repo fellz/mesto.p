@@ -41,10 +41,14 @@ export const actions = {
         const c = require('cookie').parse(req.headers.cookie);
         const jwt = c['jwt'];
         const id = c['user_id'];
-        const { data } = await axios.get(`${baseUrl}/profiles/${id}`)
-        token.jwt = jwt
-        commit('SET_USER', token)
-        commit('SET_USER_PROFILE', data)
+        // if cookie with user_id is defined 
+        if (id){
+          const { data } = await axios.get(`${baseUrl}/profiles/${id}`)
+          token.jwt = jwt
+          commit('SET_USER', token)
+          commit('SET_USER_PROFILE', data)
+        }
+        
       }
     }
   },
