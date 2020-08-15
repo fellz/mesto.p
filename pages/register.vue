@@ -54,7 +54,6 @@ export default {
         const data = await this.$axios.$post(`/auth/local/register`,
           user
         );
-        console.log('Registered',data)
         const profile = {
           about: "Расскажите о себе",
           experience: "Расскажите о своем опыте в профессии и создании проектов",
