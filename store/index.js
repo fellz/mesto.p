@@ -96,7 +96,7 @@ export const actions = {
 
   // set profile after login
   async setProfileAfterLogin({state, commit}){
-    const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.authUser.user.id}`); // data.profile -> profile id
+    const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.userProfile.id}`); // data.profile -> profile id
     commit('SET_USER_PROFILE', profile)
   },
 
