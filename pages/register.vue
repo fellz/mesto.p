@@ -54,17 +54,18 @@ export default {
         const data = await this.$axios.$post(`/auth/local/register`,
           user
         );
+        console.log('Registered',data)
         const profile = {
           about: "Расскажите о себе",
           experience: "Расскажите о своем опыте в профессии и создании проектов",
           fullname: "Иван Иванович",
-          user: data //fix
+          user: data.user.id
         }
         const profile_resp = await this.$axios.$post(`/profiles`,
           profile
         );
         this.$store.dispatch("setProfile", {profile: profile_resp});
-        //final stuff
+        //clear stuff
         this.reg_success = true;
         this.loading = false;
         this.username =  '';
