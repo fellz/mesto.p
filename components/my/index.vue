@@ -63,8 +63,6 @@ export default {
   },
   methods: {
     async getProfile(){
-      console.log(this.$store.state)
-      console.log(this.$store.state.userProfile)
       this.profile = await this.$axios.$get(`/profiles/${this.$store.state.userProfile.id}`);
     }
   }
