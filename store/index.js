@@ -40,7 +40,7 @@ export const actions = {
         const token = {}  
         const c = require('cookie').parse(req.headers.cookie);
         const jwt = c['jwt'];
-        const id = c['user_id'];
+        const id = c['profile_id'];
         // if cookie with user_id is defined 
         if (jwt && id){
           const { data } = await axios.get(`${baseUrl}/profiles/${id}`)
@@ -48,7 +48,6 @@ export const actions = {
           commit('SET_USER', token)
           commit('SET_USER_PROFILE', data)
         }
-        
       }
     }
   },
@@ -75,6 +74,7 @@ export const actions = {
   async logout ({ commit }) {
    
     document.cookie = "jwt="+ this.state.authUser.jwt + ";max-age=0";
+    document.cookie = "profile_id="+ this.state.authUser.user.profile.id + ";max-age=0";
 
     commit('SET_USER', null)
     commit('SET_USER_PROFILE', null)

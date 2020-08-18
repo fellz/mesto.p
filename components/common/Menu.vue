@@ -30,6 +30,7 @@
       </ul>
       <nuxt-link to="/register" v-if="!$store.state.authUser" class="nav-link">Регистрация</nuxt-link>
       <nuxt-link to="/login" v-if="!$store.state.authUser" class="nav-link">Войти</nuxt-link>
+      <nuxt-link to="/loginprovider" v-if="!$store.state.authUser" class="nav-link">Войти Google</nuxt-link>
       <button type="button" class="btn btn-link" v-if="$store.state.authUser" @click="logout">Выйти</button>
       <nuxt-link to="/my/auth/" v-if="$store.state.authUser" class="nav-link">{{ full_name }}</nuxt-link>
     </div>

@@ -46,6 +46,7 @@ module.exports = {
     ** Run ESLint on save
     */
     extend (config, { isDev, isClient }) {
+      
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
