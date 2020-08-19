@@ -66,6 +66,7 @@ export default {
         url: this.profile.url
       };
       const resp = await this.$axios.$put(`/profiles/${this.$store.state.userProfile.id}`, profile);
+      this.$store.dispatch('setProfile', {profile: resp})
       this.$router.replace('/my/auth/');
     }
   }
