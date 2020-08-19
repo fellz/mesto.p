@@ -60,16 +60,6 @@ export default {
         this.formError = e.message
           this.wait = false
       }
-    },
-    async logout () {
-      try {
-        
-        await this.$store.dispatch('logout')
-
-      
-      } catch (e) {
-        this.formError = e.message
-      }
     }
   }
 };

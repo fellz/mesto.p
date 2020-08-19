@@ -3,8 +3,7 @@
     <top-menu />
     <div class="nuxt-wrapper">
       <nuxt class="nuxt container" />
-    </div>
-    
+    </div>    
   </div>
 </template>
 
@@ -12,9 +11,38 @@
 // reload project
 import TopMenu from "~/components/common/Menu.vue";
 export default {
-   components: {
+  
+  components: {
     TopMenu
+  },
+  async created(){
+    // preserve session if jwt in cookies exists 
+    if (process.client){
+      
+      const jwt = this.getCookie('jwt')
+      const profile_id = this.getCookie('profile_id')
+      const token = {}
+    
+      if (jwt && profile_id){
+        const profile = await this.$axios.$get(`/profiles/${profile_id}`)
+        token.jwt = jwt
+        this.$axios.setToken(jwt, 'Bearer', ['put','post', 'delete'])
+        this.$store.commit('SET_USER', token)
+        this.$store.commit('SET_USER_PROFILE', profile)
+
+      }
+
+    }    
+  },
+  methods:{
+    getCookie(name) {
+      let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
   }
+
 }
 </script>
 <style>

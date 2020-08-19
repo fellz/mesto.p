@@ -49,7 +49,11 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch("logout");
-        this.$router.replace({ path: "/" });
+        //localStorage.setItem('jwt', null)
+        document.cookie = 'jwt=;max-age=0'
+        document.cookie = 'profile_id=;max-age=0'
+        
+        document.location.reload(true);
       } catch (e) {
         this.formError = e.message;
       }

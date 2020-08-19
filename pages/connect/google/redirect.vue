@@ -15,6 +15,7 @@ export default {
     if(!profile){
       await this.createProfile(resp.user.id)
       this.setProfile(resp)
+      this.setCookieToken(resp)
     }else{
       // else get profile and set it store and redirect
       const profile = await this.$axios.$get(`/profiles/${resp.user.profile.id}`)
@@ -24,8 +25,10 @@ export default {
   },
   methods:{
     setCookieToken(resp){
-      window.document.cookie = `jwt=${resp.jwt};path=/;max-age=10800`
-      window.document.cookie = `profile_id=${resp.user.profile.id};path=/;max-age=10800`
+      document.cookie = `jwt=${resp.jwt};path=/;max-age=10800`
+      document.cookie = `profile_id=${resp.user.profile.id};path=/;max-age=10800`
+      // localStorage.setItem('jwt', resp.jwt)
+      // localStorage.setItem('profile_id', resp.user.profile.id)
       this.$axios.setToken(resp.jwt, 'Bearer', ['put','post', 'delete'])
       this.$router.replace('/profiles');
     },

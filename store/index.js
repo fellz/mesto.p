@@ -1,6 +1,10 @@
 import axios from 'axios'
 
 const baseUrl = process.env.baseUrl;
+let jwt = null
+if(process.cleint){
+  jwt = localStorage.getItem('jwt')
+}
 
 
 export const state = () => ({
@@ -35,20 +39,6 @@ export const actions = {
   async nuxtServerInit ({ commit }, { req }) {
     if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
-    }else{
-      if (req.headers.cookie){
-        const token = {}  
-        const c = require('cookie').parse(req.headers.cookie);
-        const jwt = c['jwt'];
-        const id = c['profile_id'];
-        // if cookie with user_id is defined 
-        if (jwt && id){
-          const { data } = await axios.get(`${baseUrl}/profiles/${id}`)
-          token.jwt = jwt
-          commit('SET_USER', token)
-          commit('SET_USER_PROFILE', data)
-        }
-      }
     }
   },
   async login ({ commit }, { identifier, password }) {
@@ -72,10 +62,6 @@ export const actions = {
   },
 
   async logout ({ commit }) {
-   
-    document.cookie = "jwt="+ this.state.authUser.jwt + ";max-age=0";
-    document.cookie = "profile_id="+ this.state.authUser.user.profile.id + ";max-age=0";
-
     commit('SET_USER', null)
     commit('SET_USER_PROFILE', null)
   },

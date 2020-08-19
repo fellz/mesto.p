@@ -1,20 +1,22 @@
   <template>
     <div>
-      <div class="row project">
-        <main class="col-sm-7 project__main">
-          <header class="main__header">
-            <div class="text-muted">Создан: {{ project.created_at | formatDate }}</div>
-            <div class="header__status">Статус: {{ project.stage }} </div>
-          </header>
-          <section class="main__title">
-            <h4>{{ project.name }}</h4>
-            <div class="title__project_edit">
-              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/auth/edit/'">Редактировать</nuxt-link>
+      <div class="row p-4 project">
+        <main class="col-sm-7 ">
+          <header class="row">
+            <div class="col-sm-8 text-muted">Создан: {{ project.created_at | formatDate }}</div>
+            <div class="col-sm-4 text-right ">
+              <span class="text-white bg-secondary p-1">Статус: {{ project.stage }} </span>
             </div>
+          </header>
+          <section >
+            <h4>{{ project.name }}</h4>
+            <span class="pl-1">
+              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/auth/edit/'">Редактировать</nuxt-link>
+            </span>
           </section>
           <section>{{ project.description }}</section>
         </main>
-        <aside class="col-sm-5 project__aside">
+        <aside class="col-sm-5 p-3 bg-white project__aside">
           <section v-if="managerFilter(project)">
             <h4>Управление</h4>
             <hr/>
@@ -105,32 +107,14 @@ export default {
 </script>
 
 <style>
-  .project__main{
-    width: 55%;
-    padding-right: 50px;
+  .project{
+    background-color: #efefef;
+    border-radius: 10px;
   }
-    .main__header{
-      display:flex;
-      justify-content: space-between;
-      margin-bottom:20px;
-    }
-      .header__status{
-        padding:0 10px 0 10px;
-        background-color: gray;
-        color:white;
-      }
-    .main__title{
-      display: flex;
-    }
-      .title__project_edit{
-        margin-left: 20px;
-      }
     .teams__dropdown_pointer{
       cursor: pointer;
     }
   .project__aside{
-    background-color: white;
-    padding: 20px;
     border-radius: 7px;
   }
 </style>
