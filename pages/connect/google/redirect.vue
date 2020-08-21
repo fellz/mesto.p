@@ -5,10 +5,10 @@
 <script>
 export default {
   async created(){
-    const user = await this.$axios.$get(`/auth/google/callback?access_token=${this.$route.query.id_token}`)
+    const resp = await this.$axios.$get(`/auth/google/callback?access_token=${this.$route.query.id_token}`)
     //console.log(user)
     // set user in store with jwt and user
-    this.$store.commit('SET_USER', user)
+    this.$store.commit('SET_USER', resp)
     
     const profile = resp.user.profile;
     // if profile undefined --> create profile
