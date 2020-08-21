@@ -89,17 +89,18 @@
       <v-icon>mdi-logout</v-icon>
     </v-btn>
     
-    <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
-      <nuxt-link to="/login">
-        <v-icon>mdi-login</v-icon>
-      </nuxt-link>
-    </v-btn>
+    <nuxt-link to="/login">
+      <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
+          <v-icon>mdi-login</v-icon>
+      </v-btn>
+    </nuxt-link>
+    
+    <a :href="`${url}/connect/google`">
+      <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
+          <v-icon>mdi-google</v-icon>
+      </v-btn>
+    </a>
 
-    <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
-      <a :href="`${url}/connect/google`">
-        <v-icon>mdi-google</v-icon>
-      </a>
-    </v-btn>
   </v-app-bar>
 
  </div>
@@ -125,10 +126,9 @@ export default {
       try {
         await this.$store.dispatch("logout");
         //localStorage.setItem('jwt', null)
-        document.cookie = 'jwt=;max-age=0'
-        document.cookie = 'profile_id=;max-age=0'
-        
-        document.location.reload(true);
+        document.cookie = 'jwt=;path=/;max-age=0'
+        document.cookie = 'profile_id=;path=/;max-age=0'
+        this.$router.replace('/goodbuy');
       } catch (e) {
         this.formError = e.message;
       }
