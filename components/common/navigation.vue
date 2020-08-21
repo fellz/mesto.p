@@ -73,16 +73,17 @@
     <v-toolbar-title>Mesto platform</v-toolbar-title>
  
     <v-spacer></v-spacer>
-    
-    <nuxt-link v-if="$store.state.authUser" :to="'/profiles/' + $store.state.userProfile.id">
-    <v-list-item-avatar color="grey darken-3">
-      <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
-      <v-img
-        class="elevation-6"
-        :src="url + $store.state.userProfile.avatar.formats.thumbnail.url"
-      />
-    </v-list-item-avatar>
-    </nuxt-link>
+    <span v-if="$store.state.userProfile">
+      <nuxt-link  :to="'/profiles/' + $store.state.userProfile.id">
+        <v-list-item-avatar color="grey darken-3">
+          <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
+          <v-img
+            class="elevation-6"
+            :src="url + avatar()"
+          />
+        </v-list-item-avatar>
+      </nuxt-link>
+    </span>
 
     <v-btn v-if="$store.state.authUser" class="mr-2" @click="logout" icon>
       <v-icon>mdi-logout</v-icon>
@@ -109,13 +110,17 @@ export default {
   name: "MestoNavigation",
   data: () => ({
     drawer: null,
-    url: process.env.baseUrl
+    url: process.env.baseUrl,
+    defAvatar: process.env.defAvatar
   }),
   props: {
     source: String,
     profile: Object
   },
   methods:{
+    avatar(){
+       return this.$store.state.userProfile.avatar ? $store.state.userProfile.avatar.formats.thumbnail.url : this.defAvatar
+    },
     async logout() {
       try {
         await this.$store.dispatch("logout");
