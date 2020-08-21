@@ -64,6 +64,7 @@ module.exports = {
     '~/plugins/axios'
   ],
   modules: [
+    '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
     'nuxt-webfontloader',
     '@nuxtjs/axios',

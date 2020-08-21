@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <projects-list />
-  </div>
+  <projects-list />
 </template>
 
 <script>

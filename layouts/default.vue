@@ -1,19 +1,28 @@
 <template>
   <div id="toplevel">
-    <top-menu />
-    <div class="nuxt-wrapper">
-      <nuxt class="nuxt container" />
-    </div>    
+    <v-app>
+      <!--<top-menu /> -->
+      <mesto-navigation />
+      
+      <v-main>
+        <!-- Provides the application the proper gutter -->
+        <v-container fluid class="fill-height">
+          <nuxt class="nuxt container" />
+        </v-container>
+      </v-main>
+      
+    </v-app>    
   </div>
 </template>
 
 <script>
-// reload project
 import TopMenu from "~/components/common/Menu.vue";
+import MestoNavigation from "~/components/common/navigation.vue";
+
 export default {
-  
   components: {
-    TopMenu
+    TopMenu,
+    MestoNavigation
   },
   async created(){
     // preserve session if jwt in cookies exists 
@@ -68,9 +77,9 @@ body {
 /* Custom css */
 
 @media (min-width: 1200px) {
-    .container{
-        max-width: 970px;
-    }
+  .container{
+      max-width: 970px;
+  }
 }
 section{
   margin: 20px 0;

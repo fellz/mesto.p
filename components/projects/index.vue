@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-for="project of projects" :key="project.id"  >
+    <section v-for="project of projects" :key="project.id"  >
       <short-project :project="project" />
-    </div>
+    </section>
     <pagination @new-start-number="setStartPage($event)" :all_items="all_projects" :resource="resource"></pagination>
   </div>
 </template>

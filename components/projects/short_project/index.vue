@@ -1,24 +1,55 @@
 <template>
-  <div>
-    <div class="row short_project">
-      <main class="col-md-6">
-        <h5><nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link></h5>
-        <!-- -->
-        <section>
-          <v-clamp autoresize :max-lines="6">{{ project.description }}</v-clamp>
-        </section>
-      </main>
-      <aside class="col-md-6 ">
-        <header class="row aside__status">
-          <div class="col-sm-6" >Статус: <span class=" font-weight-bold" >{{ project.stage}}</span></div>
-          <div class="col-sm-6 text-muted text-right">Создан: {{  project.created_at | formatDate }}</div>
-        </header>
-        <section>
-          <project-skills :project="project" />
-        </section>
-      </aside>
-    </div>
-  </div>
+    <v-card  class="mx-auto">
+      <v-row>
+        
+        <v-col>
+          <v-img width="200"
+            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+          />
+        </v-col>
+        
+        <v-col cols="6">
+          <v-card-title class="headline" >
+            <nuxt-link :to="'/projects/' + project.id">
+              {{project.name}}
+            </nuxt-link>
+          </v-card-title>
+          <v-card-text>
+            <v-clamp autoresize :max-lines="6">{{ project.description }}</v-clamp>
+          </v-card-text>     
+        </v-col>
+        
+        <v-col>
+          <v-card-title>Команда</v-card-title>
+          <v-list-item-avatar color="grey darken-3" v-for="p in project.participants" :key="p.id">
+            <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
+            <v-img
+              class="elevation-6"
+              :src="backimg(p)"
+            ></v-img>
+          </v-list-item-avatar>
+        </v-col>
+
+      </v-row>
+
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-action>Вакансии</v-list-item-action>
+          <v-list-item-content>
+            <v-chip-group >
+              <v-chip v-for="v in project.vacancies" :key="v.id">
+                {{v.name}}
+              </v-chip>
+            </v-chip-group>
+          </v-list-item-content>
+          
+          <v-chip class="mr-2">{{ project.stage }}</v-chip>
+          <span class="mr-2 ">{{ project.created_at | formatDate }}</span>
+
+        </v-list-item>
+      </v-card-actions>
+
+    </v-card>
 </template>
 
 <script>
@@ -30,23 +61,32 @@ export default {
   props: {
     project: Object
   },
+  data(){
+    return {
+      profile:{},
+      res:[],
+      url: process.env.baseUrl,
+      defAvatar: process.env.defAvatar
+    }
+  },
   components: {
     VClamp,
     ProjectSkills
   },
+  methods:{
+    backimg(profile) {
+      return `${this.url}${
+        profile.avatar
+          ? profile.avatar.formats.thumbnail.url
+          : this.defAvatar}`
+    },
+  }
 };
 </script>
 
 <style>
 .short_project{
-  border: 1px solid #d8d8d8;
   border-radius: 7px;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: white;
-}
-.short_project__main{
-  padding-right: 20px;
 }
 .aside__status{
   background-color: #f1eded;
