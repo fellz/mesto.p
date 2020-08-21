@@ -1,7 +1,14 @@
 <template>
   <div>
-  <v-navigation-drawer v-model="drawer" app>
-    <v-list dense>
+  <v-navigation-drawer v-model="drawer" expand-on-hover mini-variant app>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          Mesto platform
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list dense nav>
       
       <v-list-item link>
         <v-list-item-action>
@@ -16,7 +23,7 @@
 
         <v-list-item link>
         <v-list-item-action>
-          <v-icon>mdi-email</v-icon>
+          <v-icon>mdi-ballot</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
@@ -27,7 +34,7 @@
 
       <v-list-item link>
         <v-list-item-action>
-          <v-icon>mdi-email</v-icon>
+          <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
@@ -38,7 +45,7 @@
 
       <v-list-item link>
         <v-list-item-action>
-          <v-icon>mdi-email</v-icon>
+          <v-icon>mdi-account-switch</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
@@ -49,7 +56,7 @@
 
       <v-list-item link>
         <v-list-item-action>
-          <v-icon>mdi-email</v-icon>
+          <v-icon>mdi-ballot-recount</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
@@ -61,9 +68,39 @@
     </v-list>
   </v-navigation-drawer>
 
-  <v-app-bar  color="indigo" dark app>
+  <v-app-bar dense app>
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>Mesto platform</v-toolbar-title>
+ 
+    <v-spacer></v-spacer>
+    
+    <nuxt-link :to="'/profiles/' + $store.state.userProfile.id">
+    <v-list-item-avatar color="grey darken-3">
+      <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
+      <v-img
+        class="elevation-6"
+        :src="url + $store.state.userProfile.avatar.formats.thumbnail.url"
+      />
+    </v-list-item-avatar>
+    </nuxt-link>
+
+    <v-btn v-if="$store.state.authUser" class="mr-2" icon>
+      <nuxt-link to="/logout">
+        <v-icon>mdi-logout</v-icon>
+      </nuxt-link>
+    </v-btn>
+    
+    <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
+      <nuxt-link to="/login">
+        <v-icon>mdi-login</v-icon>
+      </nuxt-link>
+    </v-btn>
+
+    <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
+      <a :href="`${url}/connect/google`">
+        <v-icon>mdi-google</v-icon>
+      </a>
+    </v-btn>
   </v-app-bar>
 
  </div>
@@ -74,9 +111,11 @@ export default {
   name: "MestoNavigation",
   data: () => ({
     drawer: null,
+    url: process.env.baseUrl
   }),
   props: {
     source: String,
+    profile: Object
   },
 }
 </script>

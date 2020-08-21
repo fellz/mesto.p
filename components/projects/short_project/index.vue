@@ -21,13 +21,18 @@
         
         <v-col>
           <v-card-title>Команда</v-card-title>
-          <v-list-item-avatar color="grey darken-3" v-for="p in project.participants" :key="p.id">
-            <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
-            <v-img
-              class="elevation-6"
-              :src="backimg(p)"
-            ></v-img>
-          </v-list-item-avatar>
+          
+          <span v-for="p in project.participants" :key="p.id">
+            <nuxt-link :to="'/profiles/' + p.id">
+            <v-list-item-avatar color="grey darken-3" >
+              <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
+              <v-img
+                class="elevation-6"
+                :src="backimg(p)"
+              />
+            </v-list-item-avatar>
+            </nuxt-link>
+          </span>
         </v-col>
 
       </v-row>
