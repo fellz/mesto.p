@@ -119,7 +119,7 @@ export default {
   },
   methods:{
     avatar(){
-       return this.$store.state.userProfile.avatar ? $store.state.userProfile.avatar.formats.thumbnail.url : this.defAvatar
+       return this.$store.state.userProfile.avatar ? this.$store.state.userProfile.avatar.formats.thumbnail.url : this.defAvatar
     },
     async logout() {
       try {
