@@ -74,7 +74,7 @@
  
     <v-spacer></v-spacer>
     
-    <nuxt-link :to="'/profiles/' + $store.state.userProfile.id">
+    <nuxt-link v-if="$store.state.authUser" :to="'/profiles/' + $store.state.userProfile.id">
     <v-list-item-avatar color="grey darken-3">
       <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
       <v-img
@@ -84,10 +84,8 @@
     </v-list-item-avatar>
     </nuxt-link>
 
-    <v-btn v-if="$store.state.authUser" class="mr-2" icon>
-      <nuxt-link to="/logout">
-        <v-icon>mdi-logout</v-icon>
-      </nuxt-link>
+    <v-btn v-if="$store.state.authUser" class="mr-2" @click="logout" icon>
+      <v-icon>mdi-logout</v-icon>
     </v-btn>
     
     <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
@@ -117,5 +115,19 @@ export default {
     source: String,
     profile: Object
   },
+  methods:{
+    async logout() {
+      try {
+        await this.$store.dispatch("logout");
+        //localStorage.setItem('jwt', null)
+        document.cookie = 'jwt=;max-age=0'
+        document.cookie = 'profile_id=;max-age=0'
+        
+        document.location.reload(true);
+      } catch (e) {
+        this.formError = e.message;
+      }
+    }
+  }
 }
 </script>
