@@ -3,9 +3,7 @@
   <v-navigation-drawer v-model="drawer" expand-on-hover mini-variant app>
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="title">
           Mesto platform
-        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-list dense nav>
@@ -15,9 +13,7 @@
           <v-icon>mdi-home</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
             <nuxt-link to="/" >Главная</nuxt-link>
-          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -26,9 +22,7 @@
           <v-icon>mdi-ballot</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
             <nuxt-link to="/projects" >Проекты</nuxt-link>
-          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -37,9 +31,7 @@
           <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
             <nuxt-link to="/profiles" >Участники</nuxt-link>
-          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -48,9 +40,7 @@
           <v-icon>mdi-account-switch</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
             <nuxt-link to="/teams" >Команды</nuxt-link>
-          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -59,11 +49,19 @@
           <v-icon>mdi-ballot-recount</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>
             <nuxt-link to="/projects/auth/new" >Создать проект</nuxt-link>
-          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item link>
+        <v-list-item-action>
+          <v-icon>mdi-ballot-recount</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+            <nuxt-link to="/teams/auth/new" >Создать команду</nuxt-link>
+        </v-list-item-content>
+      </v-list-item>
+
 
     </v-list>
   </v-navigation-drawer>
@@ -74,15 +72,22 @@
  
     <v-spacer></v-spacer>
     <span v-if="$store.state.userProfile">
-      <nuxt-link  :to="'/profiles/' + $store.state.userProfile.id">
+      <nuxt-link  :to="'/my/auth/'">
         <v-list-item-avatar color="grey darken-3">
-          <!--<nuxt-link :to="'/profiles/' + p.id">   </nuxt-link>-->
           <v-img
             class="elevation-6"
             :src="url + avatar()"
           />
         </v-list-item-avatar>
       </nuxt-link>
+    </span>
+    <span v-if="$store.state.authUser && !$store.state.userProfile">
+      <v-list-item-avatar >
+        <v-img
+          class="elevation-6"
+          :src="url + defAvatar"
+        />
+      </v-list-item-avatar>
     </span>
 
     <v-btn v-if="$store.state.authUser" class="mr-2" @click="logout" icon>
@@ -120,12 +125,17 @@ export default {
   },
   methods:{
     avatar(){
-       return this.$store.state.userProfile.avatar ? this.$store.state.userProfile.avatar.formats.thumbnail.url : this.defAvatar
+      return  (
+        this.$store.state.userProfile.avatar 
+        ? 
+        this.$store.state.userProfile.avatar.formats.thumbnail.url 
+        :
+        this.defAvatar
+      )
     },
     async logout() {
       try {
         await this.$store.dispatch("logout");
-        //localStorage.setItem('jwt', null)
         document.cookie = 'jwt=;path=/;max-age=0'
         document.cookie = 'profile_id=;path=/;max-age=0'
         this.$router.replace('/goodbuy');

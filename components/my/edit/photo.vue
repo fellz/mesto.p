@@ -23,7 +23,7 @@ export default {
       defAvatar: process.env.defAvatar
     };
   },
-  async fetch(){
+  async created(){
     await this.getProfile()
   },
   computed:{
@@ -56,7 +56,8 @@ export default {
         formData,
         options
       );
-      this.getProfile()
+      await this.getProfile()
+      this.$store.dispatch('setProfile', { profile: this.profile })
     }
   }
 };

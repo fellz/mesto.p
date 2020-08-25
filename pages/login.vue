@@ -45,14 +45,13 @@ export default {
         this.formError = null
         this.wait = false
         
-        // set profile
-        this.$store.dispatch("setProfileAfterLogin");
-        
         // set token for requests
         this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
         
         document.cookie = `jwt=${this.$store.state.authUser.jwt};max-age=10800`
-        document.cookie = `profile_id=${this.$store.state.authUser.user.id};max-age=10800`
+        if (this.$store.state.authUser.user.profile){
+          document.cookie = `profile_id=${this.$store.state.authUser.user.profile.id};max-age=10800`
+        }
         // redirect to porjects
         this.$nuxt.$router.replace({ path: '/projects'})
       

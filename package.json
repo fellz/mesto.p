@@ -21,9 +21,11 @@
     "nuxt-webfontloader": "^1.1.0",
     "sass-loader": "^9.0.2",
     "vue-clamp": "^0.3.0",
-    "vue-multiselect": "^2.1.6"
+    "vue-multiselect": "^2.1.6",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
+    "@nuxt/types": "^2.14.3",
     "@nuxtjs/vuetify": "^1.11.2",
     "babel-eslint": "^10.0.1",
     "eslint": "^4.19.1",
