@@ -1,32 +1,34 @@
 <template>
   <div>
-    <div class="profiles">
-      <h4>Участники</h4>
-      <!-- Skill search -->
-      <multiselect 
-        v-model="value" 
-        placeholder="Выберите навык" 
-        label="name" track-by="code" 
-        :options="options" 
-        :multiple="true" 
-      >
-      </multiselect>
-      <!-- sort -->
-      <div class="mt-3 mb-3">
-        <span>Сортировать список :</span>
-        <label>По рейтингу</label>
-        <input type="checkbox"
-        v-model="social"
-        @change="socialSelect()"
-        />
-      </div>
-      <!-- profiles -->
-      <div  v-for="profile of profiles" :key="profile.id">
+    <!-- Skill search -->
+    <multiselect 
+      v-model="value" 
+      placeholder="Выберите навык" 
+      label="name" track-by="code" 
+      :options="options" 
+      :multiple="true" 
+    >
+    </multiselect>
+
+    <!-- sort 
+    <div class="mt-3 mb-3">
+      <span>Сортировать список :</span>
+      <label>По рейтингу</label>
+      <input type="checkbox"
+      v-model="social"
+      @change="socialSelect()"
+      />
+    </div> -->
+    
+    <!-- profiles -->
+    <v-row>
+      <v-col cols="auto" v-for="profile of profiles" :key="profile.id">
         <short-profile :profile="profile" />
-      </div>
-      <!-- pagination --> 
-      <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
-    </div>
+      </v-col>
+    </v-row>
+    
+    <!-- pagination --> 
+    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
   </div>
 </template>
 

@@ -7,7 +7,7 @@
       <v-main>
         <!-- Provides the application the proper gutter -->
         <v-container fluid class="fill-height">
-          <nuxt class="nuxt container" />
+          <nuxt class="nuxt" />
         </v-container>
       </v-main>
       
@@ -78,7 +78,7 @@ body {
 
 @media (min-width: 1200px) {
   .container{
-      max-width: 970px;
+      max-width: 1120px;
   }
 }
 section{
