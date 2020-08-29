@@ -88,7 +88,7 @@ export default {
   }
   .profile-dialog-avatar{
     position: absolute;
-    right: 2rem;
-    top: 1rem;    
+    right: 20px;
+    top: 30px;    
   }
 </style>

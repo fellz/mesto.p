@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section v-for="project of projects" :key="project.id"  >
-      <short-project :project="project" />
-    </section>
+    <div v-for="project of projects" :key="project.id">
+      <short-project :project="project"   />
+    </div>
     <pagination @new-start-number="setStartPage($event)" :all_items="all_projects" :resource="resource"></pagination>
   </div>
 </template>
@@ -32,12 +32,10 @@ export default {
   },
   methods:{
      async getProjects(start){
-      const data = await this.$axios.$get(`/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
-      this.projects = data
+      this.projects = await this.$axios.$get(`/projects?_start=${start}&_limit=5&_sort=created_at:DESC`);
     },
     async getAllProjects(){
-      const data = await this.$axios.$get(`${this.baseUrl}/projects/count`);
-      this.all_projects = data;
+      this.all_projects = await this.$axios.$get(`${this.baseUrl}/projects/count`);
     },
     setStartPage(new_start_number){
       this.getProjects(new_start_number)

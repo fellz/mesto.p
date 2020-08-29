@@ -1,95 +1,93 @@
   <template>
-    <div>
-      <div class="row p-4 project">
-        <main class="col-sm-7 ">
-          <header class="row">
-            <div class="col-sm-8 text-muted">Создан: {{ project.created_at | formatDate }}</div>
-            <div class="col-sm-4 text-right ">
-              <span class="text-white bg-secondary p-1">Статус: {{ project.stage }} </span>
-            </div>
-          </header>
-          <section >
-            <h4>{{ project.name }}</h4>
-            <span class="pl-1">
-              <nuxt-link v-if="managerFilter(project)" :to="'/projects/' + project.id + '/auth/edit/'">Редактировать</nuxt-link>
-            </span>
-          </section>
-          <section>{{ project.description }}</section>
-        </main>
-        <aside class="col-sm-5 p-3 bg-white project__aside">
-          <section v-if="managerFilter(project)">
-            <h4>Управление</h4>
-            <hr/>
-            <nuxt-link
-              class="btn btn-primary"
-              :to="'/projects/' + project.id+'/auth/teams/'"
-            >Команды</nuxt-link>
-            <nuxt-link
-              class="btn btn-primary"
-              :to="'/projects/' + project.id+'/auth/vacancies/'"
-            >Вакансии</nuxt-link>
-          </section>
-          <section>
-            <h4>Команда проекта</h4>
-            <hr/>
-            <!-- participants component -->
-            <participants :owner_profile="project.owner" :resource="project"/>
-          </section>
-          <!-- Заявки в проект от участников -->
-          <section v-if="project.project_skills && project.project_skills.length > 0">
-            <h4>Кто нужен в проект: </h4>
-            <hr/>
-            <div v-for="skill of project.project_skills" :key="skill.id">
-              {{ skill.name }} <span class="font-weight-bold">({{skill.pay ? "платим" : "волонтер"}})</span>
-              <!-- Component -->
-              <join-project-button :project="project" :skill="skill" />
-            </div>
-          </section>
-          <!-- Сссылки проекта -->
-          <section v-if="project.url || project.url_presentation ">
-            <h4>Ссылки: </h4>
-            <hr/>
-            <p>Сайт: <a :href="project.url" target="_blank" >{{project.url}}</a></p>
-            <p>Презентация: <a :href="project.url_presentation" target="_blank" >{{project.url_presentation}}</a></p>
-          </section>
-          <!-- Команды в проекте -->
-          <section v-if="project.teams && project.teams.length > 0" class="aside__teams">
-            <h4>Команды в проекте: </h4>
-            <hr/>
-            <div v-for="team of project.teams" :key="team.id">
-              <nuxt-link :to="'/teams/' + team.id">{{ team.name }}</nuxt-link>
-            </div>
-          </section>
-          <!-- Component -->
-          <request-from-team-button :project="project" @update-project="getProject()" />
-      </aside>
-    </div> 
-  </div>
+    <v-card style="margin-bottom:20px" max-width="900">
+    <v-row>
+      
+      <v-col sm="8">
+        
+        <v-img height="150"
+          src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        >
+          <v-row align="end" class="ml-4 white--text fill-height" >
+            <h1 class="px-1" style="background-color: rgba(74, 70, 70, 0.82);">
+              {{project.name}}
+            </h1>
+          </v-row>
+            
+        </v-img>
+
+        <v-card-text>
+          {{ project.description }}
+        </v-card-text>
+
+      </v-col>
+      
+      <v-col>
+        <v-row justify="end" no-gutters class="mr-2">
+          <v-col cols="6" class="white--text" style="background-color:gray; text-align: center">{{ project.stage }}</v-col>
+          <v-col style="text-align: end">{{ project.created_at | formatDate }}</v-col>
+        </v-row>
+        <v-card-title>Команда</v-card-title>
+        <!-- Owner avatar -->
+        <nuxt-link :to="'/profiles/' + project.owner.id">
+          <v-avatar size="70" style="border: 2px solid red" >
+            <v-img
+              class="elevation-6"
+              :src="backimg(project.owner)"
+            />
+          </v-avatar>
+        </nuxt-link>
+        <!-- other members -->
+        <span v-for="p in project.participants" :key="p.id">
+          <nuxt-link :to="`/profiles/${p.id}`" >
+            <v-avatar size="60">
+              <v-img
+                class="elevation-6"
+                :src="backimg(p)"
+              />
+            </v-avatar>
+          </nuxt-link>
+        </span>
+        <!-- vacancies -->
+        <v-card-title>Вакансии</v-card-title>
+        <v-chip v-for="v in project.vacancies" :key="v.id">
+          {{v.name}}
+        </v-chip>
+
+      </v-col>
+
+    </v-row>
+    </v-card>
 </template>
 
 <script>
-import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
-import RequestFromTeamButton from "~/components/projects/project/service/requestFromTeamButton.vue";
-import Participants from "~/components/common/participants.vue";
+//import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
+//import RequestFromTeamButton from "~/components/projects/project/service/requestFromTeamButton.vue";
+//import Participants from "~/components/common/participants.vue";
 
 export default {
   name: "Project",
-  components:{
-    JoinProjectButton,
-    RequestFromTeamButton,
-    Participants
-  },
+  // components:{
+  //   JoinProjectButton,
+  //   RequestFromTeamButton,
+  //   Participants
+  // },
   data(){
     return {
       url: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      project: {}
+      project: {owner:{}}
     }
   },
   created() {
       this.getProject();
   },
   methods: {
+    backimg(profile) {
+      return `${this.url}${
+        profile.avatar
+          ? profile.avatar.formats.thumbnail.url
+          : this.defAvatar}`
+    },
     async getProject(){
       this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },

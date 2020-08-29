@@ -1,6 +1,5 @@
 <template>
-  <v-row>
-    <v-col cols="9">
+<div>
       <h4>Заполните пожалуйста ваш профиль!</h4>
       <v-form ref="form">
         <v-text-field
@@ -51,9 +50,7 @@
 
         <v-btn class="mr-4" @click="submit">submit</v-btn>
       </v-form>
-    </v-col>
-  </v-row>
-  
+</div>
 </template>
 
 <script>

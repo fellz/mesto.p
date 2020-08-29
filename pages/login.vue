@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <div v-if="wait"  class="wait">Загружаемся...</div>
-    <section class="login">
-      <h4>Login</h4>
-      <hr />
-      <form v-if="!$store.state.authUser" @submit.prevent="login">
-        <p v-if="formError" class="error">{{ formError }}</p>
-        <p>
-          Email:
-          <input v-model="email" type="text" name="email" class="form-control" placeholder="email" />
-        </p>
-        <p>
-          Password:
-          <input v-model="password" type="password" name="password" class="form-control" placeholder="password" />
-        </p>
-        <button type="submit"  class="btn btn-primary" :disabled="wait">Login</button>
-      </form>
-    </section>
-  </div>
+  <v-row justify="center">
+    <v-col sm=6>
+      <div v-if="wait"  class="wait">Загружаемся...</div>
+
+      <v-form v-if="!$store.state.authUser" @submit.prevent="login"> 
+        <v-text-field
+          v-model="email"
+          label="Email"
+          required
+        ></v-text-field>
+        
+        <v-text-field
+          v-model="password"
+          label="Password"
+          required
+          type="password"
+        ></v-text-field>
+        <v-btn color="success" type="submit" :disabled="wait">Login</v-btn>
+      </v-form>
+
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -44,13 +47,17 @@ export default {
         this.password = ''
         this.formError = null
         this.wait = false
-        
+
         // set token for requests
         this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
         
         document.cookie = `jwt=${this.$store.state.authUser.jwt};max-age=10800`
-        if (this.$store.state.authUser.user.profile){
-          document.cookie = `profile_id=${this.$store.state.authUser.user.profile.id};max-age=10800`
+        const prof = this.$store.state.authUser.user.profile
+        
+        if (prof){
+          document.cookie = `profile_id=${prof.id};max-age=10800`
+          const profl = await this.$axios.$get(`/profiles/${prof.id}`)  
+          this.$store.dispatch('setProfile', { profile: profl })
         }
         // redirect to porjects
         this.$nuxt.$router.replace({ path: '/projects'})

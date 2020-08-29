@@ -44,6 +44,7 @@ export const actions = {
   async login ({ commit }, { identifier, password }) {
     try {
       const { data } = await axios.post(`${baseUrl}/auth/local`, { identifier, password })
+      console.log('Login:', data)
       commit('SET_USER', data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -54,7 +55,6 @@ export const actions = {
   },
   
   async setUserFromCookie({ commit }, {jwt, id}){
-    console.log('Got dispatch event')
     const user = {jwt}
     const {data} = await axios.get(`${baseUrl}/profiles/${id}`)
     commit('SET_USER', user)

@@ -3,7 +3,7 @@
       <a href=""
       v-if="skillReqFilter(skill, project) "
       @click.prevent="joinProjectRequest(skill)"
-    >Заявка</a>
+    ><v-icon>mdi-plus</v-icon></a>
     </span>
 </template>
 

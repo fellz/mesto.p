@@ -6,8 +6,12 @@
       
       <v-main>
         <!-- Provides the application the proper gutter -->
-        <v-container fluid class="fill-height">
-          <nuxt class="nuxt" />
+        <v-container fluid class="fill-height" >
+          <v-row justify="center">
+            <v-col sm="10" >
+              <nuxt class="nuxt" />
+            </v-col>
+          </v-row>
         </v-container>
       </v-main>
       
