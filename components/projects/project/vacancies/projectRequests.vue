@@ -1,23 +1,40 @@
 <template>
-<div>
-  <div class="project_edit_skills-flex">
-    <div class="project_edit_skills_requests">
-      <div>Заявки</div>
-      <hr/>
-      <section v-for="req of proj_skill.requests" :key="req.id">
-        <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
-        <button class="btn btn-primary" @click="joinProject(req.id)">Принять</button>
-      </section>
-    </div>
-    <div class="project_edit_skills_filled">
-      <div>Принятые</div>
-      <hr/>
-      <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
-        <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
+  <v-row>
+    <v-col>
+      <h4>Заявки</h4>
+      <v-divider />
+        <v-row v-for="req of proj_skill.requests" :key="req.id">
+          <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
+          <v-btn  @click="joinProject(req.id)">Принять</v-btn>
+        </v-row>
+    </v-col>
+    <v-col>
+      <h4>Принятые</h4>
+      <v-divider />
+        <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
+          <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
+        </div>
+    </v-col>
+  </v-row>
+  <!--<div>
+    <div class="project_edit_skills-flex">
+      <div class="project_edit_skills_requests">
+        <div>Заявки</div>
+        <hr/>
+        <section v-for="req of proj_skill.requests" :key="req.id">
+          <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
+          <button class="btn btn-primary" @click="joinProject(req.id)">Принять</button>
+        </section>
+      </div>
+      <div class="project_edit_skills_filled">
+        <div>Принятые</div> 
+        <hr/>
+        <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
+          <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>-->
 </template>
 
 <script>
@@ -40,6 +57,7 @@ export default {
     // Забираем заявку
     async getSkill(){
       this.proj_skill = await this.$axios.$get(`/project-skills/${this.skill.id}`)
+      console.log('Vac: ', this.proj_skill)
     },
     // Обработка заявки по вакансии
     async joinProject(id){

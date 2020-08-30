@@ -1,6 +1,6 @@
 <template>
   <div>
-  <v-navigation-drawer v-model="drawer" expand-on-hover mini-variant app>
+  <v-navigation-drawer v-model="drawer" mini-variant app>
     <v-list-item>
       <v-list-item-content>
           Mesto platform
@@ -8,57 +8,57 @@
     </v-list-item>
     <v-list dense nav>
       
-      <v-list-item link>
+      <v-list-item link nuxt to="/">
         <v-list-item-action>
           <v-icon>mdi-home</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/" >Главная</nuxt-link>
+            Главная
         </v-list-item-content>
       </v-list-item>
 
-        <v-list-item link>
+        <v-list-item link nuxt to="/projects">
         <v-list-item-action>
           <v-icon>mdi-ballot</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/projects" >Проекты</nuxt-link>
+            Проекты
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
+      <v-list-item link nuxt to="/profiles">
         <v-list-item-action>
           <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/profiles" >Участники</nuxt-link>
+            Участники
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
+      <v-list-item link nuxt to="/teams">
         <v-list-item-action>
           <v-icon>mdi-account-switch</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/teams" >Команды</nuxt-link>
+          Команды
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
+      <v-list-item link nuxt to="/projects/auth/new">
         <v-list-item-action>
           <v-icon>mdi-ballot-recount</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/projects/auth/new" >Создать проект</nuxt-link>
+          Создать проект
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
+      <v-list-item link nuxt to="/teams/auth/new">
         <v-list-item-action>
           <v-icon>mdi-ballot-recount</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <nuxt-link to="/teams/auth/new" >Создать команду</nuxt-link>
+          Создать команду
         </v-list-item-content>
       </v-list-item>
 

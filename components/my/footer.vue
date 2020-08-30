@@ -1,87 +1,144 @@
 <template>
-  <footer class="row profile__footer">
-    <div class="col-4">
-      <div class="list-group" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"
-        >Мои проекты</a>
-        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"
-        >Мои заявки в проекты</a>
-        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"
-        >Участвую в проектах</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"
-        >Навыки</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-contacts" role="tab" aria-controls="settings"
-        >Контакты</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-teams" role="tab" aria-controls="settings"
-        >Мои команды</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-team-reqs" role="tab" aria-controls="settings"
-        >Заявки в команды</a>
-      </div>
-    </div>
-    <div class="col-8">
-      <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-          <h5>Мои проекты</h5>
-          <hr />
-          <div v-for="project of profile.myprojects" :key="project.id">
-            <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-          <h5>Мои заявки в проекты</h5>
-          <hr />
-          <div v-for="req of profile.project_requests" :key="req.id">
-            <span>{{req.name}}</span>
-            <nuxt-link :to="'/projects/' + req.project">{{ req.project }}</nuxt-link>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-          <h5>Участвую в проектах</h5>
-          <hr />
-          <div v-for="p of profile.projects" :key="p.id">
-            <nuxt-link :to="'/projects/' + p.id">{{ p.name }}</nuxt-link>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list"> 
-          <span class="myprofile_skills-font">Навыки</span>
-          <nuxt-link to="/my/auth/edit/skills">изменить</nuxt-link>
-          <hr />
-          <div v-for="skill of profile.skills" :key="skill.id">
-            <span class="myprofile_skill">{{skill.skill}}</span>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-contacts" role="tabpanel" aria-labelledby="list-settings-list"> 
-          <h5>Контакты</h5>
-          <hr />
-          <div v-for="contact of profile.contacts" :key="contact.id">
-            <nuxt-link :to="'/profiles/' + contact.id">{{contact.fullname}}</nuxt-link>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-teams" role="tabpanel" aria-labelledby="list-settings-list"> 
-          <h5>Мои команды</h5>
-          <hr />
-          <div v-for="t of profile.myteams" :key="t.id">
-            <nuxt-link :to="'/teams/' + t.id">{{ t.name }}</nuxt-link>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="list-team-reqs" role="tabpanel" aria-labelledby="list-settings-list"> 
-          <h5>Мои заявки в команды</h5>
-          <hr />
-          <div v-for="tr of profile.team_requests" :key="tr.id">
-            <nuxt-link :to="'/teams/' + tr.id">{{tr.name}}</nuxt-link>
-          </div>
-        </div>
+  <div>
+    <v-card>
+      <v-tabs vertical background-color="cyan" dark>
+        <v-tab>Проекты</v-tab>
+        <v-tab>Команды</v-tab>
+        <v-tab>Навыки</v-tab>
+        <v-tab>Контакты</v-tab>
 
-      </div>
-    </div>
-  </footer>
+        <!-- Projects -->
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <v-tabs>
+                <v-tab>Мои проекты</v-tab>
+                <v-tab>Заявки в проекты</v-tab>
+                <v-tab>Участвую в проектах</v-tab>
+
+                <v-tab-item>
+                  <div v-if="profile.myprojects && profile.myprojects.length > 0">
+                    <div v-for="project of profile.myprojects" :key="project.id">
+                      <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
+                    </div>
+                  </div>
+                  <div v-else>Пока нет проектов</div>
+                </v-tab-item>
+
+                <v-tab-item>
+                  <div v-if="profile.project_requests && profile.project_requests.length > 0">
+                    <div v-for="req of profile.project_requests" :key="req.id">
+                      <span>{{req.name}}</span>
+                      <nuxt-link :to="'/projects/' + req.project">{{ req.project }}</nuxt-link>
+                    </div>
+                  </div>
+                  <div v-else>Пока нет заявок</div>
+                </v-tab-item>
+
+                <v-tab-item>
+                  <div v-if="profile.projects && profile.projects.length > 0">
+                    <div v-for="p of profile.projects" :key="p.id">
+                      <nuxt-link :to="'/projects/' + p.id">{{ p.name }}</nuxt-link>
+                    </div>
+                  </div>
+                  <div v-else>Пока нигде не участвую</div>
+                </v-tab-item>
+              </v-tabs>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+
+        <!-- Teams -->
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <v-tabs>
+                <v-tab>Мои команды</v-tab>
+                <v-tab>Заявки в команды</v-tab>
+
+                <v-tab-item>
+                  <div v-if="profile.teams && profile.teams.length > 0">
+                    <div v-for="t of profile.myteams" :key="t.id">
+                      <nuxt-link :to="'/teams/' + t.id">{{ t.name }}</nuxt-link>
+                    </div>
+                  </div>
+                  <div v-else>Пока нет команд</div>
+                </v-tab-item>
+
+                <v-tab-item>
+                  <div v-if="profile.team_requests && profile.team_requests.length > 0">
+                    <div v-for="tr of profile.team_requests" :key="tr.id">
+                      <nuxt-link :to="'/teams/' + tr.id">{{tr.name}}</nuxt-link>
+                    </div>
+                  </div>
+                  <div v-else>Пока никуда не подавал заявки</div>
+                </v-tab-item>
+              </v-tabs>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <!-- Skills -->
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <div v-for="skill of profile.skills" :key="skill.id">
+                    <v-chip class="ma-2">{{skill.skill}}</v-chip>
+                  </div>
+                </v-col>
+
+                <v-col>
+                  <v-select
+                    v-model="selected"
+                    :items="skills"
+                    @change="addSkill"
+                    label="Выберите навык"
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+
+        <!-- Contacts -->
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <div v-if="profile.contacts && profile.contacts.length > 0">
+                <div v-for="contact of profile.contacts" :key="contact.id">
+                  <nuxt-link :to="'/profiles/' + contact.id">{{contact.fullname}}</nuxt-link>
+                </div>
+              </div>
+              <div v-else>Пока никого нет</div>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
+  </div>
 </template>
 
 <script>
 export default {
   name: "ProfileFooter",
   props: {
-    profile: Object
+    profile: Object,
   },
-}
+  data() {
+    return {
+      selected: "",
+      skills: [],
+    };
+  },
+  async created() {
+    const resp = await this.$axios.$get(`/skills`);
+    this.skills = resp.map((r) => r.skill);
+  },
+  methods: {
+    addSkill() {
+      console.log(this.selected);
+    },
+  },
+};
 </script>

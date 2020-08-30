@@ -31,11 +31,9 @@ export default {
   async created(){
     // preserve session if jwt in cookies exists 
     if (process.client){
-      
       const jwt = this.getCookie('jwt')
       const profile_id = this.getCookie('profile_id')
       const token = {}
-    
       if (jwt && profile_id){
         const profile = await this.$axios.$get(`/profiles/${profile_id}`)
         token.jwt = jwt

@@ -49,10 +49,33 @@
         </span>
         <!-- vacancies -->
         <v-card-title>Вакансии</v-card-title>
-        <v-chip v-for="v in project.vacancies" :key="v.id">
+        <v-chip class="mr-2 mb-2" v-for="v in project.vacancies" :key="v.id">
           {{v.name}}
         </v-chip>
-
+        <v-spacer></v-spacer>
+        <!-- management -->
+        <v-card-title>Управление </v-card-title>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col>
+            <v-btn
+              color="primary"
+              nuxt
+              :to="`/projects/${project.id}/auth/edit`"
+            >
+              Изменить
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              color="primary"
+              nuxt
+              :to="`/projects/${project.id}/auth/vacancies/`"
+            >
+              Вакансии
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-col>
 
     </v-row>

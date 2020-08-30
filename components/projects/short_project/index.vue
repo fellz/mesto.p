@@ -55,7 +55,7 @@
         
         <!-- vacancies -->
         <v-card-title>Вакансии</v-card-title>
-        <v-chip v-for="vac in project.vacancies" :key="vac.id">
+        <v-chip class="mr-2 mb-2" v-for="vac in project.vacancies" :key="vac.id">
           <join-project-button :project="project" :skill="vac" />{{vac.name}}
         </v-chip>
 
@@ -68,7 +68,6 @@
 
 <script>
 import VClamp from "vue-clamp";
-import ProjectSkills from "~/components/projects/short_project/ProjectSkills.vue";
 import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
 
 export default {
@@ -86,7 +85,6 @@ export default {
   },
   components: {
     VClamp,
-    ProjectSkills,
     JoinProjectButton
   },
   methods:{

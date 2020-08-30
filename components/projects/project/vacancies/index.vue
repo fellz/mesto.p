@@ -1,52 +1,65 @@
 <template>
   <div>
-    <h4>
-      <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-    </h4>
-    <hr/>
-    <div class="row">
-      <main class="col-sm-6">
-        <h5> Вакансии </h5>
-        <main class="project_edit_skills__main">
-          <section class="main__vacancy"  v-for="s of project.project_skills" :key="s.id"> 
-            <header class="row vacancy__header">
-              <h5 class="col-sm-4">{{s.name}}</h5> 
-              <div class="col-sm-4 text-left"><span class="header__pay">{{ s.pay === true ? "платим" : "волонтер" }}</span></div>
-              <div class="col-sm-4 text-right">
-                <button v-if="s.filled != true" class="btn btn-primary" @click="foundSkillClose(s)">Закрыть </button>
-                <button v-else class="btn btn-primary" @click="foundSkillOpen(s)">Открыть </button>
-              </div>  
-            </header>
-            <hr/>
-            <div>
-              <project-requests :skill="s"></project-requests>
-            </div>
-          </section>
-        </main>
-      </main>
-      <aside>
-        <section>
-          <form @submit.prevent="addSkill" method="post"> 
-            <h5>Кто нужен в проект:</h5>
-            <hr/>
-            <label>Платим?</label>
-            <input type="checkbox" v-model="pay" />
-            <p>
-              <select v-model="selected" @change="itemSelected" class="custom-select">
-                <option disabled value="">Выберите скилл</option>
-                <option v-for="skill of skills" :key="skill.id" :value="skill.id">{{skill.skill}}</option>
-              </select>
-            </p>
-            <input type="submit" class="btn btn-primary" value="Добавить" />
-          </form>
-        </section>
-        <section>
-          <h5>Команда проекта</h5>
-          <hr/>
-          <participants :owner_profile="project.owner" :resource="project" />
-        </section>
-      </aside>
-    </div>
+    <v-row >
+      
+      <v-col cols="6">
+        
+        <v-card  class="mb-4">
+          <v-card-title>
+            <div class="text-h5">Кто нужен в проект<v-divider /></div>
+          </v-card-title>
+          <v-form @submit.prevent="addSkill">
+            <v-container fluid>
+              <v-row style="background-color: #f4f4f4;" align="center">
+                <v-col class="d-flex" cols="12" md="6">
+                  <v-checkbox v-model="pay" label="Платим ?"></v-checkbox>
+                </v-col>
+                <v-col class="d-flex" cols="12" md="6">
+                  <v-select
+                    v-model="selected"
+                    :items="skills"
+                    label="Выберите навык"
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-card-actions>
+              <v-btn type="submit">Добавить</v-btn>
+            </v-card-actions>  
+          </v-form>
+        </v-card>
+        
+        <div class="text-h5 mb-3">Команда проекта</div>
+        <v-divider class="mb-3" />
+        <participants :owner_profile="project.owner" :resource="project" />
+
+      </v-col>
+  
+      <v-col>
+        <div class="text-h5">Вакансии </div>
+        <v-divider class="mb-3" />
+        <v-card class="mb-3" v-for="s of project.vacancies" :key="s.id">
+          <v-row >
+            <v-col>
+                <v-list>
+                  <v-list-item><v-chip>{{s.name}}</v-chip></v-list-item>
+                  <v-list-item><v-chip color="primary">{{ s.pay === true ? "платим" : "волонтер" }}</v-chip></v-list-item>
+                  <v-list-item>
+                    <v-btn v-if="s.filled != true" @click="foundSkillClose(s)">Закрыть</v-btn>
+                    <v-btn v-else @click="foundSkillOpen(s)">Открыть</v-btn>
+                  </v-list-item>
+                </v-list>
+            </v-col>
+            <v-col>
+              <project-requests :skill="s"></project-requests>        
+            </v-col>
+          </v-row>
+        </v-card>
+          
+      </v-col>
+
+    </v-row>
+    
   </div>
 </template>
 
@@ -70,16 +83,18 @@ export default {
     ProjectRequests,
     Participants
   },
-  async fetch(){
+  async created(){
     await this.getSkills()
     await this.getProject();
   },
   methods:{
     async getSkills(){
-      this.skills = await this.$axios.$get(`/skills`);
+      const resp = await this.$axios.$get(`/skills`);
+      this.skills = resp.map( (r) => (r.skill))
     },
     async getProject(){
       this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
+      console.log('Project', this.project.project_skills)
     },
      async skillClose(skill){
       const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
@@ -101,7 +116,7 @@ export default {
       let proj = {
         pay: this.pay,
         name: this.name,
-        skill: this.selected,
+        name: this.selected,
         project: parseInt(this.$route.params.id, 10),
       };
       const resp = await this.$axios.$post(`/project-skills/`,
