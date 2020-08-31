@@ -2,6 +2,7 @@
   <div>
     <v-card class="mb-4">
       <v-row>
+        <!-- Avatar City Url-->
         <v-col cols="12" sm="4" align="center" style="position:relative">
           <v-btn absolute right light icon nuxt to="/my/auth/edit/photo">
             <v-icon>mdi-pencil</v-icon>
@@ -11,7 +12,7 @@
           </v-avatar>
           <v-list>
             <v-list-item class="justify-center">
-              <v-list-item-title>{{profile.city}}</v-list-item-title>
+              {{profile.city}}
             </v-list-item>
             <v-list-item class="justify-center">
               <a
@@ -21,6 +22,7 @@
             </v-list-item>
           </v-list>
         </v-col>
+        <!-- About block -->
         <v-col cols="12" sm="8">
           <v-card-title>
             {{profile.fullname}}
@@ -32,41 +34,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <!--
-  <div>
-    <h4>Профиль</h4>
-    <hr />
-    <div class="row myprofile">
-      <aside class="col-sm-3 myprofile__aside">
-        <div><nuxt-link to="/my/auth/edit/photo">изменить фото</nuxt-link></div>
-        <div>
-          <img :src=" url + avatar" />
-        </div>
-        <div class="font-weight-bold">
-          {{ profile.country }}
-        </div>
-        <div class="font-weight-bold">
-          {{ profile.city }}
-        </div>
-        <div v-if="profile.age" class="font-weight-bold">
-          Возраст
-          {{ profile.age }}
-        </div>
-      </aside>
-      <main class="col-sm-9 myprofile__main">
-        <header class="main__title">
-          <h4>{{ profile.fullname }}</h4>
-          <nuxt-link to="/my/auth/edit/">изменить описание</nuxt-link>
-        </header>
-        <section >
-          {{ profile.about }}
-        </section>
-        <section>
-          <b>Cайт: </b>
-          <a :href="profile.url" target="_blank">{{ profile.url }}</a>
-      </section>
-      </main>
-    </div>-->
+    <!-- Footer -->
     <profile-footer :profile="profile" />
   </div>
 </template>

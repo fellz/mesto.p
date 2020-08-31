@@ -8,7 +8,7 @@
         <!-- Provides the application the proper gutter -->
         <v-container fluid class="fill-height" >
           <v-row justify="center">
-            <v-col sm="10" >
+            <v-col sm="11" >
               <nuxt class="nuxt" />
             </v-col>
           </v-row>
@@ -87,7 +87,7 @@ section{
   margin: 20px 0;
 }
 .nuxt{
-  padding-top:70px;
+  padding-top:10px;
   padding-bottom: 50px;
 
 }

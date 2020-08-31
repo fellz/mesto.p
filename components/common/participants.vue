@@ -1,27 +1,25 @@
 <template>
   <div>
-    <main class="participants">
-      <div v-if="profile" class="participants__owner">
-        <div 
-          class="owner__photo"
-          :src="thumb( profile )"
-          :style="backimg( profile )">
-        </div>
-        <nuxt-link :to="'/profiles/' + profile.id">{{ profile.fullname }}</nuxt-link>
-      </div>
-      <div v-for="p of res.participants" :key="p.id" class="participants__member" >
-        <div
-            class="member__photo"
-            :src="thumb( p )"
-            :style="backimg( p )"
-          ></div>
-        <div>
-          <nuxt-link :to="'/profiles/' + p.id">
-            {{p.fullname}}
-          </nuxt-link>
-        </div>
-      </div>
-    </main>
+    <!-- Owner avatar -->
+      <nuxt-link :to="'/profiles/' + profile.id">
+        <v-avatar size="70" style="border: 2px solid red" >
+          <v-img
+            class="elevation-6"
+            :src="backimg(profile)"
+          />
+        </v-avatar>
+      </nuxt-link>
+      <!-- other members -->
+      <span v-for="p in resource.participants" :key="p.id">
+        <nuxt-link :to="`/profiles/${p.id}`" >
+          <v-avatar size="60">
+            <v-img
+              class="elevation-6"
+              :src="backimg(p)"
+            />
+          </v-avatar>
+        </nuxt-link>
+      </span>
   </div>
 </template>
 
@@ -58,11 +56,10 @@ export default {
   },
   methods:{
     backimg(profile) {
-      return `background-image: url(${this.url}${
+      return `${this.url}${
         profile.avatar
           ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar
-      })`;
+          : this.defAvatar}`
     },
     thumb(profile){
       return this.url + (profile.avatar ? profile.avatar.formats.thumbnail.url : this.defAvatar)

@@ -32,32 +32,15 @@
         </v-row>
 
         <v-card-title>Команда</v-card-title>
-        <!-- Owner avatar -->
-        <nuxt-link :to="'/profiles/' + project.owner.id">
-          <v-avatar size="70" style="border: 2px solid red" >
-            <v-img
-              class="elevation-6"
-              :src="backimg(project.owner)"
-            />
-          </v-avatar>
-        </nuxt-link>
-        <!-- other members -->
-        <span v-for="p in project.participants" :key="p.id">
-          <nuxt-link :to="'/profiles/' + p.id" >
-            <v-avatar size="60">
-              <v-img
-                class="elevation-6"
-                :src="backimg(p)"
-              />
-            </v-avatar>
-          </nuxt-link>
-        </span>
+        <participants :resource="project" :owner_profile="project.owner" />
         
         <!-- vacancies -->
         <v-card-title>Вакансии</v-card-title>
-        <v-chip class="mr-2 mb-2" v-for="vac in project.vacancies" :key="vac.id">
-          <join-project-button :project="project" :skill="vac" />{{vac.name}}
-        </v-chip>
+        <span v-for="vac in project.vacancies" :key="vac.id">
+          <v-chip v-if="!vac.filled" class="mr-2 mb-2" >
+            <join-project-button  :project="project" :skill="vac" />{{vac.name}}
+          </v-chip>
+        </span>
 
       </v-col>
 
@@ -68,6 +51,7 @@
 
 <script>
 import VClamp from "vue-clamp";
+import Participants from "~/components/common/participants.vue" 
 import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
 
 export default {
@@ -85,7 +69,8 @@ export default {
   },
   components: {
     VClamp,
-    JoinProjectButton
+    JoinProjectButton,
+    Participants
   },
   methods:{
     backimg(profile) {
@@ -93,9 +78,6 @@ export default {
         profile.avatar
           ? profile.avatar.formats.thumbnail.url
           : this.defAvatar}`
-    },
-    applyToVacancy(v){
-
     }
   }
 };

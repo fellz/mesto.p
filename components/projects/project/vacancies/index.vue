@@ -45,13 +45,13 @@
                   <v-list-item><v-chip>{{s.name}}</v-chip></v-list-item>
                   <v-list-item><v-chip color="primary">{{ s.pay === true ? "платим" : "волонтер" }}</v-chip></v-list-item>
                   <v-list-item>
-                    <v-btn v-if="s.filled != true" @click="foundSkillClose(s)">Закрыть</v-btn>
-                    <v-btn v-else @click="foundSkillOpen(s)">Открыть</v-btn>
+                    <v-btn v-if="s.filled != true" @click="skillClose(s)">Закрыть</v-btn>
+                    <v-btn v-else @click="skillOpen(s)">Открыть</v-btn>
                   </v-list-item>
                 </v-list>
             </v-col>
             <v-col>
-              <project-requests :skill="s"></project-requests>        
+              <project-requests :skill="s" :project="project" @update-project="getProject()"></project-requests>        
             </v-col>
           </v-row>
         </v-card>
@@ -94,19 +94,18 @@ export default {
     },
     async getProject(){
       this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
-      console.log('Project', this.project.project_skills)
     },
      async skillClose(skill){
       const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
         {filled: true, requests: []},
       )
-      this.getSkills();
+      this.getProject();
     },
     async skillOpen(skill){
       const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
         { filled: false },
       )
-      this.getSkills();
+      this.getProject();
     },
     itemSelected(){
       const sk = this.skills.find(s => this.selected === s.id)

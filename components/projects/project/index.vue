@@ -27,33 +27,17 @@
           <v-col style="text-align: end">{{ project.created_at | formatDate }}</v-col>
         </v-row>
         <v-card-title>Команда</v-card-title>
-        <!-- Owner avatar -->
-        <nuxt-link :to="'/profiles/' + project.owner.id">
-          <v-avatar size="70" style="border: 2px solid red" >
-            <v-img
-              class="elevation-6"
-              :src="backimg(project.owner)"
-            />
-          </v-avatar>
-        </nuxt-link>
-        <!-- other members -->
-        <span v-for="p in project.participants" :key="p.id">
-          <nuxt-link :to="`/profiles/${p.id}`" >
-            <v-avatar size="60">
-              <v-img
-                class="elevation-6"
-                :src="backimg(p)"
-              />
-            </v-avatar>
-          </nuxt-link>
-        </span>
+        <participants :resource="project" :owner_profile="project.owner" />
         <!-- vacancies -->
         <v-card-title>Вакансии</v-card-title>
-        <v-chip class="mr-2 mb-2" v-for="v in project.vacancies" :key="v.id">
-          {{v.name}}
-        </v-chip>
+        <span v-for="vac in project.vacancies" :key="vac.id">
+          <v-chip v-if="!vac.filled" class="mr-2 mb-2" >
+            {{vac.name}}
+          </v-chip>
+         </span>
         <v-spacer></v-spacer>
         <!-- management -->
+        <div v-if="managerFilter(project)">
         <v-card-title>Управление </v-card-title>
         <v-divider></v-divider>
         <v-row>
@@ -76,6 +60,7 @@
             </v-btn>
           </v-col>
         </v-row>
+        </div>
       </v-col>
 
     </v-row>
@@ -83,9 +68,8 @@
 </template>
 
 <script>
-//import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
 //import RequestFromTeamButton from "~/components/projects/project/service/requestFromTeamButton.vue";
-//import Participants from "~/components/common/participants.vue";
+import Participants from "~/components/common/participants.vue";
 
 export default {
   name: "Project",
@@ -94,6 +78,9 @@ export default {
   //   RequestFromTeamButton,
   //   Participants
   // },
+  components:{
+    Participants
+  },
   data(){
     return {
       url: process.env.baseUrl,
@@ -118,10 +105,11 @@ export default {
       return project.owner.id === this.$store.state.userProfile.id; 
     },
     managerFilter(project){
+      let manager = false
       if (project.owner){
-        return this.$store.state.authUser && this.isOwner(project)
+        manager = this.$store.state.authUser && this.isOwner(project)
       }
-      return false  
+      return manager  
     },
   } 
 };

@@ -22,7 +22,7 @@
     
     <!-- profiles -->
     <v-row>
-      <v-col cols="auto" v-for="profile of profiles" :key="profile.id">
+      <v-col  v-for="profile of profiles" :key="profile.id">
         <short-profile :profile="profile" />
       </v-col>
     </v-row>
@@ -49,7 +49,7 @@ export default {
       search: "",
       social: false,
       baseUrl: process.env.baseUrl,
-      per_page: 5,
+      per_page: 6,
       value: null,
       options:  []
     };
@@ -76,7 +76,7 @@ export default {
     },
     // default method to take profiles
     async getProfiles(start) {
-      this.profiles = await this.$axios.$get(`/profiles?_start=${start}&_limit=5&_sort=created_at:DESC`);
+      this.profiles = await this.$axios.$get(`/profiles?_start=${start}&_limit=6&_sort=created_at:DESC`);
     },
     // for pagination
     async getAllProfiles() {

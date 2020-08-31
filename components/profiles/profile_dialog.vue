@@ -28,6 +28,9 @@
                 <v-chip class="ma-2" v-for="s in profile.skills" :key="s.id">
                   {{s.skill}}
                 </v-chip>
+                <v-btn color="primary" text nuxt :to="'/profiles/' + profile.id" >
+                  Профиль
+                </v-btn>
                 <v-btn color="primary" text @click="closeDialog" >
                   Закрыть
                 </v-btn>

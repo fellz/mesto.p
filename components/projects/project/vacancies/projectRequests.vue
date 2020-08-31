@@ -16,25 +16,6 @@
         </div>
     </v-col>
   </v-row>
-  <!--<div>
-    <div class="project_edit_skills-flex">
-      <div class="project_edit_skills_requests">
-        <div>Заявки</div>
-        <hr/>
-        <section v-for="req of proj_skill.requests" :key="req.id">
-          <nuxt-link :to="'/profiles/'+req.id">{{req.fullname}}</nuxt-link>
-          <button class="btn btn-primary" @click="joinProject(req.id)">Принять</button>
-        </section>
-      </div>
-      <div class="project_edit_skills_filled">
-        <div>Принятые</div> 
-        <hr/>
-        <div v-for="conf of proj_skill.confirmeds" :key="conf.id">
-          <nuxt-link :to="'/profiles/'+conf.id">{{conf.fullname}}</nuxt-link>
-        </div>
-      </div>
-    </div>
-  </div>-->
 </template>
 
 <script>
@@ -42,7 +23,8 @@
 export default {
   name: "ProjectRequests",
   props: {
-    skill: Object
+    skill: Object,
+    project: Object
   },
   data(){
     return {
@@ -57,7 +39,6 @@ export default {
     // Забираем заявку
     async getSkill(){
       this.proj_skill = await this.$axios.$get(`/project-skills/${this.skill.id}`)
-      console.log('Vac: ', this.proj_skill)
     },
     // Обработка заявки по вакансии
     async joinProject(id){
@@ -72,7 +53,7 @@ export default {
         {requests: new_reqs},
       )
       // Update project. Add to project participants
-      const ps = this.$store.state.project.participants
+      const ps = this.project.participants
       const new_participants = [...ps, id]
       const project = await this.$axios.$put(`/projects/${this.$route.params.id}`,
         {participants: new_participants},
@@ -85,7 +66,8 @@ export default {
         {projects: new_projects},
       )
       // Update project. Should update project in skills page.
-      this.$store.dispatch("setProject",{id:this.$route.params.id})
+      //this.$store.dispatch("setProject",{id:this.$route.params.id})
+      this.$emit('update-project' )
       // Update skill
       this.getSkill();
     },

@@ -1,7 +1,6 @@
 <template>
-    <span v-if="$store.state.userProfile">
+    <span v-if="skillReqFilter(skill, project)">
       <a href=""
-      v-if="skillReqFilter(skill, project) "
       @click.prevent="joinProjectRequest(skill)"
     ><v-icon>mdi-plus</v-icon></a>
     </span>
@@ -16,6 +15,7 @@ export default {
     skill: Object
   },
   methods:{
+    
      isOwner(project) {
        return project.owner.id === this.$store.state.userProfile.id; 
     },
@@ -34,6 +34,7 @@ export default {
       return applied;
     },
     skillReqFilter(skill, project){
+      console.log(skill.filled)
       if (project.owner){
         return (
           this.$store.state.authUser &&

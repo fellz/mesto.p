@@ -23,7 +23,7 @@ export default {
   data(){
     return {
       page: 0,
-      per_page: 5,
+      per_page: 6,
       current_page: 1
     }
   },

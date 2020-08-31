@@ -1,141 +1,111 @@
 <template>
-  <div>
-    <div class="row mt-4 profile">
-      <main class="col-sm-9 mb-4 bg-white rounded ">
-        <!--<header class="main__header">
-          <div v-if="profile.social > 0" class="font-weight-bold">{{ profile.social }} Спасибо</div>
-        </header>-->
-        <img class="rounded-circle main__avatar" :src="avatar"  />
-        <section >
-          <div class="text-left mb-4 main__city  ">
-          <span class="font-weight-bold">{{profile.city ? profile.city : " "}}</span>
-        </div>
-          <h5>{{ profile.fullname }}</h5>
+  <v-row justify="center">
+    <v-col cols="12" sm="10" >
+      <v-card class="profile-dialog">
+        <v-card-title class="headline grey lighten-2">
+          {{ profile.fullname }}
+        </v-card-title>
+        <v-card-subtitle class="grey lighten-2">
+          {{ profile.city }}
+        </v-card-subtitle>
+
+        <v-avatar class="profile-dialog-avatar" size="130">
+          <v-img :src="profilePhotoUrl"></v-img>
+        </v-avatar>
+
+        <v-card-text>
           {{ profile.about }}
-        </section>
-        </main>
-        <footer class="p-3 bg-white">
-          <section v-if="profile.skills && profile.skills.length > 0 ">
-            <span class="font-weight-bold">Навыки:</span>
-            <span class="bg-info text-white px-1 mr-2" v-for="skill of profile.skills" :key="skill.id">
-              {{skill.skill}}
-            </span>
-          </section>
-          <section v-if="profile.myprojects && profile.myprojects.length > 0">
-            <h5>Мои проекты:</h5>
-            <hr>
-            <div v-for="project of profile.myprojects" :key="project.id">
-              <nuxt-link :to="'/projects/' + project.id">{{ project.name }}</nuxt-link>
-            </div>
-          </section>
-          <section v-if="profile.url && profile.url !=0" >
-            <h5>Как связаться</h5>
-            <hr/>
-            <a :href="profile.url">{{ profile.url }}</a>
-          </section>
-          <section>
-            <button
-              type="button"
-              class="btn btn-primary"
-              v-if="addToContactsFilter(profile)"
-              @click="addToContacts(profile)"
-            >В контакты</button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              v-if="spasiboFilter(profile)"
-              @click="upSocial(profile)"
-            >Спасибо</button>
-          </section>
-      </footer>
-    </div>
-  </div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-chip class="ma-2" v-for="s in profile.skills" :key="s.id">
+            {{s.skill}}
+          </v-chip>
+          
+        </v-card-actions>
+        <v-card-actions >
+          <v-btn v-if="contactsFilter()" color="success" @click="addToContacts()">Вконтакты</v-btn>
+          <v-btn v-if="sPasiboFilter()" color="success" @click="sPasibo()">Спасибо</v-btn> 
+        </v-card-actions>
+      </v-card>
+      </v-col>
+    </v-row>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
+  name: "MestoProfile",
   data(){
     return {
       profile: {},
-      url: process.env.baseUrl
+      baseUrl: process.env.baseUrl,
+      defAvatar: process.env.defAvatar
     }
-  }, 
-  async fetch(){
-    await this.getProfile()
   },
   computed:{
-    avatar(){
-      return this.profile.avatar ? this.url + this.profile.avatar.formats.thumbnail.url : this.url + process.env.defAvatar
-     },
+    profilePhotoUrl(){
+      return (`${this.baseUrl}${this.profile.avatar
+            ? this.profile.avatar.formats.thumbnail.url
+            : this.defAvatar}`)
+    }
   },
-  methods: {
+  async created(){
+    await this.getProfile()
+  },  
+  methods:{
     async getProfile(){
-      this.profile = await this.$axios.$get(`/profiles/${this.$route.params.id}`);
+      this.profile = await this.$axios.$get(`/profiles/${this.$route.params.id}`)
     },
-    // Show only to Authorized & Not in Contacts already & not myself
-    addToContactsFilter(profile){
-      return this.$store.state.authUser && !this.inContacts(profile) && !this.loggedUserFilter(profile)
+    contactsFilter(){
+      const prof = this.$store.state.userProfile
+      const incontacts = prof.contacts.some(r => r.id == this.$route.params.id)
+      const isSelf = prof.id == this.$route.params.id
+      return this.$store.state.authUser && !incontacts && !isSelf
     },
-    async addToContacts(profile) {
-      // we add user to contacts, contacts recives only users
-      let contacts = this.$store.state.userProfile.contacts;
-      const my_profile = this.$store.state.userProfile.id; // my profile id
-      const new_contacts = [...contacts, profile.id]; // we get new array here because we cann't modify store
-      const resp = await this.$axios.$put(`/profiles/${my_profile}`,
-        { contacts: new_contacts },
-      );
-      this.$store.dispatch("getMyProfile");
-    },
-    spasiboFilter(profile){
-      return this.$store.state.authUser && this.filterSocial(profile) && !this.loggedUserFilter(profile)
-    },
-    // FIX: можно проще
-    filterSocial(prof){
-      let sb = true
-      const profs = this.$store.state.userProfile.social_trackers
-      const whoms = profs.map(p => p.profile_whom) // [1,3,4]
-      const in_social = whoms.some(w => w === prof.id)
-      if (in_social){
-        sb = false
-      }
-      return sb
-    },
-    async upSocial(profile) {
-      const logged_in_user_id = this.$store.state.userProfile.id
-      const resp = await this.$axios.$post(`/socials`,
-        { name: "spasibo", profile_whom: profile , profile_who: logged_in_user_id   },
-      );
-      const resp_prof = await this.$axios.$put(`/profiles/${profile.id}`,
-        { social: profile.social += 1   },
-      );
-      this.$store.dispatch("getMyProfile"); // update MyProfile data
+    async addToContacts(){
+      const prof  = this.$store.state.userProfile
+      const new_contacts = [...prof.contacts, this.profile.id ]
+      const resp = await this.$axios.$put(`/profiles/${prof.id}`,
+        {contacts: new_contacts}
+      )
+      this.$store.dispatch('setProfile', { profile: resp })
       
-    }, // Service functions
-    loggedUserFilter(prof){
-      return (this.$store.state.userProfile.id === prof.id)
     },
-    inContacts(profile) {
-      let mycontacts = this.$store.state.userProfile.contacts;
-      let contact_exist = false;
-      const res = mycontacts.some(ct => ct.id === profile.id);
-      if (res) {
-        contact_exist = true;
-      }
-      return contact_exist;
+    sPasiboFilter(){
+      const prof = this.$store.state.userProfile
+      const current_profile_id = this.$route.params.id
+      const st = prof.social_trackers.some(p => p.profile_whom == current_profile_id )
+      const isSelf = prof.id == current_profile_id
+      console.log(prof.social_trackers)
+      return this.$store.state.authUser && !isSelf && !st
+    },
+    async sPasibo(){
+      const prof  = this.$store.state.userProfile
+      const resp = await this.$axios.$post('/socials',
+        {name: "spasibo", profile_who: prof.id, profile_whom: this.$route.params.id}
+      )
+      console.log(resp)
+      const new_profile = await this.$axios.$get(`/profiles/${prof.id}`,)
+      
+      this.$store.dispatch('setProfile', { profile: new_profile })
     }
   }
-};
+}
 </script>
 
 <style>
-  .main__city{
-    color: #f96b6b;
+  .profile-dialog{
+    position: relative;
+    background-color: #f0f0f0;;
+    padding-top: 100px;
   }
-  .main__avatar {
+  .profile-dialog-avatar{
     position: absolute;
-    right: 56px;
-    top: -78px;
+    right: 20px;
+    top: 10px;    
   }
 </style>

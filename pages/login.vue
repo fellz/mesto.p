@@ -51,11 +51,11 @@ export default {
         // set token for requests
         this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
         
-        document.cookie = `jwt=${this.$store.state.authUser.jwt};max-age=10800`
+        document.cookie = `jwt=${this.$store.state.authUser.jwt};SameSite=Strict;secure=true;max-age=10800`
         const prof = this.$store.state.authUser.user.profile
         
         if (prof){
-          document.cookie = `profile_id=${prof.id};max-age=10800`
+          document.cookie = `profile_id=${prof.id};SameSite=Strict;secure=true;max-age=10800`
           const profl = await this.$axios.$get(`/profiles/${prof.id}`)  
           this.$store.dispatch('setProfile', { profile: profl })
         }
