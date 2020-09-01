@@ -4,13 +4,13 @@
       
       <v-col sm="8">
         
-        <v-img height="150"
+        <v-img height="120"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
-          <v-row align="end" class="ml-4 white--text fill-height" >
-            <h1 class="px-1" style="background-color: rgba(74, 70, 70, 0.82);">
+          <v-row align="end" class="pl-3 white--text fill-height" >
+            <h2 class="px-1" style="background-color: rgba(74, 70, 70, 0.82);">
               {{project.name}}
-            </h1>
+            </h2>
           </v-row>
             
         </v-img>

@@ -4,17 +4,17 @@
       
       <v-col cols="8">
         
-        <v-img height="150"
+        <v-img height="100"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
-        <v-row align="end" class="ml-4 fill-height">
-          <h1 class="px-2" style="background-color: rgba(74, 70, 70, 0.82);">
+        <v-row align="end" class="pl-2 fill-height">
+          <h2 class="px-2" style="background-color: rgba(74, 70, 70, 0.82);">
             <nuxt-link 
               :to="'/projects/' + project.id" 
               style="color:white;" >
               {{project.name}}
             </nuxt-link>
-          </h1>
+          </h2>
         </v-row>
     
         </v-img>
