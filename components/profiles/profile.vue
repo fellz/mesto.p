@@ -28,17 +28,21 @@
           
         </v-card-actions>
         <v-card-actions >
-          <v-btn v-if="contactsFilter()" color="success" @click="addToContacts()">Вконтакты</v-btn>
-          <v-btn v-if="sPasiboFilter()" color="success" @click="sPasibo()">Спасибо</v-btn> 
-        </v-card-actions>
+          <social-buttons :profileId="profile.id" />
+         </v-card-actions>
       </v-card>
       </v-col>
     </v-row>
 </template>
 
 <script>
+import SocialButtons from "~/components/profiles/social.vue"
+
 export default {
   name: "MestoProfile",
+  components: {
+    SocialButtons
+  },
   data(){
     return {
       profile: {},
@@ -59,39 +63,6 @@ export default {
   methods:{
     async getProfile(){
       this.profile = await this.$axios.$get(`/profiles/${this.$route.params.id}`)
-    },
-    contactsFilter(){
-      const prof = this.$store.state.userProfile
-      const incontacts = prof.contacts.some(r => r.id == this.$route.params.id)
-      const isSelf = prof.id == this.$route.params.id
-      return this.$store.state.authUser && !incontacts && !isSelf
-    },
-    async addToContacts(){
-      const prof  = this.$store.state.userProfile
-      const new_contacts = [...prof.contacts, this.profile.id ]
-      const resp = await this.$axios.$put(`/profiles/${prof.id}`,
-        {contacts: new_contacts}
-      )
-      this.$store.dispatch('setProfile', { profile: resp })
-      
-    },
-    sPasiboFilter(){
-      const prof = this.$store.state.userProfile
-      const current_profile_id = this.$route.params.id
-      const st = prof.social_trackers.some(p => p.profile_whom == current_profile_id )
-      const isSelf = prof.id == current_profile_id
-      console.log(prof.social_trackers)
-      return this.$store.state.authUser && !isSelf && !st
-    },
-    async sPasibo(){
-      const prof  = this.$store.state.userProfile
-      const resp = await this.$axios.$post('/socials',
-        {name: "spasibo", profile_who: prof.id, profile_whom: this.$route.params.id}
-      )
-      console.log(resp)
-      const new_profile = await this.$axios.$get(`/profiles/${prof.id}`,)
-      
-      this.$store.dispatch('setProfile', { profile: new_profile })
     }
   }
 }

@@ -7,15 +7,14 @@
         <v-img height="120"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
-          <v-row align="end" class="pl-3 white--text fill-height" >
-            <h2 class="px-1" style="background-color: rgba(74, 70, 70, 0.82);">
-              {{project.name}}
-            </h2>
-          </v-row>
-            
         </v-img>
 
         <v-card-text>
+           <v-row align="end" class="pa-3  fill-height" >
+            <h2>
+              {{project.name}}
+            </h2>
+          </v-row>
           {{ project.description }}
         </v-card-text>
 

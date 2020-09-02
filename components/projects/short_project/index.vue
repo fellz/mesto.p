@@ -7,7 +7,7 @@
         <v-img height="100"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
-        <v-row align="end" class="pl-2 fill-height">
+        <!--<v-row align="end" class="pl-2 fill-height">
           <h2 class="px-2" style="background-color: rgba(74, 70, 70, 0.82);">
             <nuxt-link 
               :to="'/projects/' + project.id" 
@@ -15,11 +15,18 @@
               {{project.name}}
             </nuxt-link>
           </h2>
-        </v-row>
+        </v-row>-->
     
         </v-img>
 
         <v-card-text>
+          <h2 class="py-2">
+            <nuxt-link 
+              :to="'/projects/' + project.id" 
+            >
+              {{project.name}}
+            </nuxt-link>
+          </h2>
           <v-clamp autoresize :max-lines="6">{{ project.description }}</v-clamp>
         </v-card-text>
 

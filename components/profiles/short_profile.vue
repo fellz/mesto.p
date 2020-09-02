@@ -33,8 +33,7 @@
         </v-row>
       </v-container>
       <v-card-actions class="justify-center">
-        <v-btn color="success">Вконтакты</v-btn>
-        <v-btn color="success">Спасибо</v-btn> 
+        <social-buttons :profileId="profile.id" />
       </v-card-actions>
     </v-card>
 
@@ -45,6 +44,7 @@
 <script>
 import VClamp from "vue-clamp";
 import ProfileDialog from "~/components/profiles/profile_dialog.vue";
+import SocialButtons from "~/components/profiles/social.vue"
 
 export default {
   props: {
@@ -72,6 +72,7 @@ export default {
   components: {
     VClamp,
     ProfileDialog,
+    SocialButtons
   },
 };
 </script>
