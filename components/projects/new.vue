@@ -18,7 +18,7 @@
         <v-select
           v-model="stage_selected"
           :items="skills"
-          label="Выберите навык"
+          label="На каком этапе находится проект"
         ></v-select>
 
         <v-text-field
@@ -63,9 +63,3 @@ export default {
   }
 }
 </script>
-
-<style >
-.project_edit {
-  width: 50%;
-}
-</style>>

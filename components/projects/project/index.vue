@@ -87,8 +87,8 @@ export default {
       project: {owner:{}}
     }
   },
-  created() {
-      this.getProject();
+  async created() {
+      await this.getProject();
   },
   methods: {
     backimg(profile) {

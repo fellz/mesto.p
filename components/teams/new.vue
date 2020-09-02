@@ -1,44 +1,46 @@
 <template>
-  <div>
-    <form @submit.prevent="checkForm" method="post" class="project_new-width">
-      <p>
-        <label>Название</label>
-        <input type="text" v-model="team.name" class="form-control" placeholder="About" />
-      </p>
-      <p>
-        <label>Миссия команды</label>
-        <textarea
-          class="form-control"
-          v-model="team.about"
-          placeholder="Descrition"
-          aria-label="With textarea"
-        ></textarea>
-      </p> 
-      <input type="submit" class="btn btn-primary" value="Отправить" />
-    </form>
-  </div>
+  <v-row justify="center">
+    <v-col sm=6>
+      <v-form>
+        <v-text-field
+          v-model="name"
+          name="name"
+          label="Название команды"
+        ></v-text-field>
+
+        <v-textarea
+          v-model="about"
+          auto-grow
+          label="Миссия команды"
+          value="Расскажите о своей команде"
+        ></v-textarea>
+
+        <v-btn class="mr-4" @click="submit">Отправить</v-btn>
+
+      </v-form>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 
 export default {
-  name: "NewTeam",
-  data(){
+  data() {
     return {
-      team: {}
-    }
+      name: '',
+      about: '',
+      baseUrl: process.env.baseUrl
+    };
   },
   methods:{
-    async checkForm() {
+    async submit() {
       let team = {
-        name: this.team.name,
-        about: this.team.about,
+        name: this.name,
+        about: this.about,
         leader: this.$store.state.userProfile.id
-      }; 
-      const resp = await this.$axios.$post(`/teams`,
-        team
-      );
-      this.$router.replace('/teams')
+      };
+      const resp = await this.$axios.$post(`/teams`, team);
+      this.$nuxt.$router.replace(`/teams`);
     }
   }
 }

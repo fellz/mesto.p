@@ -21,11 +21,6 @@
         inresource = loggedInProfile.social_trackers.some(p => p.profile_whom == this.profileId )
       }
       const isSelf = loggedInProfile.id === this.profileId
-      console.log('Self', isSelf)
-      console.log('Logged', loggedInProfile.id)
-      console.log('profile', this.profileId)
-
-
       return this.$store.state.authUser && !inresource && !isSelf
     },
     async addToContacts(){
@@ -36,12 +31,6 @@
       )
       this.$store.dispatch('setProfile', { profile: resp })
     },
-      // sPasiboFilter(){
-      //   const loggedInProfile = this.$store.state.userProfile
-      //   const st = loggedInProfile.social_trackers.some(p => p.profile_whom == profileId )
-      //   const isSelf = loggedInProfile.id == profileId
-      //   return this.$store.state.authUser && !isSelf && !st
-      // },
       async sPasibo(){
         const loggedInProfile  = this.$store.state.userProfile
         const resp = await this.$axios.$post('/socials',

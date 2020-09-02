@@ -1,22 +1,25 @@
 <template>
-  <div>
-    <form @submit.prevent="checkForm" method="post">
-      <p>
-        <label>Название</label>
-        <input type="text" v-model="team.name" class="form-control" placeholder="Имя" />
-      </p>
-      <p>
-        <label>Миссия команды</label>
-        <textarea
-          class="form-control"
-          v-model="team.about"
-          placeholder="Descrition"
-          aria-label="О команде, миссия"
-        ></textarea>
-      </p>
-      <input type="submit" class="btn btn-primary" value="Отправить" />
-    </form>
-  </div>
+  <v-row justify="center">
+    <v-col sm=6>
+      <v-form>
+        <v-text-field
+          v-model="name"
+          name="name"
+          label="Название команды"
+        ></v-text-field>
+
+        <v-textarea
+          v-model="about"
+          auto-grow
+          label="Миссия команды"
+          value="Расскажите о своей команде"
+        ></v-textarea>
+
+        <v-btn class="mr-4" @click="submit">Отправить</v-btn>
+
+      </v-form>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -25,25 +28,23 @@ export default {
   name: "TeamEdit",
   data() {
     return {
-      team: {},
+      name: '',
+      about: '',
       baseUrl: process.env.baseUrl
     };
   },
-  created(){
-    this.getTeam();
+  async created(){
+    const resp = await this.$axios.$get(`/teams/${this.$route.params.id}`)
+    this.name = resp.name
+    this.about = resp.about
   },
-  methods: {
-    async getTeam(){
-      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);
-    },
-    async checkForm() {
+  methods:{
+    async submit() {
       let team = {
-        name: this.team.name,
-        about: this.team.about,
+        name: this.name,
+        about: this.about,
       };
-      const resp = await this.$axios.$put(`/teams/${this.$route.params.id}`,
-        team,
-      );
+      const resp = await this.$axios.$put(`/teams/${this.$route.params.id}`, team);
       this.$nuxt.$router.replace(`/teams/${this.$route.params.id}`);
     }
   }
