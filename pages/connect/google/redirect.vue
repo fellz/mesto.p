@@ -13,10 +13,10 @@ export default {
     if (resp.user.profile){
       const profile = await this.$axios.$get(`/profiles/${resp.user.profile.id}`)
       this.$store.dispatch('setProfile', { profile })
-      this.$router.replace('/profiles')  
+      this.$router.replace('/profiles')
+    }else{
+      this.$router.replace('/profiles/new')
     }
-    this.$router.replace('/profiles/new')
-    
   },
   methods:{
     setCookieToken(resp){
