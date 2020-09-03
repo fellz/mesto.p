@@ -17,31 +17,37 @@
                 <v-tab>Участвую в проектах</v-tab>
 
                 <v-tab-item>
-                  <div v-if="profile.myprojects && profile.myprojects.length > 0">
-                    <div v-for="project of profile.myprojects" :key="project.id">
-                      <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
+                  <v-card-text>
+                    <div v-if="profile.myprojects && profile.myprojects.length > 0">
+                      <div v-for="project of profile.myprojects" :key="project.id">
+                        <nuxt-link :to="'/projects/'+project.id">{{project.name}}</nuxt-link>
+                      </div>
                     </div>
-                  </div>
-                  <div v-else>Пока нет проектов</div>
+                    <div v-else>Пока нет проектов</div>
+                  </v-card-text>
                 </v-tab-item>
 
                 <v-tab-item>
-                  <div v-if="profile.project_requests && profile.project_requests.length > 0">
-                    <div v-for="req of profile.project_requests" :key="req.id">
-                      <span>{{req.name}}</span>
-                      <nuxt-link :to="'/projects/' + req.project">{{ req.project }}</nuxt-link>
+                  <v-card-text>
+                    <div v-if="profile.project_requests && profile.project_requests.length > 0">
+                      <div v-for="req of profile.project_requests" :key="req.id">
+                        <span>{{req.name}}</span>
+                        <nuxt-link :to="'/projects/' + req.project">{{ req.project }}</nuxt-link>
+                      </div>
                     </div>
-                  </div>
-                  <div v-else>Пока нет заявок</div>
+                    <div v-else>Пока нет заявок</div>
+                  </v-card-text>
                 </v-tab-item>
 
                 <v-tab-item>
-                  <div v-if="profile.projects && profile.projects.length > 0">
-                    <div v-for="p of profile.projects" :key="p.id">
-                      <nuxt-link :to="'/projects/' + p.id">{{ p.name }}</nuxt-link>
+                  <v-card-text>
+                    <div v-if="profile.projects && profile.projects.length > 0">
+                      <div v-for="p of profile.projects" :key="p.id">
+                        <nuxt-link :to="'/projects/' + p.id">{{ p.name }}</nuxt-link>
+                      </div>
                     </div>
-                  </div>
-                  <div v-else>Пока нигде не участвую</div>
+                    <div v-else>Пока нигде не участвую</div>
+                  </v-card-text>
                 </v-tab-item>
               </v-tabs>
             </v-card-text>
@@ -57,21 +63,25 @@
                 <v-tab>Заявки в команды</v-tab>
 
                 <v-tab-item>
-                  <div v-if="profile.teams && profile.teams.length > 0">
-                    <div v-for="t of profile.myteams" :key="t.id">
-                      <nuxt-link :to="'/teams/' + t.id">{{ t.name }}</nuxt-link>
+                  <v-card-text>
+                    <div v-if="profile.teams && profile.teams.length > 0">
+                      <div v-for="t of profile.myteams" :key="t.id">
+                        <nuxt-link :to="'/teams/' + t.id">{{ t.name }}</nuxt-link>
+                      </div>
                     </div>
-                  </div>
-                  <div v-else>Пока нет команд</div>
+                    <div v-else>Пока нет команд</div>
+                  </v-card-text>
                 </v-tab-item>
 
                 <v-tab-item>
-                  <div v-if="profile.team_requests && profile.team_requests.length > 0">
-                    <div v-for="tr of profile.team_requests" :key="tr.id">
-                      <nuxt-link :to="'/teams/' + tr.id">{{tr.name}}</nuxt-link>
+                  <v-card-text>
+                    <div v-if="profile.team_requests && profile.team_requests.length > 0">
+                      <div v-for="tr of profile.team_requests" :key="tr.id">
+                        <nuxt-link :to="'/teams/' + tr.id">{{tr.name}}</nuxt-link>
+                      </div>
                     </div>
-                  </div>
-                  <div v-else>Пока никуда не подавал заявки</div>
+                    <div v-else>Пока никуда не подавал заявки</div>
+                  </v-card-text>
                 </v-tab-item>
               </v-tabs>
             </v-card-text>
@@ -84,7 +94,14 @@
               <v-row>
                 <v-col>
                   <div v-for="skill of profile.skills" :key="skill.id">
-                    <v-chip class="ma-2">{{skill.skill}}</v-chip>
+                    <v-chip class="ma-2">
+                      {{skill.skill}}
+                      <a href="#" @click.prevent="removeSkill(skill.id)">
+                        <v-avatar class="ml-1" left>
+                          <v-icon>mdi-minus</v-icon>
+                        </v-avatar>
+                      </a>
+                    </v-chip>
                   </div>
                 </v-col>
 
@@ -92,7 +109,7 @@
                   <v-select
                     v-model="selected"
                     :items="skills"
-                    @change="addSkill"
+                    @change="addSkill()"
                     label="Выберите навык"
                   ></v-select>
                 </v-col>
@@ -129,15 +146,30 @@ export default {
     return {
       selected: "",
       skills: [],
+      skillsIds: [],
     };
   },
   async created() {
     const resp = await this.$axios.$get(`/skills`);
-    this.skills = resp.map((r) => r.skill);
+    this.skills = resp.map((r) => ({ text: r.skill, value: r.id }));
+    //this.skillsIds = resp.map((r) => r.id);
   },
   methods: {
-    addSkill() {
-      console.log(this.selected);
+    async addSkill() {
+      const skills = this.profile.skills;
+      const newSkills = [...skills, this.selected];
+      const resp = await this.$axios.$put(`/profiles/${this.profile.id}`, {
+        skills: newSkills,
+      });
+      this.$emit("update-profile");
+    },
+    async removeSkill(skillId) {
+      const skills = this.profile.skills;
+      const newSkills = skills.filter((s) => s.id != skillId);
+      const resp = await this.$axios.$put(`/profiles/${this.profile.id}`, {
+        skills: newSkills,
+      });
+      this.$emit("update-profile");
     },
   },
 };

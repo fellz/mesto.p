@@ -35,7 +35,7 @@
       </v-row>
     </v-card>
     <!-- Footer -->
-    <profile-footer :profile="profile" />
+    <profile-footer :profile="profile" @update-profile="getProfile" />
   </div>
 </template>
 
@@ -55,7 +55,7 @@ export default {
       defAvatar: process.env.defAvatar,
     };
   },
-  async fetch() {
+  async created() {
     await this.getProfile();
   },
   computed: {
