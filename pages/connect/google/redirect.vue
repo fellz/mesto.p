@@ -6,23 +6,17 @@
 export default {
   async created(){
     const resp = await this.$axios.$get(`/auth/google/callback?access_token=${this.$route.query.id_token}`)
-    //console.log(user)
     // set user in store with jwt and user
     this.$store.commit('SET_USER', resp)
     document.cookie = `jwt=${resp.jwt};path=/;max-age=10800`
     this.$axios.setToken(resp.jwt, 'Bearer', ['put','post', 'delete'])
+    if (resp.user.profile){
+      const profile = await this.$axios.$get(`/profiles/${resp.user.profile.id}`)
+      this.$store.dispatch('setProfile', { profile })
+      this.$router.replace('/profiles')  
+    }
     this.$router.replace('/profiles/new')
-    // const profile = resp.user.profile;
-    // // if profile undefined --> create profile
-    // if(!profile){
-    //   await this.createProfile(resp.user.id)
-    //   this.setCookieToken(resp)
-    // }else{
-    //   // else get profile and set it store and redirect
-    //   const profile = await this.$axios.$get(`/profiles/${resp.user.profile.id}`)
-    //   this.$store.dispatch("setProfile", {profile});
-    //   this.setCookieToken(resp)
-    // }
+    
   },
   methods:{
     setCookieToken(resp){

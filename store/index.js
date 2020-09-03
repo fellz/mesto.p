@@ -1,10 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = process.env.baseUrl;
-let jwt = null
-if(process.cleint){
-  jwt = localStorage.getItem('jwt')
-}
+
 
 
 export const state = () => ({
