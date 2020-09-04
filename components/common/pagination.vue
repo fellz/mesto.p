@@ -1,12 +1,11 @@
 <template>
-  <div class="pagination--style">
-    <button
-      class="btn btn-primary pagination--margin"
-      v-for="p of pag_pages"
-      :key="p.id"
+  <div class="mt-3">
+    <v-chip v-for="p of pag_pages" :key="p.id" 
       @click.prevent="setCurrentPage(p)"
-      :class="{ 'btn-warning': current_page === p }"
-    >{{p}}</button>
+      class="ml-1" 
+      :color="current_page === p ? 'info': 'primary'">
+      {{ p }}
+    </v-chip>
   </div>  
 </template>
 
