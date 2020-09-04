@@ -22,6 +22,10 @@
         </v-row>
 
         <v-row justify="center">
+          <a :href="profile.url" class="text-subtitle-2" target="_blank">{{ profile.url }}</a>
+        </v-row>
+
+        <v-row justify="center">
           <v-col>
             <div class="text--secondary">
               <v-clamp autoresize :max-lines="4">{{ profile.about }}</v-clamp>
