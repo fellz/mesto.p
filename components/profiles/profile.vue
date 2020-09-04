@@ -1,7 +1,12 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="10" >
+      
       <v-card class="profile-dialog">
+        <span style="position:relative; top:-80px; left:20px;" 
+          v-if="profile.social"> 
+          <v-icon>mdi-thumb-up</v-icon><v-chip>{{ social }}</v-chip>
+        </span>
         <v-card-title class="headline grey lighten-2">
           {{ profile.fullname }}
         </v-card-title>
@@ -28,7 +33,7 @@
           
         </v-card-actions>
         <v-card-actions >
-          <social-buttons :profileId="profile.id" />
+          <social-buttons :profileId="profile.id" :profile="profile" />
          </v-card-actions>
       </v-card>
       </v-col>
@@ -46,6 +51,7 @@ export default {
   data(){
     return {
       profile: {},
+      social: 0,
       baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar
     }
@@ -59,8 +65,12 @@ export default {
   },
   async created(){
     await this.getProfile()
+    await this.getSocial()
   },  
   methods:{
+    async getSocial(){
+      this.social = await this.$axios.$get(`${this.baseUrl}/socials/count?profile_whom=${this.$route.params.id}`)
+    },
     async getProfile(){
       this.profile = await this.$axios.$get(`/profiles/${this.$route.params.id}`)
     }

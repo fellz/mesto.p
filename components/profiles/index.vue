@@ -23,7 +23,7 @@
     <!-- profiles -->
     <v-row>
       <v-col  v-for="profile of profiles" :key="profile.id">
-        <short-profile :profile="profile" />
+        <short-profile :mprofile="profile"  />
       </v-col>
     </v-row>
     
@@ -59,7 +59,7 @@ export default {
     Pagination,
     Multiselect
   },
-  async fetch() {
+  async created() {
     await this.getProfiles(this.start);
     await this.getAllProfiles();
     await this.getSkills();

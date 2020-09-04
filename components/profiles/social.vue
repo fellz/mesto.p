@@ -9,7 +9,8 @@
   export default {
     name: "SocialButtons",
     props: {
-      profileId: Number
+      profileId: Number,
+      profile: Object
     },
     methods:{
       generalFilter(resource){
@@ -36,8 +37,11 @@
         const resp = await this.$axios.$post('/socials',
           {name: "spasibo", profile_who: loggedInProfile.id, profile_whom: this.profileId}
         )
+        const newSocial = this.profile.social+ 1
+        const r = await this.$axios.$put(`/profiles/${this.profileId}`, {social: newSocial })
+        // needed for filter to work
         const new_profile = await this.$axios.$get(`/profiles/${loggedInProfile.id}`,)
-        
+        this.$emit('update-profile')
         this.$store.dispatch('setProfile', { profile: new_profile })
       }
     }

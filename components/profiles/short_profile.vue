@@ -2,6 +2,9 @@
   <div>
     <v-card min-width="300" max-width="344" elevation="6">
       <v-container>
+        <div style="text-align:right" v-if="profile.social">
+          <v-icon>mdi-thumb-up</v-icon><v-chip>{{ social }}</v-chip>
+        </div>
         <v-row>
           <v-col class="text-center">
             <v-avatar color="indigo" size="130">
@@ -33,7 +36,7 @@
         </v-row>
       </v-container>
       <v-card-actions class="justify-center">
-        <social-buttons :profileId="profile.id" />
+        <social-buttons :profileId="profile.id" :profile="profile" />
       </v-card-actions>
     </v-card>
 
@@ -48,11 +51,13 @@ import SocialButtons from "~/components/profiles/social.vue"
 
 export default {
   props: {
-    profile: Object,
+    mprofile: Object,
   },
   data() {
     return {
       dialog: false,
+      social: 0,
+      profile: this.mprofile,
       baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
     };
@@ -74,11 +79,13 @@ export default {
     ProfileDialog,
     SocialButtons
   },
+  created(){
+    this.getSocial()
+  },
+  methods: {
+    async getSocial(){
+      this.social = await this.$axios.$get(`${this.baseUrl}/socials/count?profile_whom=${this.profile.id}`)
+    },
+  }
 };
 </script>
-
-<style>
-.aside__photo {
-  width: inherit;
-}
-</style>
