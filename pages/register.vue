@@ -44,19 +44,18 @@ export default {
   },
   methods: {
     async register () {
-      this.loading = true;
       let user = {
         username: this.username, 
         email: this.email,
         password: this.password,
       };
+      this.loading = true;
       try {
-        const data = await this.$axios.$post(`/auth/local/register`,
-          user
-        );
+        const data = await this.$axios.$post( `/auth/local/register`, user );
+        this.loading = false;
+
         //clear stuff
         this.reg_success = true;
-        this.loading = false;
         this.username =  '';
         this.email = '';
         this.password = '';
