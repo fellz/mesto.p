@@ -81,9 +81,9 @@ export default {
   },
   methods:{
     backimg(profile) {
-      return `${this.url}${
+      return `${
         profile.avatar
-          ? profile.avatar.formats.thumbnail.url
+          ? ""
           : this.defAvatar}`
     }
   }
