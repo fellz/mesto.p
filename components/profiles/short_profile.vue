@@ -71,9 +71,9 @@ export default {
       return this.profile.skills.length > 0;
     },
     profilePhotoUrl() {
-      return `${this.baseUrl}${
+      return `${
         this.profile.avatar
-          ? this.profile.avatar.formats.thumbnail.url
+          ? ""
           : this.defAvatar
       }`;
     },
