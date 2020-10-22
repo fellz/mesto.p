@@ -75,9 +75,6 @@ export default {
     // get 'start' number from pagination component
     setStartPage( start) {
       this.getProfiles(start);
-      // if(this.value){
-      //   this.searchProfiles(this.value, start)
-      // }
     },
     // search profiles by skill
     async searchProfiles(skills, start) {
@@ -90,10 +87,10 @@ export default {
       this.all_profiles = all_skills
     }
   },
-  // watch: {
-  //   value(newVal){
-  //     this.searchProfiles(newVal)
-  //   }
-  // }
+  watch: {
+    searchTag(newVal){
+      this.searchProfiles(newVal)
+    }
+  }
 };
 </script>
