@@ -2,10 +2,10 @@
   <div>
     <!-- Skill search -->
     <multiselect 
-      v-model="value" 
+      v-model="searchTag" 
       placeholder="Выберите навык" 
       label="name" track-by="code" 
-      :options="options" 
+      :options="tags" 
       :multiple="true" 
     >
     </multiselect>
@@ -39,8 +39,8 @@ export default {
       search: "",
       social: false,
       per_page: 6,
-      value: null,
-      options:  []
+      searchTag: null,
+      tags:  []
     };
   },
   components: {
@@ -57,7 +57,7 @@ export default {
     // get skills for select
     async getSkills(){
       const data = await this.$axios.$get(`/skills`);
-      this.options = data.map(s => {
+      this.tags = data.map(s => {
         const id = s.id;
         const skill = s.skill;
         return {name: skill, code: id}
