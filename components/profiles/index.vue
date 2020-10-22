@@ -10,16 +10,6 @@
     >
     </multiselect>
 
-    <!-- sort 
-    <div class="mt-3 mb-3">
-      <span>Сортировать список :</span>
-      <label>По рейтингу</label>
-      <input type="checkbox"
-      v-model="social"
-      @change="socialSelect()"
-      />
-    </div> -->
-    
     <!-- profiles -->
     <v-row>
       <v-col  v-for="profile of profiles" :key="profile.id">
@@ -48,7 +38,6 @@ export default {
       start: 0,
       search: "",
       social: false,
-      baseUrl: process.env.baseUrl,
       per_page: 6,
       value: null,
       options:  []
@@ -86,9 +75,9 @@ export default {
     // get 'start' number from pagination component
     setStartPage( start) {
       this.getProfiles(start);
-      if(this.value){
-        this.searchProfiles(this.value, start)
-      }
+      // if(this.value){
+      //   this.searchProfiles(this.value, start)
+      // }
     },
     // search profiles by skill
     async searchProfiles(skills, start) {
@@ -99,25 +88,12 @@ export default {
       this.profiles = await this.$axios.$get(`/profiles?${skill_string}_start=${start === undefined ? 0 : start }&_limit=5&_sort=social:DESC`);
       const all_skills = await this.$axios.$get(`/profiles/count?${skill_string}`)
       this.all_profiles = all_skills
-    },
-    async socialSelect(){
-      // if (this.social === true){
-      //   const start = 0
-      //   const { data } = await axios.get(
-      //   `${this.baseUrl}/profiles?_start=${start}&_limit=5&_sort=social:DESC`
-      //   );
-      //   this.profiles = data;
-      // }else{
-      //   this.getProfiles(this.start);
-      //   this.getAllProfiles();
-      // }
-   },
-  },
-  watch: {
-    value(newVal){
-      //localStorage.skills = JSON.stringify(newVal)
-      this.searchProfiles(newVal)
     }
-  }
+  },
+  // watch: {
+  //   value(newVal){
+  //     this.searchProfiles(newVal)
+  //   }
+  // }
 };
 </script>
