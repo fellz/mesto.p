@@ -58,9 +58,12 @@ export default {
   },
   computed:{
     profilePhotoUrl(){
-      return (`${this.baseUrl}${this.profile.avatar
-            ? this.profile.avatar.formats.thumbnail.url
-            : this.defAvatar}`)
+      return (`
+        ${this.profile.avatar
+          ? this.profile.avatar.formats.thumbnail.url
+          : this.defAvatar
+          }
+      `)
     }
   },
   async created(){
