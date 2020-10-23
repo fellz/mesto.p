@@ -1,7 +1,7 @@
 <template>
   <section class="profile_edit_photo">
     <p>
-      <img :src="baseUrl + avatar" />
+      <img :src="avatar" />
     </p>
     <p>
       <label>Изменить фото</label>

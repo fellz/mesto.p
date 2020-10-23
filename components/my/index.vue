@@ -8,7 +8,7 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
           <v-avatar size="150">
-            <img :src=" url + avatar" />
+            <img :src="avatar" />
           </v-avatar>
           <v-list>
             <v-list-item class="justify-center">

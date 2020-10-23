@@ -76,7 +76,7 @@
         <v-list-item-avatar color="grey darken-3">
           <v-img
             class="elevation-6"
-            :src="url + avatar()"
+            :src="avatar()"
           />
         </v-list-item-avatar>
       </nuxt-link>
