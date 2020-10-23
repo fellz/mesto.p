@@ -60,7 +60,7 @@ export default {
   },
   computed:{
     profilePhotoUrl(){
-      return (`${this.baseUrl}${this.profile.avatar
+      return (`${this.profile.avatar
             ? this.profile.avatar.formats.thumbnail.url
             : this.defAvatar}`)
     }
