@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3 v-if="loading">Загружаемся....</h3>
     <div v-for="project of projects" :key="project.id">
       <short-project :project="project"   />
     </div>
@@ -19,7 +20,8 @@ export default {
       all_projects: 0,
       start: 0,
       resource: "projects",
-      baseUrl: process.env.baseUrl
+      baseUrl: process.env.baseUrl,
+      loading: false
     };
   },
   components: {
@@ -27,8 +29,10 @@ export default {
     Pagination
   },
   async created() {
+    this.loading = true
     await this.getProjects(this.start)
     await this.getAllProjects()
+    this.loading = false
   },
   methods:{
      async getProjects(start){
