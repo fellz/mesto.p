@@ -62,7 +62,7 @@ export default {
           : this.defAvatar}`
     },
     thumb(profile){
-      return this.url + (profile.avatar ? "" : this.defAvatar)
+      return (profile.avatar ? this.profile.avatar.formats.thumbnail.url : this.defAvatar)
     },
   }
 }
