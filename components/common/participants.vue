@@ -58,12 +58,9 @@ export default {
     backimg(profile) {
       return `${
         profile.avatar
-          ? this.profile.avatar.formats.thumbnail.url
+          ? profile.avatar.formats.thumbnail.url
           : this.defAvatar}`
-    },
-    thumb(profile){
-      return (profile.avatar ? this.profile.avatar.formats.thumbnail.url : this.defAvatar)
-    },
+    }
   }
 }
 </script>
