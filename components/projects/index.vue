@@ -1,17 +1,15 @@
 <template>
-    <v-row justify="center">
-        <v-col xm="12" sm="9" md="7">
-            <h3 v-if="loading">Загружаемся....</h3>
-            <div v-for="project of projects" :key="project.id">
-                <short-project :project="project" />
-            </div>
-            <pagination
-                @new-start-number="setStartPage($event)"
-                :all_items="all_projects"
-                :resource="resource"
-            ></pagination>
-        </v-col>
-    </v-row>
+    <div>
+        <h3 v-if="loading">Загружаемся....</h3>
+        <div v-for="project of projects" :key="project.id">
+            <short-project :project="project" />
+        </div>
+        <pagination
+            @new-start-number="setStartPage($event)"
+            :all_items="all_projects"
+            :resource="resource"
+        ></pagination>
+    </div>
 </template>
 
 <script>
