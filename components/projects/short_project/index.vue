@@ -1,7 +1,7 @@
 <template>
     <v-card style="margin-bottom: 20px" max-width="900">
         <v-row>
-            <v-col col=7>
+            <v-col cols=7>
                 <v-img
                     height="100"
                     src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
@@ -18,7 +18,7 @@
                     }}</v-clamp>
                 </v-card-text>
             </v-col>
-            <v-col col=5>
+            <v-col cols=5>
                 <v-row justify="end" no-gutters class="mr-2">
                     <v-col
                         cols="6"
