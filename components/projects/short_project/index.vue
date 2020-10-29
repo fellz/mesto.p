@@ -18,7 +18,7 @@
                     }}</v-clamp>
                 </v-card-text>
             </v-col>
-            <v-col cols=5>
+            <v-col>
                 <v-row justify="end" no-gutters class="mr-2">
                     <v-col
                         cols="6"
