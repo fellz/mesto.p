@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <v-chip v-for="p of pag_pages" :key="p.id" 
+    <v-chip v-for="p of pages" :key="p.id" 
       @click.prevent="setCurrentPage(p)"
       class="ml-1" 
       :color="current_page === p ? 'info': 'primary'">
@@ -12,42 +12,41 @@
 <script>
 import axios from "axios";
 // Логика работы компонента 
-// 1. Получаем all items из родителя, используем его для создания кнопок.
-//    Затем нам нужен current_page, получаем его из клика по кнопке.
+// 1. all_items     Получаем all items из родителя, используем его для создания кнопок.
+// 2. current_page  Затем нам нужен current_page, получаем его из клика по кнопке.
 // Есть баг с тем, что current_page не передвигается, если в родителе произошли изменения. TOFIX
 export default {
   props: {
     all_items: Number,
+    per_page: Number
   },
   data(){
-    return {
+    return { // Initial values
       page: 0,
-      per_page: 6,
       current_page: 1
     }
   },
   computed: {
-    pag_pages() {
+    pages() {
+      // Array of pages [1,2,3]
       let pages = this.myrange(1, Math.ceil(this.all_items / this.per_page));
       return pages
     }
   },
-  watch:{
-    all_items(){
-      // костыль, потому что current_page не хочет апдейтиться, когда all_items прилетают.
-      // Похоже весь темплейт не рендерится заново, а рендерится только часть или что-то вроде того.
-      // Во всяком случае created() не срабатывает
-      this.current_page = 1
-    }
-  },
+  // watch:{
+  //   all_items(){
+  //     // костыль, потому что current_page не хочет апдейтиться, когда all_items прилетают.
+  //     // Похоже весь темплейт не рендерится заново, а рендерится только часть или что-то вроде того.
+  //     // Во всяком случае created() не срабатывает
+  //     this.current_page = 1
+  //   }
+  // },
+  // methods: {
+  //   currPage(c,p){
+  //     return c === p
+  //   },
   methods: {
-    currPage(c,p){
-      return c === p
-    },
-    myrange(start, end) {
-        return [...Array(end - start + 1)].map((_, i) => start + i);
-      },
-    async setCurrentPage(page) {
+    setCurrentPage(page) {
       // устанавливаем current_page на ту кнопку, на которую кликнули
       this.current_page = page;
       window.scrollTo(0,0);
@@ -56,10 +55,14 @@ export default {
     },
     sendStartNumberToParent(page){
       // вычисляем стартовую цифру, используя номер страницы, на которой находимся. 
-      // Ее будем использоваться в запросе.
+      // отправляем цифру в родительский компонент
       const start = this.per_page * (page - 1);
       this.$emit('new-start-number',  start )
-    }
+    },
+    // helper function
+    myrange(start, end) {
+        return [...Array(end - start + 1)].map((_, i) => start + i);
+      },
   }
 }
 </script>

@@ -34,7 +34,6 @@ export default {
       return applied;
     },
     skillReqFilter(skill, project){
-      console.log(skill.filled)
       if (project.owner){
         return (
           this.$store.state.authUser &&

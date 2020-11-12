@@ -1,14 +1,18 @@
 <template>
     <div>
         <h3 v-if="loading">Загружаемся....</h3>
-        <div v-for="project of projects" :key="project.id">
-            <short-project :project="project" />
+        <h3 v-if="error">Ошибка...{{ error_message }}</h3>
+        <div v-else>
+            <!-- Initial load setup because projects = [] empty -->
+            <div v-if="projects.length === 0"></div>
+            <div v-else>
+                <!-- We 100% sure that projects not empty and we can iterate over them and pass thomething to child component --> 
+                <div v-for="project of projects" :key="project.id">
+                    <short-project :project="project" />
+                </div>
+            </div>
+            <pagination @new-start-number="setStartPage($event)" :all_items="pagination_all_projects" :per_page="projects_per_page"></pagination>
         </div>
-        <pagination
-            @new-start-number="setStartPage($event)"
-            :all_items="all_projects"
-            :resource="resource"
-        ></pagination>
     </div>
 </template>
 
@@ -21,11 +25,13 @@ export default {
     data() {
         return {
             projects: [],
-            all_projects: 0,
+            pagination_all_projects: 0,
+            projects_per_page: 3,
             start: 0,
             resource: "projects",
-            baseUrl: process.env.baseUrl,
             loading: false,
+            error: false,
+            error_message: ''
         };
     },
     components: {
@@ -41,15 +47,25 @@ export default {
     methods: {
         async getProjects(start) {
             this.projects = await this.$axios.$get(
-                `/projects?_start=${start}&_limit=5&_sort=created_at:DESC`
+                `/projects?_start=${start}&_limit=${this.projects_per_page}&_sort=created_at:DESC`
             );
         },
         async getAllProjects() {
-            this.all_projects = await this.$axios.$get(
-                `${this.baseUrl}/projects/count`
-            );
+            try {
+                const resp = await this.$axios.$get(`/projects/count`);
+                if (typeof resp === "number"){
+                    this.pagination_all_projects = resp
+                }else{
+                    throw Error('Response is not number')
+                }
+            }catch(err){
+                this.error = true
+                this.error_message = err
+                console.log(err)
+            }
         },
         setStartPage(new_start_number) {
+            console.log('Page number from pagination: ', new_start_number)
             this.getProjects(new_start_number);
         },
     },

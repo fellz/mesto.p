@@ -62,7 +62,7 @@ export default {
       dialog: false,
       social: 0,
       profile: this.mprofile,
-      baseUrl: process.env.baseUrl,
+      devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
     };
   },
@@ -71,11 +71,15 @@ export default {
       return this.profile.skills.length > 0;
     },
     profilePhotoUrl() {
-      return `${
-        this.profile.avatar
-          ? this.profile.avatar.formats.thumbnail.url
-          : this.defAvatar
-      }`;
+       if (process.env.NODE_ENV === "development"){
+        return `${this.devUrl}${ this.profile.avatar 
+            ? this.profile.avatar.formats.thumbnail.url 
+            : this.defAvatar}`
+      }else{
+        return `${ this.profile.avatar
+            ? this.profile.avatar.formats.thumbnail.url
+            : this.defAvatar}`
+      }
     },
   },
   components: {
@@ -88,7 +92,7 @@ export default {
   },
   methods: {
     async getSocial(){
-      this.social = await this.$axios.$get(`${this.baseUrl}/socials/count?profile_whom=${this.profile.id}`)
+      this.social = await this.$axios.$get(`/socials/count?profile_whom=${this.profile.id}`)
     },
   }
 };

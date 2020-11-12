@@ -1,21 +1,21 @@
 <template>
   <div>
     <!-- Owner avatar -->
-      <nuxt-link :to="'/profiles/' + profile.id">
+      <nuxt-link :to="'/profiles/' + owner_profile.id">
         <v-avatar size="70" style="border: 2px solid red" >
           <v-img
             class="elevation-6"
-            :src="backimg(profile)"
+            :src="backimg(owner_profile)"
           />
         </v-avatar>
       </nuxt-link>
       <!-- other members -->
-      <span v-for="p in resource.participants" :key="p.id">
-        <nuxt-link :to="`/profiles/${p.id}`" >
+      <span v-for="participant in resource.participants" :key="participant.id">
+        <nuxt-link :to="`/profiles/${participant.id}`" >
           <v-avatar size="60">
             <v-img
               class="elevation-6"
-              :src="backimg(p)"
+              :src="backimg(participant)"
             />
           </v-avatar>
         </nuxt-link>
@@ -32,34 +32,22 @@ export default {
   },
   data(){
     return {
-      profile:{},
-      res:[],
-      url: process.env.baseUrl,
+      devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar
-    }
-  },
-  created(){
-    if(this.owner_profile){
-      this.profile = this.owner_profile
-    }
-    if(this.resource){
-      this.res = this.resource      
-    }
-  },
-  watch:{
-    owner_profile(new_val){
-      this.profile = new_val
-    },
-    resource(new_val){
-      this.res = new_val
     }
   },
   methods:{
     backimg(profile) {
-      return `${
-        profile.avatar
-          ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar}`
+      if (process.env.NODE_ENV === "development"){
+        return `${this.devUrl}${ profile.avatar 
+            ? profile.avatar.formats.thumbnail.url 
+            : this.defAvatar}`
+      }else{
+        return `${ profile.avatar
+            ? profile.avatar.formats.thumbnail.url
+            : this.defAvatar}`
+      }
+      
     }
   }
 }

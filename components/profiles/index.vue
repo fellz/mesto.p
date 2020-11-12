@@ -18,7 +18,7 @@
     </v-row>
     
     <!-- pagination --> 
-    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles"  />
+    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles" :per_page="per_page" />
   </div>
 </template>
 

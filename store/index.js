@@ -2,14 +2,9 @@ import axios from 'axios'
 
 const baseUrl = process.env.baseUrl;
 
-
-
 export const state = () => ({
   authUser: null,
-  projects: [],
-  profiles: [],
   userProfile: null,
-  project: {}
 })
 
 export const mutations = {
