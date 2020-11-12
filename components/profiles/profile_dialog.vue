@@ -53,16 +53,22 @@ export default {
   data(){
     return {
       pdialog: this.dialog,
-      baseUrl: process.env.baseUrl,
+      devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
       aprofile: this.profile
     }
   },
   computed:{
     profilePhotoUrl(){
-      return (`${this.profile.avatar
+      if (process.env.NODE_ENV === "development"){
+        return `${this.devUrl}${ this.profile.avatar 
+            ? this.profile.avatar.formats.thumbnail.url 
+            : this.defAvatar}`
+      }else{
+        return `${ this.profile.avatar
             ? this.profile.avatar.formats.thumbnail.url
-            : this.defAvatar}`)
+            : this.defAvatar}`
+      }
     }
   },
   methods:{
