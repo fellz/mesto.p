@@ -17,7 +17,7 @@ module.exports = {
     ]
   },
   env: {
-    baseUrl: process.env.API_HOST2,
+    baseUrl: process.env.NODE_ENV === "development" ? process.env.API_HOST2 : process.env.API_HOST  ,
     defAvatar: process.env.AVATAR 
   },
   webfontloader: {

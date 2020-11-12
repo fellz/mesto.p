@@ -46,9 +46,16 @@ export default {
     },
     methods: {
         async getProjects(start) {
-            this.projects = await this.$axios.$get(
-                `/projects?_start=${start}&_limit=${this.projects_per_page}&_sort=created_at:DESC`
-            );
+            try{
+                const resp = await this.$axios.$get(
+                    `/projects?_start=${start}&_limit=${this.projects_per_page}&_sort=created_at:DESC`
+                );
+                this.projects = resp
+            }catch(err){
+                this.error = true
+                this.error_message = err
+                console.log(err)
+            }
         },
         async getAllProjects() {
             try {
@@ -65,7 +72,6 @@ export default {
             }
         },
         setStartPage(new_start_number) {
-            console.log('Page number from pagination: ', new_start_number)
             this.getProjects(new_start_number);
         },
     },
