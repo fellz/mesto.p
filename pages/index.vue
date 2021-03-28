@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import ProjectsList from "~/components/projects/index.vue";
+import ProfilesList from "~/components/profiles/index.vue";
 
 export default {
   components: {
-    ProjectsList,
+    ProfilesList,
   }
 }
 </script>
