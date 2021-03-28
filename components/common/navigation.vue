@@ -100,7 +100,7 @@
       </v-btn>
     </nuxt-link>
     
-    <a :href="`${url}/connect/google`">
+    <a :href="`${devUrl}/connect/google`">
       <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
           <v-icon>mdi-google</v-icon>
       </v-btn>
@@ -125,7 +125,7 @@ export default {
   },
   methods:{
     avatar(){
-      return `${process.env.NODE_ENV === "development" ? this.devUrl : ""}${
+      return `${this.devUrl}${
         this.$store.state.userProfile.avatar.length
           ? this.$store.state.userProfile.avatar[0].formats.thumbnail.url
           : this.defAvatar
