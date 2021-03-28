@@ -14,7 +14,7 @@
     <v-container>
       <v-row>
         <v-col  v-for="profile of profiles" :key="profile.id">
-          <short-profile :mprofile="profile"  />
+          <short-profile :profile="profile"  />
         </v-col>
       </v-row>
     </v-container>

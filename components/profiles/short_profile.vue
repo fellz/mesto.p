@@ -55,7 +55,7 @@ import SocialButtons from "~/components/profiles/social.vue"
 
 export default {
   props: {
-    mprofile: Object,
+    profile: Object,
   },
   data() {
     return {
