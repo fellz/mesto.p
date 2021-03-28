@@ -8,7 +8,7 @@
         <v-row>
           <v-col class="text-center">
             <v-avatar color="indigo" size="130">
-              <v-img :src="profilePhotoUrl" />
+              <v-img :src="avatar" />
             </v-avatar>
           </v-col>
         </v-row>
@@ -61,7 +61,6 @@ export default {
     return {
       dialog: false,
       social: 0,
-      profile: this.mprofile,
       devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
     };
@@ -70,7 +69,7 @@ export default {
     hasSkills() {
       return this.profile.skills.length > 0;
     },
-    profilePhotoUrl() {
+    avatar() {
        return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
