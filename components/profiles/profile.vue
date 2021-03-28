@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     avatar() {
-      return `${process.env.NODE_ENV === "development" ? this.devUrl : ""}${
+      return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
           : this.defAvatar

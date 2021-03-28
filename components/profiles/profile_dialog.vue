@@ -60,15 +60,11 @@ export default {
   },
   computed:{
     profilePhotoUrl(){
-      if (process.env.NODE_ENV === "development"){
-        return `${this.devUrl}${ this.profile.avatar.length 
-            ? this.profile.avatar[0].formats.thumbnail.url 
-            : this.defAvatar}`
-      }else{
-        return `${ this.profile.avatar.length
-            ? this.profile.avatar[0].formats.thumbnail.url
-            : this.defAvatar}`
-      }
+      return `${this.baseUrl}${
+        this.profile.avatar.length
+          ? this.profile.avatar[0].formats.thumbnail.url
+          : this.defAvatar
+      }`;
     }
   },
   methods:{

@@ -38,7 +38,7 @@ export default {
   },
   methods:{
     backimg(profile) {
-      return `${process.env.NODE_ENV === "development" ? this.baseUrl : ""}${
+      return `${this.baseUrl}${
         profile.avatar.length
           ? profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
