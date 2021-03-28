@@ -13,7 +13,7 @@
               </v-card-subtitle>
 
               <v-avatar class="profile-dialog-avatar" size="130">
-                <v-img :src="profilePhotoUrl"></v-img>
+                <v-img :src="avatar"></v-img>
               </v-avatar>
 
               <v-card-text>
@@ -59,8 +59,8 @@ export default {
     }
   },
   computed:{
-    profilePhotoUrl(){
-      return `${this.baseUrl}${
+    avatar(){
+      return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
