@@ -35,8 +35,7 @@ export const actions = {
   },
   async login ({ commit }, { identifier, password }) {
     try {
-      const { data } = await axios.post(`${baseUrl}/auth/local`, { identifier, password })
-      console.log('Login:', data)
+      const { data } = await axios.post(`${baseUrl}auth/local`, { identifier, password })
       commit('SET_USER', data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
