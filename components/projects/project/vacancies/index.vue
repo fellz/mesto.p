@@ -75,7 +75,7 @@ export default {
       name: "",
       skills: [],
       pay: null,
-      project: {},
+      project: {owner: {avatar: [], id: null}},
       url: process.env.baseUrl
     }
   },
@@ -96,13 +96,13 @@ export default {
       this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },
      async skillClose(skill){
-      const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
+      const resp = await this.$axios.$put(`/vacancies/${skill.id}`,
         {filled: true, requests: []},
       )
       this.getProject();
     },
     async skillOpen(skill){
-      const resp = await this.$axios.$put(`/project-skills/${skill.id}`,
+      const resp = await this.$axios.$put(`/vacancies/${skill.id}`,
         { filled: false },
       )
       this.getProject();
@@ -118,7 +118,7 @@ export default {
         name: this.selected,
         project: parseInt(this.$route.params.id, 10),
       };
-      const resp = await this.$axios.$post(`/project-skills/`,
+      const resp = await this.$axios.$post(`/vacancies`,
         proj,
       );
       this.pay = null

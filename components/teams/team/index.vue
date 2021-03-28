@@ -74,9 +74,9 @@ export default {
   },
   data(){
     return {
-      url: process.env.baseUrl,
+      devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      team: {leader:{}}
+      team: {leader:{avatar: []}}
     }
   },
   async created() {
@@ -84,10 +84,11 @@ export default {
   },
   methods: {
     backimg(profile) {
-      return `${this.url}${
-        profile.avatar
-          ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar}`
+      return `${process.env.NODE_ENV === "development" ? this.devUrl : ""}${
+        profile.avatar.length
+          ? profile.avatar[0].formats.thumbnail.url
+          : this.defAvatar
+      }`;
     },
     async getTeam(){
       this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);

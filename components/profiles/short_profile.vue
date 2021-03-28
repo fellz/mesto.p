@@ -72,12 +72,12 @@ export default {
     },
     profilePhotoUrl() {
        if (process.env.NODE_ENV === "development"){
-        return `${this.devUrl}${ this.profile.avatar 
-            ? this.profile.avatar.formats.thumbnail.url 
+        return `${this.devUrl}${ this.profile.avatar.length 
+            ? this.profile.avatar[0].formats.thumbnail.url 
             : this.defAvatar}`
       }else{
-        return `${ this.profile.avatar
-            ? this.profile.avatar.formats.thumbnail.url
+        return `${ this.profile.avatar.length
+            ? this.profile.avatar[0].formats.thumbnail.url
             : this.defAvatar}`
       }
     },

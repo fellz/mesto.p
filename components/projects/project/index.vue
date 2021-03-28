@@ -84,7 +84,7 @@ export default {
     return {
       url: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      project: {owner:{}}
+      project: {owner:{avatar: ''}}
     }
   },
   async created() {

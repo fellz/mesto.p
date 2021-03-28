@@ -32,22 +32,17 @@ export default {
   },
   data(){
     return {
-      devUrl: process.env.baseUrl,
+      baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar
     }
   },
   methods:{
     backimg(profile) {
-      if (process.env.NODE_ENV === "development"){
-        return `${this.devUrl}${ profile.avatar 
-            ? profile.avatar.formats.thumbnail.url 
-            : this.defAvatar}`
-      }else{
-        return `${ profile.avatar
-            ? profile.avatar.formats.thumbnail.url
-            : this.defAvatar}`
-      }
-      
+      return `${process.env.NODE_ENV === "development" ? this.baseUrl : ""}${
+        profile.avatar.length
+          ? profile.avatar[0].formats.thumbnail.url
+          : this.defAvatar
+      }`;
     }
   }
 }

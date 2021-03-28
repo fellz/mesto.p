@@ -3,7 +3,7 @@
     <div v-for="team of teams" :key="team.id">
       <short-team :team="team" />
     </div>
-    <pagination @new-start-page="setStartPage($event)" :all_items="all_teams" ></pagination>
+    <pagination @new-start-page="setStartPage($event)" :all_items="all_teams" :per_page="per_page"></pagination>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
     return {
       teams: [],
       start: 0,
+      per_page: 6,
       all_teams: 0,
       baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar  

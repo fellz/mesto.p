@@ -85,7 +85,7 @@
       <v-list-item-avatar >
         <v-img
           class="elevation-6"
-          :src="url + defAvatar"
+          :src="devUrl + defAvatar"
         />
       </v-list-item-avatar>
     </span>
@@ -116,7 +116,7 @@ export default {
   name: "MestoNavigation",
   data: () => ({
     drawer: null,
-    url: process.env.baseUrl,
+    devUrl: process.env.baseUrl,
     defAvatar: process.env.defAvatar
   }),
   props: {
@@ -125,13 +125,11 @@ export default {
   },
   methods:{
     avatar(){
-      return  (
-        this.$store.state.userProfile.avatar 
-        ? 
-        this.$store.state.userProfile.avatar.formats.thumbnail.url 
-        :
-        this.defAvatar
-      )
+      return `${process.env.NODE_ENV === "development" ? this.devUrl : ""}${
+        this.$store.state.userProfile.avatar.length
+          ? this.$store.state.userProfile.avatar[0].formats.thumbnail.url
+          : this.defAvatar
+      }`;
     },
     async logout() {
       try {

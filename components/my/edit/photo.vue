@@ -18,7 +18,7 @@ export default {
   name: "ProfilePhotoEdit",
   data() {
     return {
-      profile: {},
+      profile: {avatar: []},
       baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar
     };
@@ -28,10 +28,11 @@ export default {
   },
   computed:{
     avatar(){
-      return (
-        this.profile.avatar
-      ? this.profile.avatar.formats.thumbnail.url
-      : this.defAvatar)
+      return `${process.env.NODE_ENV === "development" ? this.baseUrl : ""}${
+        this.profile.avatar.length
+          ? this.profile.avatar[0].formats.thumbnail.url
+          : this.defAvatar
+      }`;
     }
   },
   methods: {

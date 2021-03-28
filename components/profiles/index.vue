@@ -11,11 +11,13 @@
     </multiselect>
 
     <!-- profiles -->
-    <v-row>
-      <v-col  v-for="profile of profiles" :key="profile.id">
-        <short-profile :mprofile="profile"  />
-      </v-col>
-    </v-row>
+    <v-container>
+      <v-row>
+        <v-col  v-for="profile of profiles" :key="profile.id">
+          <short-profile :mprofile="profile"  />
+        </v-col>
+      </v-row>
+    </v-container>
     
     <!-- pagination --> 
     <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles" :per_page="per_page" />
