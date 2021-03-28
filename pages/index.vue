@@ -1,6 +1,6 @@
 <template>
   <div>
-    <projects-list />
+    <profiles-list />
   </div>
 </template>
 
