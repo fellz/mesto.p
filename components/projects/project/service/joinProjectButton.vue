@@ -46,9 +46,9 @@ export default {
     async joinProjectRequest(skill) {
       const profile_id = this.$store.state.userProfile.id;
       // skill doesn't have requests array -> have to fetch skill again
-      const sk = await this.$axios.$get(`/project-skills/${skill.id}`);
+      const sk = await this.$axios.$get(`/vacancies/${skill.id}`);
       const new_reqs = [...sk.requests, profile_id];
-      const { data: project } = await this.$axios.$put(`/project-skills/${skill.id}`,
+      const { data: project } = await this.$axios.$put(`/vacancies/${skill.id}`,
         { requests: new_reqs },
       );
       this.$store.dispatch("getMyProfile");
