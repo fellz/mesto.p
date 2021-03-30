@@ -38,18 +38,18 @@ export default {
   methods:{
     // Забираем заявку
     async getSkill(){
-      this.proj_skill = await this.$axios.$get(`/project-skills/${this.skill.id}`)
+      this.proj_skill = await this.$axios.$get(`/vacancies/${this.skill.id}`)
     },
     // Обработка заявки по вакансии
     async joinProject(id){
       // Add to confirmeds
       const new_confs = [...this.proj_skill.confirmeds, id]
-      const resp = await this.$axios.$put(`/project-skills/${this.skill.id}`,
+      const resp = await this.$axios.$put(`/vacancies/${this.skill.id}`,
         {confirmeds: new_confs},
       )
       // Remove from requests
       const new_reqs = this.proj_skill.requests.filter( el => el.id !==  id );
-      const response = await this.$axios.$put(`/project-skills/${this.skill.id}`,
+      const response = await this.$axios.$put(`/vacancies/${this.skill.id}`,
         {requests: new_reqs},
       )
       // Update project. Add to project participants
