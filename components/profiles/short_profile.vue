@@ -70,7 +70,7 @@ export default {
       return this.profile.skills.length > 0;
     },
     avatar() {
-       return `${ process.env.NODE_ENV === 'production' ? '': this.devUrl}${
+       return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
