@@ -82,7 +82,7 @@ export default {
 .project_edit_skills_requests{
   margin-right: 20px;
 }
-..project_edit_skills_requests section{
+.project_edit_skills_requests section{
   margin-bottom:10px;
 }
 </style>
