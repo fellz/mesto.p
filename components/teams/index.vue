@@ -38,8 +38,8 @@ export default {
         const resp = await this.$axios.$get(`/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
         if (!Array.isArray(resp)) { return new Error('не массив'); }
         if (resp.length === 0) { return new Error('пустой массив'); }
-        this.profiles = resp;
-        return this.profiles;
+        this.teams = resp;
+        return this.teams;
       } catch (err) {
         throw new Error(err);
       }
