@@ -3,15 +3,9 @@
         <h3 v-if="loading">Загружаемся....</h3>
         <h3 v-if="error">Ошибка...{{ error_message }}</h3>
         <div v-else>
-            <!-- Initial load setup because projects = [] empty -->
-            <div v-if="projects.length === 0"></div>
-            <div v-else>
-                <!-- We 100% sure that projects not empty and we can iterate
-                over them and pass thomething to child component -->
-                <div v-for="project of projects" :key="project.id">
-                    <short-project :project="project" />
-                </div>
-            </div>
+          <div v-for="project of projects" :key="project.id">
+            <short-project :project="project" />
+          </div>
             <pagination
               @newstart="setStartPage($event)"
               :allitems="pagination_all_projects"
@@ -54,10 +48,12 @@ export default {
         const resp = await this.$axios.$get(
           `/projects?_start=${start}&_limit=${this.projects_per_page}&_sort=created_at:DESC`,
         );
+        if (!Array.isArray(resp)) { return new Error('не массив'); }
+        if (resp.length === 0) { return new Error('пустой массив'); }
         this.projects = resp;
+        return this.projects;
       } catch (err) {
-        this.error = true;
-        this.error_message = err;
+        throw new Error(err);
       }
     },
     async getAllProjects() {
