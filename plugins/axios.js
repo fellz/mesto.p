@@ -1,5 +1,5 @@
 export default function ({ $axios, store, redirect }) {
-  $axios.setBaseURL(process.env.baseUrl);
+  $axios.setBaseURL(process.env.backendHost);
 
   $axios.onRequest(() => {
     const isUser = store.state.authUser;

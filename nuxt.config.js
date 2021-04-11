@@ -18,6 +18,7 @@ module.exports = {
   },
   env: {
     baseUrl: process.env.NODE_ENV === 'development' ? process.env.API_HOST_MESTO : '',
+    backendHost: process.env.NODE_ENV === 'development' ? 'http://localhost:1337' : process.env.API_HOST,
     defAvatar: process.env.AVATAR,
   },
   webfontloader: {
