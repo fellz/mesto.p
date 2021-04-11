@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import ProjectEdit from "~/components/projects/project/edit/index.vue";
+import ProjectEdit from '~/components/projects/project/edit/index.vue';
 
 export default {
   components: {
-    ProjectEdit
+    ProjectEdit,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>

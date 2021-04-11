@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="pdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-      
+
       <v-card>
         <v-container>
           <v-row justify="center">
@@ -39,50 +39,50 @@
            </v-row>
         </v-container>
       </v-card>
-          
+
     </v-dialog>
 </template>
 
 <script>
 export default {
-  name: "ProfileDialog",
+  name: 'ProfileDialog',
   props: {
     profile: Object,
-    dialog: Boolean
+    dialog: Boolean,
   },
-  data(){
+  data() {
     return {
       pdialog: this.dialog,
       devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      aprofile: this.profile
-    }
+      aprofile: this.profile,
+    };
   },
-  computed:{
-    avatar(){
+  computed: {
+    avatar() {
       return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
       }`;
-    }
-  },
-  methods:{
-    closeDialog(){
-      this.pdialog = false
-      this.$emit('close')
     },
-    goProfile(id){
-      this.pdialog = false
-      this.$router.replace(`/profiles/${id}`)
-    }
+  },
+  methods: {
+    closeDialog() {
+      this.pdialog = false;
+      this.$emit('close');
+    },
+    goProfile(id) {
+      this.pdialog = false;
+      this.$router.replace(`/profiles/${id}`);
+    },
   },
   watch: {
-    dialog: function(newVal){
+    dialog(newVal) {
       this.pdialog = newVal;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
@@ -94,6 +94,6 @@ export default {
   .profile-dialog-avatar{
     position: absolute;
     right: 20px;
-    top: 30px;    
+    top: 30px;
   }
 </style>

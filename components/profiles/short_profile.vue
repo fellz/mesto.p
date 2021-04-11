@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import VClamp from "vue-clamp";
-import ProfileDialog from "~/components/profiles/profile_dialog.vue";
-import SocialButtons from "~/components/profiles/social.vue"
+import VClamp from 'vue-clamp';
+import ProfileDialog from '~/components/profiles/profile_dialog.vue';
+import SocialButtons from '~/components/profiles/social.vue';
 
 export default {
   props: {
@@ -70,7 +70,7 @@ export default {
       return this.profile.skills.length > 0;
     },
     avatar() {
-       return `${this.devUrl}${
+      return `${this.devUrl}${
         this.profile.avatar.length
           ? this.profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
@@ -80,15 +80,15 @@ export default {
   components: {
     VClamp,
     ProfileDialog,
-    SocialButtons
+    SocialButtons,
   },
-  created(){
-    this.getSocial()
+  created() {
+    this.getSocial();
   },
   methods: {
-    async getSocial(){
-      this.social = await this.$axios.$get(`/socials/count?profile_whom=${this.profile.id}`)
+    async getSocial() {
+      this.social = await this.$axios.$get(`/socials/count?profile_whom=${this.profile.id}`);
     },
-  }
+  },
 };
 </script>

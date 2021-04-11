@@ -1,9 +1,8 @@
 <template>
   <div id="toplevel">
     <v-app>
-      <!--<top-menu /> -->
       <mesto-navigation />
-      
+
       <v-main>
         <!-- Provides the application the proper gutter -->
         <v-container fluid class="fill-height" >
@@ -14,51 +13,49 @@
           </v-row>
         </v-container>
       </v-main>
-      
-    </v-app>    
+
+    </v-app>
   </div>
 </template>
 
 <script>
-import TopMenu from "~/components/common/Menu.vue";
-import MestoNavigation from "~/components/common/navigation.vue";
+import MestoNavigation from '~/components/common/navigation.vue';
 
 export default {
   components: {
-    TopMenu,
-    MestoNavigation
+    MestoNavigation,
   },
-  async created(){
-    // preserve session if jwt in cookies exists 
-    if (process.client){
-      const jwt = this.getCookie('jwt')
-      const profile_id = this.getCookie('profile_id')
-      const token = {}
-      if (jwt && profile_id){
-        const profile = await this.$axios.$get(`/profiles/${profile_id}`)
-        token.jwt = jwt
-        this.$axios.setToken(jwt, 'Bearer', ['put','post', 'delete'])
-        this.$store.commit('SET_USER', token)
-        this.$store.commit('SET_USER_PROFILE', profile)
-
+  async created() {
+    // preserve session if jwt in cookies exists
+    if (process.client) {
+      const jwt = this.getCookie('jwt');
+      const profileId = this.getCookie('profile_id');
+      const token = {};
+      if (jwt && profileId) {
+        const profile = await this.$axios.$get(`/profiles/${profileId}`);
+        token.jwt = jwt;
+        this.$axios.setToken(jwt, 'Bearer', ['put', 'post', 'delete']);
+        this.$store.commit('SET_USER', token);
+        this.$store.commit('SET_USER_PROFILE', profile);
       }
-
-    }    
+    }
   },
-  methods:{
+  methods: {
     getCookie(name) {
-      let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      const matches = document.cookie.match(new RegExp(
+        // eslint-disable-next-line no-useless-escape
+        `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`,
       ));
       return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
-  }
+    },
+  },
 
-}
+};
 </script>
 <style>
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+  font-family: "Source Sans Pro",
+  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -74,7 +71,6 @@ body {
   box-sizing: border-box;
   margin: 0;
 }
-
 
 /* Custom css */
 
@@ -100,4 +96,3 @@ section{
   padding: 20px;
 }
 </style>
-

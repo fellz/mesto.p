@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import NewProject from "~/components/projects/new.vue";
+import NewProject from '~/components/projects/new.vue';
 
 export default {
   components: {
-    NewProject
+    NewProject,
   },
-  middleware: ["auth"],
+  middleware: ['auth'],
 
 };
 </script>
-

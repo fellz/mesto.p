@@ -29,19 +29,19 @@ export default {
     return {
       name: '',
       about: '',
-      baseUrl: process.env.baseUrl
+      baseUrl: process.env.baseUrl,
     };
   },
-  methods:{
+  methods: {
     async submit() {
-      let team = {
+      const team = {
         name: this.name,
         about: this.about,
-        leader: this.$store.state.userProfile.id
+        leader: this.$store.state.userProfile.id,
       };
-      const resp = await this.$axios.$post(`/teams`, team);
-      this.$nuxt.$router.replace(`/teams`);
-    }
-  }
-}
+      await this.$axios.$post('/teams', team);
+      this.$nuxt.$router.replace('/teams');
+    },
+  },
+};
 </script>

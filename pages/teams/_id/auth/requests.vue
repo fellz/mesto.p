@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import TeamRequests from "~/components/teams/team/requests.vue";
+import TeamRequests from '~/components/teams/team/requests.vue';
 
 export default {
   components: {
-    TeamRequests
+    TeamRequests,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>

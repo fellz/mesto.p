@@ -40,17 +40,17 @@
 </template>
 
 <script>
-import ProfileFooter from "~/components/my/footer";
+import ProfileFooter from '~/components/my/footer.vue';
 
 export default {
-  name: "MyProfile",
+  name: 'MyProfile',
   components: {
     ProfileFooter,
   },
   data() {
     return {
-      profile: {avatar: []},
-      userError: "",
+      profile: { avatar: [] },
+      userError: '',
       baseUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
     };
@@ -70,7 +70,7 @@ export default {
   methods: {
     async getProfile() {
       this.profile = await this.$axios.$get(
-        `/profiles/${this.$store.state.userProfile.id}`
+        `/profiles/${this.$store.state.userProfile.id}`,
       );
     },
   },
@@ -89,4 +89,3 @@ export default {
   margin-top: 20px;
 }
 </style>
-

@@ -1,9 +1,9 @@
   <template>
     <v-card style="margin-bottom:20px" max-width="900">
     <v-row>
-      
+
       <v-col sm="8">
-        
+
         <v-img height="120"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
@@ -19,7 +19,7 @@
         </v-card-text>
 
       </v-col>
-      
+
       <v-col>
         <v-row justify="end" no-gutters class="mr-2">
           <v-col style="text-align: end">{{ team.created_at | formatDate }}</v-col>
@@ -65,22 +65,22 @@
 </template>
 
 <script>
-import Participants from "~/components/common/participants.vue";
+import Participants from '~/components/common/participants.vue';
 
 export default {
-  name: "MestoTeam",
-  components:{
-    Participants
+  name: 'MestoTeam',
+  components: {
+    Participants,
   },
-  data(){
+  data() {
     return {
       devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      team: {leader:{avatar: []}}
-    }
+      team: { leader: { avatar: [] } },
+    };
   },
   async created() {
-      await this.getTeam();
+    await this.getTeam();
   },
   methods: {
     backimg(profile) {
@@ -90,48 +90,43 @@ export default {
           : this.defAvatar
       }`;
     },
-    async getTeam(){
+    async getTeam() {
       this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);
     },
     isOwner(team) {
-      return team.leader.id === this.$store.state.userProfile.id; 
+      return team.leader.id === this.$store.state.userProfile.id;
     },
-    managerFilter(team){
-      let manager = false
-      if (team.leader){
-        manager = this.$store.state.authUser && this.isOwner(team)
+    managerFilter(team) {
+      let manager = false;
+      if (team.leader) {
+        manager = this.$store.state.authUser && this.isOwner(team);
       }
-      return manager  
+      return manager;
     },
-    sendReqFilter(team){
+    sendReqFilter(team) {
       return (
-        this.$store.state.authUser &&
-        !this.isOwner(team) &&
-        !this.inTeam(team.participants) &&
-        !this.inTeam(team.requests)
-      )
+        this.$store.state.authUser
+        && !this.isOwner(team)
+        && !this.inTeam(team.participants)
+        && !this.inTeam(team.requests)
+      );
     },
-    inTeam(participants){
-      //participants could be undefined 
-      let found = false;
-      const p_id = this.$store.state.userProfile.id
-      if(participants){
-        participants.some( p => p.id === p_id )
-        ? found = true
-        : found
+    inTeam(participants) {
+      // participants could be undefined
+      const pid = this.$store.state.userProfile.id;
+      if (participants) {
+        const partFound = participants.some((p) => p.id === pid);
+        if (partFound) { return true; }
       }
-      return found
+      return false;
     },
-    async sendTeamReq(team){
-      const profile = this.$store.state.userProfile.id
-      const new_reqs = [...team.requests, profile]
-      const resp = await this.$axios.$put(`/teams/${team.id}`,
-        {requests: new_reqs},
-      )
-      this.getTeam()
-    }
-  } 
+    async sendTeamReq(team) {
+      const profile = this.$store.state.userProfile.id;
+      const newReqs = [...team.requests, profile];
+      await this.$axios.$put(`/teams/${team.id}`,
+        { requests: newReqs });
+      this.getTeam();
+    },
+  },
 };
 </script>
-
-

@@ -1,17 +1,16 @@
 <template>
   <div>
-    <my-profile /> 
+    <my-profile />
   </div>
 </template>
 
-
 <script>
-import MyProfile from "~/components/my/index.vue";
+import MyProfile from '~/components/my/index.vue';
 
 export default {
   components: {
-    MyProfile
+    MyProfile,
   },
-  middleware: ["auth"],
-}
+  middleware: ['auth'],
+};
 </script>

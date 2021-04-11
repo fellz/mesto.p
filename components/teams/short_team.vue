@@ -9,8 +9,8 @@
 
         <v-card-text>
           <h2 class="py-2">
-            <nuxt-link 
-              :to="'/teams/' + team.id" 
+            <nuxt-link
+              :to="'/teams/' + team.id"
             >
               {{ team.name }}
             </nuxt-link>
@@ -34,18 +34,17 @@
 </template>
 
 <script>
-import VClamp from "vue-clamp";
-import Participants from "~/components/common/participants.vue" 
+import VClamp from 'vue-clamp';
+import Participants from '~/components/common/participants.vue';
 
 export default {
-  name: "ShortTeam",
+  name: 'ShortTeam',
   props: {
-    team: Object
+    team: Object,
   },
   components: {
     VClamp,
-    Participants
-  }
+    Participants,
+  },
 };
 </script>
-

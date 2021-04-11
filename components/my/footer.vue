@@ -138,38 +138,38 @@
 
 <script>
 export default {
-  name: "ProfileFooter",
+  name: 'ProfileFooter',
   props: {
     profile: Object,
   },
   data() {
     return {
-      selected: "",
+      selected: '',
       skills: [],
       skillsIds: [],
     };
   },
   async created() {
-    const resp = await this.$axios.$get(`/skills`);
+    const resp = await this.$axios.$get('/skills');
     this.skills = resp.map((r) => ({ text: r.skill, value: r.id }));
-    //this.skillsIds = resp.map((r) => r.id);
+    // this.skillsIds = resp.map((r) => r.id);
   },
   methods: {
     async addSkill() {
-      const skills = this.profile.skills;
+      const { skills } = this.profile;
       const newSkills = [...skills, this.selected];
-      const resp = await this.$axios.$put(`/profiles/${this.profile.id}`, {
+      await this.$axios.$put(`/profiles/${this.profile.id}`, {
         skills: newSkills,
       });
-      this.$emit("update-profile");
+      this.$emit('update-profile');
     },
     async removeSkill(skillId) {
-      const skills = this.profile.skills;
-      const newSkills = skills.filter((s) => s.id != skillId);
-      const resp = await this.$axios.$put(`/profiles/${this.profile.id}`, {
+      const { skills } = this.profile;
+      const newSkills = skills.filter((s) => Number(s.id) !== Number(skillId));
+      await this.$axios.$put(`/profiles/${this.profile.id}`, {
         skills: newSkills,
       });
-      this.$emit("update-profile");
+      this.$emit('update-profile');
     },
   },
 };

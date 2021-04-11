@@ -52,33 +52,33 @@
 </template>
 
 <script>
-import VClamp from "vue-clamp";
-import Participants from "~/components/common/participants.vue";
-import JoinProjectButton from "~/components/projects/project/service/joinProjectButton.vue";
+import VClamp from 'vue-clamp';
+import Participants from '~/components/common/participants.vue';
+import JoinProjectButton from '~/components/projects/project/service/joinProjectButton.vue';
 
 export default {
-    name: "ShortProject",
-    props: {
-        project: Object,
+  name: 'ShortProject',
+  props: {
+    project: Object,
+  },
+  data() {
+    return {
+      profile: {},
+      res: [],
+      url: process.env.baseUrl,
+      defAvatar: process.env.defAvatar,
+    };
+  },
+  components: {
+    VClamp,
+    JoinProjectButton,
+    Participants,
+  },
+  methods: {
+    backimg(profile) {
+      return `${profile.avatar ? '' : this.defAvatar}`;
     },
-    data() {
-        return {
-            profile: {},
-            res: [],
-            url: process.env.baseUrl,
-            defAvatar: process.env.defAvatar,
-        };
-    },
-    components: {
-        VClamp,
-        JoinProjectButton,
-        Participants,
-    },
-    methods: {
-        backimg(profile) {
-            return `${profile.avatar ? "" : this.defAvatar}`;
-        },
-    },
+  },
 };
 </script>
 

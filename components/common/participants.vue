@@ -25,27 +25,27 @@
 
 <script>
 export default {
-  name: "Participants",
+  name: 'Participants',
   props: {
     owner_profile: Object,
-    resource: Object
+    resource: Object,
   },
-  data(){
+  data() {
     return {
       baseUrl: process.env.baseUrl,
-      defAvatar: process.env.defAvatar
-    }
+      defAvatar: process.env.defAvatar,
+    };
   },
-  methods:{
+  methods: {
     backimg(profile) {
       return `${this.baseUrl}${
         profile.avatar.length
           ? profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
       }`;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>

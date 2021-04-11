@@ -41,16 +41,16 @@
 </template>
 
 <script>
-import SocialButtons from "~/components/profiles/social.vue";
+import SocialButtons from '~/components/profiles/social.vue';
 
 export default {
-  name: "MestoProfile",
+  name: 'MestoProfile',
   components: {
     SocialButtons,
   },
   data() {
     return {
-      profile: {avatar: []},
+      profile: { avatar: [] },
       social: 0,
       devUrl: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
@@ -72,12 +72,12 @@ export default {
   methods: {
     async getSocial() {
       this.social = await this.$axios.$get(
-        `/socials/count?profile_whom=${this.$route.params.id}`
+        `/socials/count?profile_whom=${this.$route.params.id}`,
       );
     },
     async getProfile() {
       this.profile = await this.$axios.$get(
-        `/profiles/${this.$route.params.id}`
+        `/profiles/${this.$route.params.id}`,
       );
     },
   },

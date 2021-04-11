@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import ProfileNew from "~/components/profiles/new"
+import ProfileNew from '~/components/profiles/new.vue';
 
 export default {
-  components:{
-    ProfileNew
+  components: {
+    ProfileNew,
   },
-  middleware: ['auth']
-}
+  middleware: ['auth'],
+};
 </script>

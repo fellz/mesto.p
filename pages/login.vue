@@ -3,13 +3,13 @@
     <v-col sm=6>
       <div v-if="wait"  class="wait">Загружаемся...</div>
 
-      <v-form v-if="!$store.state.authUser" @submit.prevent="login"> 
+      <v-form v-if="!$store.state.authUser" @submit.prevent="login">
         <v-text-field
           v-model="email"
           label="Email"
           required
         ></v-text-field>
-        
+
         <v-text-field
           v-model="password"
           label="Password"
@@ -24,50 +24,48 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
-  data () {
+  data() {
     return {
       formError: null,
       email: '',
       password: '',
-      wait: false
-    }
+      wait: false,
+    };
   },
   methods: {
-    async login () {
+    async login() {
       this.wait = true;
       try {
         await this.$store.dispatch('login', {
           identifier: this.email,
-          password: this.password
-        })
-        this.email = ''
-        this.password = ''
-        this.formError = null
-        this.wait = false
+          password: this.password,
+        });
+        this.email = '';
+        this.password = '';
+        this.formError = null;
+        this.wait = false;
 
         // set token for requests
-        this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put','post', 'delete'])
-        
-        document.cookie = `jwt=${this.$store.state.authUser.jwt};SameSite=Strict;secure=true;max-age=10800`
-        const prof = this.$store.state.authUser.user.profile
-        
-        if (prof){
-          document.cookie = `profile_id=${prof.id};SameSite=Strict;secure=true;max-age=10800`
-          const profl = await this.$axios.$get(`/profiles/${prof.id}`)  
-          this.$store.dispatch('setProfile', { profile: profl })
+        this.$axios.setToken(this.$store.state.authUser.jwt, 'Bearer', ['put', 'post', 'delete']);
+
+        document.cookie = `jwt=${this.$store.state.authUser.jwt};SameSite=Strict;secure=true;max-age=10800`;
+        const prof = this.$store.state.authUser.user.profile;
+
+        if (prof) {
+          document.cookie = `profile_id=${prof.id};SameSite=Strict;secure=true;max-age=10800`;
+          const profl = await this.$axios.$get(`/profiles/${prof.id}`);
+          this.$store.dispatch('setProfile', { profile: profl });
         }
         // redirect to porjects
-        this.$nuxt.$router.replace({ path: '/projects'})
-      
+        this.$nuxt.$router.replace({ path: '/projects' });
       } catch (e) {
-        this.formError = e.message
-          this.wait = false
+        this.formError = e.message;
+        this.wait = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

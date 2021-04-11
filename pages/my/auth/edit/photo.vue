@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import ProfilePhotoEdit from "~/components/my/edit/photo.vue";
+import ProfilePhotoEdit from '~/components/my/edit/photo.vue';
 
 export default {
-  components:{
-    ProfilePhotoEdit
+  components: {
+    ProfilePhotoEdit,
   },
-  middleware: ["auth"]
+  middleware: ['auth'],
 };
 </script>

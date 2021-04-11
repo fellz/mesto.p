@@ -7,7 +7,7 @@
       </v-list-item-content>
     </v-list-item>
     <v-list dense nav>
-      
+
       <v-list-item link nuxt to="/">
         <v-list-item-action>
           <v-icon>mdi-home</v-icon>
@@ -62,14 +62,13 @@
         </v-list-item-content>
       </v-list-item>
 
-
     </v-list>
   </v-navigation-drawer>
 
   <v-app-bar dense app>
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>Mesto platform</v-toolbar-title>
- 
+
     <v-spacer></v-spacer>
     <span v-if="$store.state.userProfile">
       <nuxt-link  :to="'/my/auth/'">
@@ -93,18 +92,12 @@
     <v-btn v-if="$store.state.authUser" class="mr-2" @click="logout" icon>
       <v-icon>mdi-logout</v-icon>
     </v-btn>
-    
+
     <nuxt-link to="/login">
       <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
           <v-icon>mdi-login</v-icon>
       </v-btn>
     </nuxt-link>
-    
-    <a :href="`${devUrl}/connect/google`">
-      <v-btn v-if="!$store.state.authUser" class="mr-2" icon>
-          <v-icon>mdi-google</v-icon>
-      </v-btn>
-    </a>
 
   </v-app-bar>
 
@@ -113,34 +106,34 @@
 
 <script>
 export default {
-  name: "MestoNavigation",
+  name: 'MestoNavigation',
   data: () => ({
     drawer: null,
     devUrl: process.env.baseUrl,
-    defAvatar: process.env.defAvatar
+    defAvatar: process.env.defAvatar,
   }),
   props: {
     source: String,
-    profile: Object
+    profile: Object,
   },
-  methods:{
-    avatar(){
+  methods: {
+    avatar() {
       return `${this.devUrl}${
-        this.$store.state.userProfile.avatar.length
+        this.$store.state.userProfile?.avatar?.length
           ? this.$store.state.userProfile.avatar[0].formats.thumbnail.url
           : this.defAvatar
       }`;
     },
     async logout() {
       try {
-        await this.$store.dispatch("logout");
-        document.cookie = 'jwt=;path=/;max-age=0'
-        document.cookie = 'profile_id=;path=/;max-age=0'
+        await this.$store.dispatch('logout');
+        document.cookie = 'jwt=;path=/;max-age=0';
+        document.cookie = 'profile_id=;path=/;max-age=0';
         this.$router.replace('/goodbuy');
       } catch (e) {
         this.formError = e.message;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

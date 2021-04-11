@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- Skill search -->
-    <multiselect 
-      v-model="searchTag" 
-      placeholder="Выберите навык" 
-      label="name" track-by="code" 
-      :options="tags" 
-      :multiple="true" 
+    <multiselect
+      v-model="searchTag"
+      placeholder="Выберите навык"
+      label="name" track-by="code"
+      :options="tags"
+      :multiple="true"
     >
     </multiselect>
 
@@ -18,52 +18,51 @@
         </v-col>
       </v-row>
     </v-container>
-    
-    <!-- pagination --> 
-    <pagination  @new-start-number="setStartPage($event)" :all_items="all_profiles" :per_page="per_page" />
+
+    <!-- pagination -->
+    <pagination  @newstart="setStartPage($event)" :allitems="countProfiles" :perpage="perPage" />
   </div>
 </template>
 
 <script>
-import ShortProfile from "~/components/profiles/short_profile.vue";
-import Pagination from "~/components/common/pagination.vue";
 import Multiselect from 'vue-multiselect';
-import axios from "axios";
+import ShortProfile from '~/components/profiles/short_profile.vue';
+import Pagination from '~/components/common/pagination.vue';
 
 export default {
-  name: "ProfilesList",
+  name: 'ProfilesList',
   data() {
     return {
       profiles: [],
-      all_profiles: 0,
-      resource: "profiles",
+      countProfiles: 0,
+      resource: 'profiles',
       start: 0,
-      search: "",
+      search: '',
       social: false,
-      per_page: 6,
+      perPage: 6,
       searchTag: null,
-      tags:  []
+      tags: [],
     };
   },
   components: {
     ShortProfile,
     Pagination,
-    Multiselect
+    Multiselect,
   },
-  async created() {
-    await this.getProfiles(this.start);
-    await this.getAllProfiles();
-    await this.getSkills();
+  created() {
+    this.getProfiles(this.start);
+    this.getAllProfiles();
+    this.getSkills();
   },
   methods: {
     // get skills for select
-    async getSkills(){
-      const data = await this.$axios.$get(`/skills`);
-      this.tags = data.map(s => {
-        const id = s.id;
-        const skill = s.skill;
-        return {name: skill, code: id}
-      } );
+    async getSkills() {
+      const data = await this.$axios.$get('/skills');
+      this.tags = data.map((s) => {
+        const { id } = s;
+        const { skill } = s;
+        return { name: skill, code: id };
+      });
     },
     // default method to take profiles
     async getProfiles(start) {
@@ -71,28 +70,28 @@ export default {
     },
     // for pagination
     async getAllProfiles() {
-      const data = await this.$axios.$get(`/profiles/count`);
-      this.all_profiles = data;
+      const data = await this.$axios.$get('/profiles/count');
+      this.countProfiles = data;
     },
     // get 'start' number from pagination component
-    setStartPage( start) {
+    setStartPage(start) {
       this.getProfiles(start);
     },
     // search profiles by skill
-    async searchProfiles(skills, start) {
-      let skill_string = ''
-      skills.forEach(s=>{
-        skill_string += 'skills.skill=' + s.name + '&'
-      })
-      this.profiles = await this.$axios.$get(`/profiles?${skill_string}_start=${start === undefined ? 0 : start }&_limit=5&_sort=social:DESC`);
-      const all_skills = await this.$axios.$get(`/profiles/count?${skill_string}`)
-      this.all_profiles = all_skills
-    }
+    async searchProfiles(skills, start = 0) {
+      let skillString = '';
+      skills.forEach((s) => {
+        skillString += `skills.skill=${s.name}&`;
+      });
+      this.profiles = await this.$axios.$get(`/profiles?${skillString}_start=${start}&_limit=5&_sort=social:DESC`);
+      const countSkills = await this.$axios.$get(`/profiles/count?${skillString}`);
+      this.countProfiles = countSkills;
+    },
   },
   watch: {
-    searchTag(newVal){
-      this.searchProfiles(newVal)
-    }
-  }
+    searchTag(newVal) {
+      this.searchProfiles(newVal);
+    },
+  },
 };
 </script>

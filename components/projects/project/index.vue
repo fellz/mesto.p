@@ -1,9 +1,9 @@
   <template>
     <v-card style="margin-bottom:20px" max-width="900">
     <v-row>
-      
+
       <v-col sm="8">
-        
+
         <v-img height="120"
           src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         >
@@ -19,10 +19,13 @@
         </v-card-text>
 
       </v-col>
-      
+
       <v-col>
         <v-row justify="end" no-gutters class="mr-2">
-          <v-col cols="6" class="white--text" style="background-color:gray; text-align: center">{{ project.stage }}</v-col>
+          <v-col
+            cols="6"
+            class="white--text"
+            style="background-color:gray; text-align: center">{{ project.stage }}</v-col>
           <v-col style="text-align: end">{{ project.created_at | formatDate }}</v-col>
         </v-row>
         <v-card-title>Команда</v-card-title>
@@ -67,50 +70,49 @@
 </template>
 
 <script>
-//import RequestFromTeamButton from "~/components/projects/project/service/requestFromTeamButton.vue";
-import Participants from "~/components/common/participants.vue";
+import Participants from '~/components/common/participants.vue';
 
 export default {
-  name: "Project",
+  name: 'Project',
   // components:{
   //   JoinProjectButton,
   //   RequestFromTeamButton,
   //   Participants
   // },
-  components:{
-    Participants
+  components: {
+    Participants,
   },
-  data(){
+  data() {
     return {
       url: process.env.baseUrl,
       defAvatar: process.env.defAvatar,
-      project: {owner:{avatar: ''}}
-    }
+      project: { owner: { avatar: '' } },
+    };
   },
   async created() {
-      await this.getProject();
+    await this.getProject();
   },
   methods: {
     backimg(profile) {
       return `${this.url}${
         profile.avatar
           ? profile.avatar.formats.thumbnail.url
-          : this.defAvatar}`
+          : this.defAvatar}`;
     },
-    async getProject(){
+    async getProject() {
       this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },
     isOwner(project) {
-      return project.owner.id === this.$store.state.userProfile.id; 
+      return project.owner.id === this.$store.state.userProfile.id;
     },
-    managerFilter(project){
-      let manager = false
-      if (project.owner){
-        manager = this.$store.state.authUser && this.isOwner(project)
+    managerFilter(project) {
+      let manager = false;
+      if (project.owner) {
+        manager = this.$store.state.authUser && this.isOwner(project);
       }
-      return manager  
+      return manager;
     },
-  } 
+  },
 };
 </script>
 

@@ -25,28 +25,28 @@
 <script>
 
 export default {
-  name: "TeamEdit",
+  name: 'TeamEdit',
   data() {
     return {
       name: '',
       about: '',
-      baseUrl: process.env.baseUrl
+      baseUrl: process.env.baseUrl,
     };
   },
-  async created(){
-    const resp = await this.$axios.$get(`/teams/${this.$route.params.id}`)
-    this.name = resp.name
-    this.about = resp.about
+  async created() {
+    const resp = await this.$axios.$get(`/teams/${this.$route.params.id}`);
+    this.name = resp.name;
+    this.about = resp.about;
   },
-  methods:{
+  methods: {
     async submit() {
-      let team = {
+      const team = {
         name: this.name,
         about: this.about,
       };
-      const resp = await this.$axios.$put(`/teams/${this.$route.params.id}`, team);
+      await this.$axios.$put(`/teams/${this.$route.params.id}`, team);
       this.$nuxt.$router.replace(`/teams/${this.$route.params.id}`);
-    }
-  }
-}
+    },
+  },
+};
 </script>

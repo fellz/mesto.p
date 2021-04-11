@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import Profile from "~/components/profiles/profile.vue";
+import Profile from '~/components/profiles/profile.vue';
 
 export default {
   components: {
-    Profile
+    Profile,
   },
 };
 </script>

@@ -14,43 +14,42 @@
 <script>
 
 export default {
-  data(){
+  data() {
     return {
       team: {},
-      url: process.env.baseUrl
-    }
+      url: process.env.baseUrl,
+    };
   },
-  async fetch(){
-    await this.getTeam()
+  async fetch() {
+    await this.getTeam();
   },
-  methods:{
-    managerFilter(team){
-      return this.$store.state.authUser && this.isOwner(team)
+  methods: {
+    managerFilter(team) {
+      return this.$store.state.authUser && this.isOwner(team);
     },
-    isOwner(team){
+    isOwner(team) {
       let owner = false;
-      // because team is reactive and team.leader could be undefined --> need to check for null !!! ((
-      if(team.leader){
-        owner = team.leader.id === this.$store.state.userProfile.id;  
+      // because team is reactive and
+      // team.leader could be undefined --> need to check for null !!! ((
+      if (team.leader) {
+        owner = team.leader.id === this.$store.state.userProfile.id;
       }
-      return owner
+      return owner;
     },
-    async getTeam(){
-      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`)
+    async getTeam() {
+      this.team = await this.$axios.$get(`/teams/${this.$route.params.id}`);
     },
-    async joinTeam(profile){
-      const new_ps = [...this.team.participants, profile.id];
-      //update participants
-      const resp = await this.$axios.$put(`/teams/${this.team.id}`,
-        { participants: new_ps }
-      );
+    async joinTeam(profile) {
+      const newPs = [...this.team.participants, profile.id];
+      // update participants
+      await this.$axios.$put(`/teams/${this.team.id}`,
+        { participants: newPs });
       // update requests, delete profile from requests
-      const new_reqs =  this.team.requests.filter(p => p.id !== profile.id)
-      const req = await this.$axios.$put(`/teams/${this.team.id}`,
-        { requests: new_reqs }
-      );
-      this.getTeam()
-    }
-  }
-}
+      const newReqs = this.team.requests.filter((p) => p.id !== profile.id);
+      await this.$axios.$put(`/teams/${this.team.id}`,
+        { requests: newReqs });
+      this.getTeam();
+    },
+  },
+};
 </script>

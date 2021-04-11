@@ -56,88 +56,89 @@
 </template>
 
 <script>
-  import { validationMixin } from 'vuelidate'
-  import { required, maxLength } from 'vuelidate/lib/validators'
+/* eslint-disable no-unused-expressions */
+import { validationMixin } from 'vuelidate';
+import { required, maxLength } from 'vuelidate/lib/validators';
 
-  export default {
-    mixins: [validationMixin],
-    name: "ProfileNew",
-    validations: {
-      fullname: { required, maxLength: maxLength(30) },
-      about: {maxLength: maxLength(2000)},
-      country: { maxLength: maxLength(20) },
-      city: { maxLength: maxLength(20) },
-      url: { maxLength: maxLength(50) },
+export default {
+  mixins: [validationMixin],
+  name: 'ProfileNew',
+  validations: {
+    fullname: { required, maxLength: maxLength(30) },
+    about: { maxLength: maxLength(2000) },
+    country: { maxLength: maxLength(20) },
+    city: { maxLength: maxLength(20) },
+    url: { maxLength: maxLength(50) },
+  },
+
+  data: () => ({
+    fullname: '',
+    about: '',
+    country: '',
+    city: '',
+    url: '',
+  }),
+
+  computed: {
+
+    fullnameErrors() {
+      const errors = [];
+      if (!this.$v.fullname.$dirty) return errors;
+      !this.$v.fullname.maxLength && errors.push('Name must be at most 30 characters long');
+      !this.$v.fullname.required && errors.push('Name is required.');
+      return errors;
     },
-
-    data: () => ({
-      fullname: '',
-      about: '',
-      country: '',
-      city: '',
-      url: ''
-    }),
-
-    computed: {
-     
-      fullnameErrors () {
-        const errors = []
-        if (!this.$v.fullname.$dirty) return errors
-        !this.$v.fullname.maxLength && errors.push('Name must be at most 30 characters long')
-        !this.$v.fullname.required && errors.push('Name is required.')
-        return errors
-      },
-      aboutErrors () {
-        const errors = []
-        if (!this.$v.about.$dirty) return errors
-        !this.$v.about.maxLength && errors.push('Не более 2000 символов')
-        return errors
-      },
-      countryErrors () {
-        const errors = []
-        if (!this.$v.country.$dirty) return errors
-        !this.$v.country.maxLength && errors.push('Name must be at most 15 characters long')
-        return errors
-      },
-      cityErrors () {
-        const errors = []
-        if (!this.$v.city.$dirty) return errors
-        !this.$v.city.maxLength && errors.push('Name must be at most 20 characters long')
-        return errors
-      },
-      urlErrors () {
-        const errors = []
-        if (!this.$v.url.$dirty) return errors
-        !this.$v.url.maxLength && errors.push('Name must be at most 50 characters long')
-        return errors
-      },
+    aboutErrors() {
+      const errors = [];
+      if (!this.$v.about.$dirty) return errors;
+      !this.$v.about.maxLength && errors.push('Не более 2000 символов');
+      return errors;
     },
-
-    methods: {
-      async submit () {
-        this.$v.$touch()
-        
-        // Create profile
-        const profile = {
-          fullname: this.fullname,
-          about: this.about,
-          country: this.country,
-          city: this.city,
-          url: this.url, 
-          user: this.$store.state.authUser.user.id
-        }
-        
-        const resp = await this.$axios.$post('/profiles', profile)
-        
-        // Set profile to the store
-        this.$store.dispatch('setProfile', {profile: resp})
-
-        // Set cookie
-        document.cookie = `profile_id=${resp.id};max-age=10800`
-      
-        // Redirect to profile
-        this.$router.replace('/my/auth')
-      }
+    countryErrors() {
+      const errors = [];
+      if (!this.$v.country.$dirty) return errors;
+      !this.$v.country.maxLength && errors.push('Name must be at most 15 characters long');
+      return errors;
     },
-  }
+    cityErrors() {
+      const errors = [];
+      if (!this.$v.city.$dirty) return errors;
+      !this.$v.city.maxLength && errors.push('Name must be at most 20 characters long');
+      return errors;
+    },
+    urlErrors() {
+      const errors = [];
+      if (!this.$v.url.$dirty) return errors;
+      !this.$v.url.maxLength && errors.push('Name must be at most 50 characters long');
+      return errors;
+    },
+  },
+
+  methods: {
+    async submit() {
+      this.$v.$touch();
+
+      // Create profile
+      const profile = {
+        fullname: this.fullname,
+        about: this.about,
+        country: this.country,
+        city: this.city,
+        url: this.url,
+        user: this.$store.state.authUser.user.id,
+      };
+
+      const resp = await this.$axios.$post('/profiles', profile);
+
+      // Set profile to the store
+      this.$store.dispatch('setProfile', { profile: resp });
+
+      // Set cookie
+      document.cookie = `profile_id=${resp.id};max-age=10800`;
+
+      // Redirect to profile
+      this.$router.replace('/my/auth');
+    },
+  },
+};
 </script>

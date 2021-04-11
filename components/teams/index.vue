@@ -3,19 +3,20 @@
     <div v-for="team of teams" :key="team.id">
       <short-team :team="team" />
     </div>
-    <pagination @new-start-page="setStartPage($event)" :all_items="all_teams" :per_page="per_page"></pagination>
+    <pagination @newstart="setStartPage($event)"
+      :allitems="all_teams" :perpage="per_page"></pagination>
   </div>
 </template>
 
 <script>
-import ShortTeam from "~/components/teams/short_team.vue";
-import Pagination from "~/components/common/pagination.vue";
+import ShortTeam from '~/components/teams/short_team.vue';
+import Pagination from '~/components/common/pagination.vue';
 
 export default {
-  name: "MestoTeams",
-  components:{
+  name: 'MestoTeams',
+  components: {
     ShortTeam,
-    Pagination
+    Pagination,
   },
   data() {
     return {
@@ -24,24 +25,24 @@ export default {
       per_page: 6,
       all_teams: 0,
       baseUrl: process.env.baseUrl,
-      defAvatar: process.env.defAvatar  
-    }
+      defAvatar: process.env.defAvatar,
+    };
   },
   async fetch() {
-    await this.getTeams(this.start)
-    await this.getAllTeams()
+    await this.getTeams(this.start);
+    await this.getAllTeams();
   },
   methods: {
-    async getTeams(start){
+    async getTeams(start) {
       this.teams = await this.$axios.$get(`/teams?_start=${start}&_limit=5&_sort=created_at:DESC`);
     },
-    async getAllTeams(){
-      const data = await this.$axios.$get(`/teams/count`);
-      this.all_teams = data
+    async getAllTeams() {
+      const data = await this.$axios.$get('/teams/count');
+      this.all_teams = data;
     },
-    setStartPage(new_start_page){
-      this.getTeams(new_start_page)
+    setStartPage(newStartPage) {
+      this.getTeams(newStartPage);
     },
-  }
+  },
 };
 </script>

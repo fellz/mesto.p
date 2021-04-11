@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import NewTeam from "~/components/teams/new.vue";
+import NewTeam from '~/components/teams/new.vue';
 
 export default {
   components: {
-    NewTeam
+    NewTeam,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>

@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import TeamRequestsManager from "~/components/projects/project/teams/index.vue"
+import TeamRequestsManager from '~/components/projects/project/teams/index.vue';
 
 export default {
   components: {
-    TeamRequestsManager
+    TeamRequestsManager,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>

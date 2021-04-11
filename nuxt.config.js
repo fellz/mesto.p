@@ -11,21 +11,21 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: "stylesheet", href: "https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css" }
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css' },
     ],
     script: [
-    ]
+    ],
   },
   env: {
-    baseUrl: process.env.NODE_ENV === "development" ? process.env.API_HOST_MESTO : ''  ,
-    defAvatar: process.env.AVATAR 
+    baseUrl: process.env.NODE_ENV === 'development' ? process.env.API_HOST_MESTO : '',
+    defAvatar: process.env.AVATAR,
   },
   webfontloader: {
     events: false,
     google: {
-      families: ['Montserrat:400,500,600:cyrillic&display=swap']
+      families: ['Montserrat:400,500,600:cyrillic&display=swap'],
     },
-    timeout: 5000
+    timeout: 5000,
   },
   styleResources: {
     scss: ['./assets/scss/global-variables.scss'], // alternative: scss
@@ -41,23 +41,22 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
-      
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
+          exclude: /(node_modules)/,
+        });
       }
     },
     vendor: ['axios'],
-    transpile: ['vue-clamp', 'resize-detector']
+    transpile: ['vue-clamp', 'resize-detector'],
   },
   plugins: [
     '~plugins/filters.js',
-    '~/plugins/axios'
+    '~/plugins/axios',
   ],
   modules: [
     '@nuxtjs/vuetify',
@@ -65,5 +64,4 @@ module.exports = {
     'nuxt-webfontloader',
     '@nuxtjs/axios',
   ],
-}
-
+};

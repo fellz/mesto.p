@@ -37,39 +37,39 @@
 <script>
 
 export default {
-  name: "ProjectEdit",
+  name: 'ProjectEdit',
   data() {
     return {
       name: '',
       description: '',
       url: '',
       skills: ['idea', 'design', 'mvp', 'product'],
-      stage_selected: "",
-      baseUrl: process.env.baseUrl
+      stage_selected: '',
+      baseUrl: process.env.baseUrl,
     };
   },
-  async created(){
+  async created() {
     await this.getProject();
   },
   methods: {
-    async getProject(){
+    async getProject() {
       const data = await this.$axios.$get(`/projects/${this.$route.params.id}`);
-      this.name = data.name
-      this.description = data.description
-      this.url = data.url
+      this.name = data.name;
+      this.description = data.description;
+      this.url = data.url;
       this.stage_selected = data.stage;
     },
     async submit() {
-      let proj = {
+      const proj = {
         name: this.name,
         description: this.description,
         url: this.url,
-        stage: this.stage_selected
+        stage: this.stage_selected,
       };
-      const resp = await this.$axios.$put(`/projects/${this.$route.params.id}`, proj,);
+      await this.$axios.$put(`/projects/${this.$route.params.id}`, proj);
       this.$nuxt.$router.replace(`/projects/${this.$route.params.id}`);
-    }
-  }
+    },
+  },
 };
 </script>
 

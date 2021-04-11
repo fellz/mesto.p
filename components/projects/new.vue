@@ -37,29 +37,29 @@
 <script>
 
 export default {
-  name: "ProjectEdit",
+  name: 'ProjectEdit',
   data() {
     return {
       name: '',
       description: '',
       url: '',
       skills: ['idea', 'design', 'mvp', 'product'],
-      stage_selected: "",
-      baseUrl: process.env.baseUrl
+      stage_selected: '',
+      baseUrl: process.env.baseUrl,
     };
   },
-  methods:{
+  methods: {
     async submit() {
-      let proj = {
+      const proj = {
         name: this.name,
         description: this.description,
         url: this.url,
         stage: this.stage_selected,
-        owner: this.$store.state.userProfile.id
+        owner: this.$store.state.userProfile.id,
       };
-      const resp = await this.$axios.$post(`/projects`, proj,);
-      this.$nuxt.$router.replace(`/projects/`);
-    }
-  }
-}
+      await this.$axios.$post('/projects', proj);
+      this.$nuxt.$router.replace('/projects/');
+    },
+  },
+};
 </script>

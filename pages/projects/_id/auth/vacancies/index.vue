@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import ProjectSkills from "~/components/projects/project/vacancies/index.vue";
+import ProjectSkills from '~/components/projects/project/vacancies/index.vue';
 
 export default {
   components: {
-    ProjectSkills
+    ProjectSkills,
   },
-  middleware: ["auth"]
-}  
+  middleware: ['auth'],
+};
 </script>

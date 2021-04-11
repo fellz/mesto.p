@@ -12,44 +12,42 @@
 <script>
 
 export default {
-  name: "TeamRequestsManager",
-  data(){
+  name: 'TeamRequestsManager',
+  data() {
     return {
       project: {},
-      url: process.env.baseUrl
-    }
+      url: process.env.baseUrl,
+    };
   },
-  async fetch(){
-    await this.getProject()
+  async fetch() {
+    await this.getProject();
   },
-  methods:{
-    managerFilter(project){
-      return this.$store.state.authUser && this.isOwner(project)
+  methods: {
+    managerFilter(project) {
+      return this.$store.state.authUser && this.isOwner(project);
     },
-    isOwner(project){
+    isOwner(project) {
       let owner = false;
       // need to check for null  project.owner !!! ((
-      if(project.owner){
-        owner = project.owner.id === this.$store.state.userProfile.id;  
+      if (project.owner) {
+        owner = project.owner.id === this.$store.state.userProfile.id;
       }
-      return owner
+      return owner;
     },
-    async getProject(){
-      this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`)
+    async getProject() {
+      this.project = await this.$axios.$get(`/projects/${this.$route.params.id}`);
     },
-    async joinProject(team){
-      const new_ts = [...this.project.teams, team.id];
-      //update participants
-      const data  = await this.$axios.$put(`/projects/${this.project.id}`,
-        { teams: new_ts }
-      );
+    async joinProject(team) {
+      const newTeams = [...this.project.teams, team.id];
+      // update participants
+      await this.$axios.$put(`/projects/${this.project.id}`,
+        { teams: newTeams });
       // update requests, delete team from requests
-      const new_reqs =  this.project.team_requests.filter(t => t.id !== team.id)
-      const req = await this.$axios.$put(`/projects/${this.project.id}`,
-        { team_requests: new_reqs }
-      );
-      this.getProject()
-    }
-  }
-}
+      const newReqs = this.project.team_requests.filter((t) => t.id !== team.id);
+      await this.$axios.$put(`/projects/${this.project.id}`,
+        { team_requests: newReqs });
+      this.getProject();
+    },
+  },
+};
 </script>

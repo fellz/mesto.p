@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import MestoTeam from "~/components/teams/team/index.vue";
+import MestoTeam from '~/components/teams/team/index.vue';
 
 export default {
-  components:{
-    MestoTeam
-  }
+  components: {
+    MestoTeam,
+  },
 };
 </script>

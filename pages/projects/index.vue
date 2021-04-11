@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import ProjectsList from "~/components/projects/index.vue";
+import ProjectsList from '~/components/projects/index.vue';
 
 export default {
   components: {
     ProjectsList,
-  }
-}
+  },
+};
 </script>

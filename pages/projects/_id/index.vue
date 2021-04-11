@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import Project from "~/components/projects/project/index.vue"
+import Project from '~/components/projects/project/index.vue';
 
 export default {
   components: {
     Project,
   },
-}
+};
 </script>
-

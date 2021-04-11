@@ -21,58 +21,54 @@
 <script>
 
 export default {
-  name: "ProjectRequests",
+  name: 'ProjectRequests',
   props: {
     skill: Object,
-    project: Object
+    project: Object,
   },
-  data(){
+  data() {
     return {
-      proj_skill:{},
-      baseUrl: process.env.baseUrl
-    }
+      proj_skill: {},
+      baseUrl: process.env.baseUrl,
+    };
   },
-  created(){
-      this.getSkill()
+  created() {
+    this.getSkill();
   },
-  methods:{
+  methods: {
     // Забираем заявку
-    async getSkill(){
-      this.proj_skill = await this.$axios.$get(`/vacancies/${this.skill.id}`)
+    async getSkill() {
+      this.proj_skill = await this.$axios.$get(`/vacancies/${this.skill.id}`);
     },
     // Обработка заявки по вакансии
-    async joinProject(id){
+    async joinProject(id) {
       // Add to confirmeds
-      const new_confs = [...this.proj_skill.confirmeds, id]
-      const resp = await this.$axios.$put(`/vacancies/${this.skill.id}`,
-        {confirmeds: new_confs},
-      )
+      const newConfs = [...this.proj_skill.confirmeds, id];
+      await this.$axios.$put(`/vacancies/${this.skill.id}`,
+        { confirmeds: newConfs });
       // Remove from requests
-      const new_reqs = this.proj_skill.requests.filter( el => el.id !==  id );
-      const response = await this.$axios.$put(`/vacancies/${this.skill.id}`,
-        {requests: new_reqs},
-      )
+      const newReqs = this.proj_skill.requests.filter((el) => el.id !== id);
+      await this.$axios.$put(`/vacancies/${this.skill.id}`,
+        { requests: newReqs });
       // Update project. Add to project participants
-      const ps = this.project.participants
-      const new_participants = [...ps, id]
-      const project = await this.$axios.$put(`/projects/${this.$route.params.id}`,
-        {participants: new_participants},
-      )
+      const ps = this.project.participants;
+      const newParticipants = [...ps, id];
+      await this.$axios.$put(`/projects/${this.$route.params.id}`,
+        { participants: newParticipants });
       // Update profile. Add to projects in Profile
-      const prs = this.$store.state.userProfile.projects
-      const prof_id = this.$store.state.userProfile.id
-      const new_projects = [...prs, id]
-      const profile = await this.$axios.$put(`/profiles/${prof_id}`,
-        {projects: new_projects},
-      )
+      const prs = this.$store.state.userProfile.projects;
+      const profId = this.$store.state.userProfile.id;
+      const newProjects = [...prs, id];
+      await this.$axios.$put(`/profiles/${profId}`,
+        { projects: newProjects });
       // Update project. Should update project in skills page.
-      //this.$store.dispatch("setProject",{id:this.$route.params.id})
-      this.$emit('update-project' )
+      // this.$store.dispatch("setProject",{id:this.$route.params.id})
+      this.$emit('update-project');
       // Update skill
       this.getSkill();
     },
-  }
-}
+  },
+};
 </script>
 
 <style>

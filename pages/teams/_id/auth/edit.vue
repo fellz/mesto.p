@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import TeamEdit from "~/components/teams/team/edit.vue";;
+import TeamEdit from '~/components/teams/team/edit.vue';
 
 export default {
-  components:{
-    TeamEdit
+  components: {
+    TeamEdit,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>

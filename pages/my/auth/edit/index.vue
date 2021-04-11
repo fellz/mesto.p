@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import MyProfileEdit from "~/components/my/edit/index.vue";
+import MyProfileEdit from '~/components/my/edit/index.vue';
 
-export default{
+export default {
   components: {
-    MyProfileEdit
+    MyProfileEdit,
   },
-  middleware: ["auth"]
-}
+  middleware: ['auth'],
+};
 </script>
