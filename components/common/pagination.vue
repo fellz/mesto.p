@@ -18,7 +18,7 @@ export default {
   props: {
     allitems: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     perpage: {
       type: Number,
@@ -68,6 +68,7 @@ export default {
     },
     // helper function
     myrange(start, end) {
+      if (end === 0) { return 0; }
       return [...Array(end - start + 1)].map((_, i) => start + i);
     },
   },
