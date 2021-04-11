@@ -66,7 +66,15 @@ export default {
     },
     // default method to take profiles
     async getProfiles(start) {
-      this.profiles = await this.$axios.$get(`/profiles?_start=${start}&_limit=6&_sort=created_at:DESC`);
+      try {
+        const resp = await this.$axios.$get(`/profiles?_start=${start}&_limit=6&_sort=created_at:DESC`);
+        if (!Array.isArray(resp)) { return new Error('не массив'); }
+        if (resp.length === 0) { return new Error('пустой массив'); }
+        this.profiles = resp;
+        return this.profiles;
+      } catch (err) {
+        throw new Error(err);
+      }
     },
     // for pagination
     async getAllProfiles() {
