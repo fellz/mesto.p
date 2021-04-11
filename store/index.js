@@ -5,8 +5,8 @@ import axios from 'axios';
 const { baseUrl } = process.env;
 
 export const state = () => ({
-  authUser: {},
-  userProfile: {},
+  authUser: null,
+  userProfile: null,
 });
 
 export const mutations = {
@@ -62,13 +62,14 @@ export const actions = {
   // },
 
   // async getMyProfile({ state, commit }) {
-  //   const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.userProfile.id}`); 
+  //   const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.userProfile.id}`);
   //   commit('SET_USER_PROFILE', profile);
   // },
 
   // // set profile after login
   // async setProfileAfterLogin({ state, commit }) {
-  //   const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.authUser.user.profile.id}`); // data.profile -> profile id
+  // eslint-disable-next-line max-len
+  //   const { data: profile } = await axios.get(`${baseUrl}/profiles/${state.authUser.user.profile.id}`);
   //   commit('SET_USER_PROFILE', profile);
   // },
 

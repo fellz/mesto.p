@@ -70,7 +70,7 @@
     <v-toolbar-title>Mesto platform</v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <span v-if="$store.state.userProfile">
+    <span v-if="!!$store.state.userProfile">
       <nuxt-link  :to="'/my/auth/'">
         <v-list-item-avatar color="grey darken-3">
           <v-img
@@ -80,16 +80,8 @@
         </v-list-item-avatar>
       </nuxt-link>
     </span>
-    <span v-if="$store.state.authUser && !$store.state.userProfile">
-      <v-list-item-avatar >
-        <v-img
-          class="elevation-6"
-          :src="devUrl + defAvatar"
-        />
-      </v-list-item-avatar>
-    </span>
 
-    <v-btn v-if="$store.state.authUser" class="mr-2" @click="logout" icon>
+    <v-btn v-if="!!$store.state.authUser" class="mr-2" @click="logout" icon>
       <v-icon>mdi-logout</v-icon>
     </v-btn>
 
