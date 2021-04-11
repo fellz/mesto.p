@@ -68,8 +68,6 @@ export default {
     },
     // helper function
     myrange(start, end) {
-      console.log(start);
-      console.log(end);
       return [...Array(end - start + 1)].map((_, i) => start + i);
     },
   },

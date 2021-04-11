@@ -23,10 +23,10 @@ export default {
       let applied = false;
       // check requests
       const reqs = this.$store.state.userProfile.project_requests;
-      const inReqs = reqs.some((a) => a.id === skill.id); // returns true or false
+      const inReqs = reqs?.some((a) => a.id === skill.id); // returns true or false
       // check confirmeds
       const confs = this.$store.state.userProfile.project_confirmeds;
-      const inConfirmeds = confs.some((a) => a.id === skill.id);
+      const inConfirmeds = confs?.some((a) => a.id === skill.id);
       // if found
       if (inReqs || inConfirmeds) {
         applied = true;
