@@ -40,7 +40,7 @@ export default {
       search: '',
       social: false,
       perPage: 6,
-      searchTag: null,
+      searchTag: '',
       tags: [],
     };
   },
