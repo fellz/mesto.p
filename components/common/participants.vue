@@ -27,7 +27,9 @@
 export default {
   name: 'Participants',
   props: {
-    owner_profile: Object,
+    owner_profile: {
+      default: {},
+    },
     resource: Object,
   },
   data() {
@@ -39,7 +41,7 @@ export default {
   methods: {
     backimg(profile) {
       return `${this.baseUrl}${
-        profile.avatar.length
+        profile?.avatar?.length
           ? profile.avatar[0].formats.thumbnail.url
           : this.defAvatar
       }`;
