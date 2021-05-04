@@ -71,8 +71,8 @@ export const actions = {
   //   commit('SET_USER_PROFILE', profile);
   // },
 
-  // setProfile({ commit }, { profile }) {
-  //   commit('SET_USER_PROFILE', profile);
-  // },
+  setProfile({ commit }, { profile }) {
+    commit('SET_USER_PROFILE', profile);
+  },
 
 };

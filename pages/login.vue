@@ -55,8 +55,8 @@ export default {
 
         if (prof) {
           document.cookie = `profile_id=${prof.id};SameSite=Strict;secure=true;max-age=10800`;
-          const profl = await this.$axios.$get(`/profiles/${prof.id}`);
-          this.$store.dispatch('setProfile', { profile: profl });
+          const profile = await this.$axios.$get(`/profiles/${prof.id}`);
+          this.$store.dispatch('setProfile', { profile });
         }
         // redirect to porjects
         this.$nuxt.$router.replace({ path: '/projects' });
