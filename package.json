@@ -4,7 +4,7 @@
   "description": "Nuxt.js project",
   "author": "Roman <felixcon@gmail.com>",
   "private": true,
-  "engines" : { "node" : ">=0.12" },
+  "engines" : { "node" : "14.16.1" },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
