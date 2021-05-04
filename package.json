@@ -11,7 +11,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "heroku-prebuild": "npm i -f"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.1",
