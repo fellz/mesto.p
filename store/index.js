@@ -2,8 +2,6 @@
 /* eslint-disable no-shadow */
 import axios from 'axios';
 
-const { baseUrl } = process.env.backendHost;
-
 export const state = () => ({
   authUser: null,
   userProfile: null,
@@ -37,7 +35,7 @@ export const actions = {
   // },
   async login({ commit }, { identifier, password }) {
     try {
-      const { data } = await axios.post(`${baseUrl}/auth/local`, { identifier, password });
+      const { data } = await axios.post(`${process.env.backendHost}/auth/local`, { identifier, password });
       commit('SET_USER', data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
