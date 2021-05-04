@@ -2,7 +2,7 @@
 /* eslint-disable no-shadow */
 import axios from 'axios';
 
-const { baseUrl } = process.env;
+const { baseUrl } = process.env.backendHost;
 
 export const state = () => ({
   authUser: null,
